@@ -11,10 +11,6 @@
 #include "sys.h"
 #include "traps.h"
 
-
-/* 65536 locations */
-//extern uint16_t vm.memory[UINT16_MAX];
-
 enum {
   R_R0 = 0,
   R_R1,
@@ -29,9 +25,6 @@ enum {
   R_COUNT
 };
 
-//extern uint16_t vm.reg[R_COUNT];
-
-
 /* condition flags */
 enum {
   FL_POS = 1 << 0, /* P */
@@ -39,13 +32,11 @@ enum {
   FL_NEG = 1 << 2, /* N */
 };
 
-
 /* memory mapped registers */
 enum {
   MR_KBSR = 0xFE00, /* keyboard status */
   MR_KBDR = 0xFE02  /* keyboard data */
 };
-
 
 typedef struct {
     uint32_t    len;
@@ -64,11 +55,8 @@ extern sVM vm;
 
 void        vm_init(void);
 void        vm_deinit(void);
-
 sScript *   vm_load(const char * script_path);
+void        vm_unload_script(sScript * script);
 void        vm_run(sScript * script);
-
-void         read_and_execute_instruction(void);
-//int         read_image(const char * image_path);
 
 #endif /* vm_h */

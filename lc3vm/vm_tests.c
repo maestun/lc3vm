@@ -6,6 +6,8 @@
 #include "vm_tests.h"
 #include "sys.h"
 
+void read_and_execute_instruction(void);
+
 /* tests */
 int test_add_instr_1() {
   int pass = 1;

@@ -15,6 +15,18 @@ typedef struct {
     char    desc[kDescMaxLen];
 } sOpcode;
 
+// forward declarations
+uint16_t mem_read(uint16_t addr);
+uint16_t mem_write(uint16_t addr, uint16_t regno);
+
+
+// =============================================================================
+// MARK: - Utilities
+// =============================================================================
+#define CHECK_BIT(v, b)     ((v >> b) & 1)
+#define MAX_BIT(b)          ((1 << b) - 1)
+#define GET_BITS(s, ub, lb) ((s >> lb) & ((1 << (ub - lb)) - 1))
+
 void debug_instr(char * format, ...) {
 //    static FILE * dbfp = NULL;
 //    if(dbfp == NULL) {
@@ -27,15 +39,6 @@ void debug_instr(char * format, ...) {
 //    fflush(stdout);
 //    va_end(arg);
 }
-
-
-
-// =============================================================================
-// MARK: - Utilities
-// =============================================================================
-#define CHECK_BIT(v, b)     ((v >> b) & 1)
-#define MAX_BIT(b)          ((1 << b) - 1)
-#define GET_BITS(s, ub, lb) ((s >> lb) & ((1 << (ub - lb)) - 1))
 
 /* convert small bit number to 16-bit, keeping sign bit intact */
 uint16_t sign_extend(uint16_t x, int bit_count) {
@@ -62,28 +65,6 @@ void update_flags(uint16_t r) {
 /* change endianness */
 uint16_t swap16(uint16_t x) {
     return (x << 8) | (x >> 8);
-}
-
-
-
-
-/* memory access */
-void mem_write(uint16_t address, uint16_t val) {
-    vm.memory[address] = val;
-}
-
-uint16_t mem_read(uint16_t address) {
-    /* reading the memory mapped keyboard register triggers a key check */
-    if (address == MR_KBSR) {
-        if (sys_check_key()) {
-            vm.memory[MR_KBSR] = (1 << 15);
-            vm.memory[MR_KBDR] = sys_getc();
-        }
-        else {
-            vm.memory[MR_KBSR] = 0;
-        }
-    }
-    return vm.memory[address];
 }
 
 

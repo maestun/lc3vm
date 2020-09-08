@@ -8,11 +8,9 @@
 #include "vm.h"
 #include "vm_tests.h"
 
-/* main program */
 int main(int argc, const char* argv[]) {
     if (argc < 2) {
-    /* show usage string */
-        printf("lc3 --test | [image-file1] ...\n");
+        printf("%s --test | [image-file1] ...\n", kProgName);
         exit(2);
     }
 

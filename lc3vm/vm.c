@@ -9,27 +9,46 @@ enum { PC_START = 0x3000 };
 
 sVM vm;
 
+// =============================================================================
+// MARK: - Virtual memory
+// =============================================================================
 
+void mem_write(uint16_t address, uint16_t val) {
+    vm.memory[address] = val;
+}
 
-/* read and execute instruction */
-void read_and_execute_instruction() {
-    int is_max = R_PC == UINT16_MAX;
-    
-    uint16_t instr = mem_read(vm.reg[R_PC]++);
-
-    debug_instr("0x%04x\t", instr);
-    vm.running = op_exec(instr);
-
-    if (vm.running && is_max) {
-        printf("PC overflow!");
-        // return 0;
+uint16_t mem_read(uint16_t address) {
+    // reading the memory mapped keyboard register triggers a key check
+    if (address == MR_KBSR) {
+        if (sys_check_key()) {
+            vm.memory[MR_KBSR] = (1 << 15);
+            vm.memory[MR_KBDR] = sys_getc();
+        }
+        else {
+            vm.memory[MR_KBSR] = 0;
+        }
     }
+    return vm.memory[address];
 }
 
 
 
-/* load program into memory from a file */
-sScript * read_image_file(FILE * file) {
+/* read and execute instruction */
+void read_and_execute_instruction() {
+
+    int is_max = (R_PC == UINT16_MAX);
+    uint16_t instr = mem_read(vm.reg[R_PC]++);
+    vm.running = op_exec(instr);
+    if (vm.running && is_max) {
+        printf("PC overflow!");
+    }
+}
+
+
+// =============================================================================
+// MARK: - Script loading
+// =============================================================================
+sScript * read_script(FILE * file) {
     sScript * script = (sScript *)malloc(sizeof(sScript));
     
     // word: origin (big endian)
@@ -48,32 +67,18 @@ sScript * read_image_file(FILE * file) {
         script->data[i] = (fgetc(file) << 8) + fgetc(file);
     }
     
-    /* the origin tells us where in memory to place the image */
-//    uint16_t origin;
-//    fread(&origin, sizeof(origin), 1, file);
-//    script->org = swap16(origin);
-
-    /* we know the maximum file size so we only need one fread */
-//    uint16_t max_read = UINT16_MAX - origin;
-//    uint16_t *p = vm.memory + origin;
-//    size_t read = fread(p, sizeof(uint16_t), max_read, file);
-//    script->len = max_read;
-
-    /* swap to little endian */
-//    while (read-- > 0) {
-//        *p = swap16(*p);
-//        ++p;
-//    }
     return script;
 }
 
 
-
+// =============================================================================
+// MARK: - Virtual Machine API
+// =============================================================================
 sScript * vm_load(const char * script_path) {
     sScript * script = NULL;
     FILE * fp = fopen(script_path, "rb");
     if (fp) {
-        script = read_image_file(fp);
+        script = read_script(fp);
         strcpy(script->name, strrchr(script_path, kPathSeparator) + 1);
         printf("Loaded script from file '%s'\nOrigin address: 0x%04x\nWord count: 0x%04x (%d bytes)\nName: %s\n",
                script_path,
@@ -85,6 +90,12 @@ sScript * vm_load(const char * script_path) {
         fclose(fp);
     }
     return script;
+}
+
+void vm_unload_script(sScript * script) {
+    free(script->data);
+    free(script);
+    script = NULL;
 }
 
 void vm_init() {
