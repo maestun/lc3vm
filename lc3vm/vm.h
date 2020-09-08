@@ -7,8 +7,10 @@
 #define vm_h
 
 #include "config.h"
-#include "traps.h"
 #include "opcodes.h"
+#include "sys.h"
+#include "traps.h"
+
 
 /* 65536 locations */
 //extern uint16_t vm.memory[UINT16_MAX];
@@ -47,7 +49,8 @@ enum {
 
 typedef struct {
     uint32_t    len;
-    
+    uint16_t    org;
+//    uint16_t *  data;
 } sScript;
 
 typedef struct {
@@ -58,14 +61,13 @@ typedef struct {
 
 extern sVM vm;
 
+void        vm_init(void);
+void        vm_deinit(void);
 
-void vm_init(void);
-void vm_deinit(void);
+sScript *   vm_load(const char * script_path);
+void        vm_run(sScript * script);
 
-void vm_load_script();
-void vm_run();
-
-int read_and_execute_instruction(void);
-int read_image(const char * image_path);
+int         read_and_execute_instruction(void);
+//int         read_image(const char * image_path);
 
 #endif /* vm_h */

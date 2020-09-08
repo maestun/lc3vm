@@ -12,7 +12,6 @@ typedef struct {
 
 sSys sys;
 
-
 /* terminal input setup */
 struct termios original_tio;
 
@@ -44,12 +43,9 @@ void sys_init(FILE * term_in, FILE * term_out) {
     disable_input_buffering();
 }
 
-
 void sys_deinit() {
-    
     fclose(sys.term_in);
     fclose(sys.term_out);
-    
     restore_input_buffering();
 }
 

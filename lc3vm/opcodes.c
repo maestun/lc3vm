@@ -15,8 +15,6 @@ typedef struct {
     char    desc[kDescMaxLen];
 } sOpcode;
 
-
-
 void debug_instr(char * format, ...) {
 //    static FILE * dbfp = NULL;
 //    if(dbfp == NULL) {
@@ -25,8 +23,8 @@ void debug_instr(char * format, ...) {
 //
 //    va_list arg;
 //    va_start(arg, format);
-//    vfprintf(dbfp, format, arg);
-//    fflush(dbfp);
+//    vfprintf(stdout, format, arg);
+//    fflush(stdout);
 //    va_end(arg);
 }
 
@@ -41,24 +39,24 @@ void debug_instr(char * format, ...) {
 
 /* convert small bit number to 16-bit, keeping sign bit intact */
 uint16_t sign_extend(uint16_t x, int bit_count) {
-  if ((x >> (bit_count - 1)) & 1) {
-    x |= (0xFFFF << bit_count);
-  }
-  return x;
+    if ((x >> (bit_count - 1)) & 1) {
+        x |= (0xFFFF << bit_count);
+    }
+    return x;
 }
 
 /* update condition flags based on outcome of result (negative, zero, or
  * positive */
 void update_flags(uint16_t r) {
-  if (vm.reg[r] == 0) {
-    vm.reg[R_COND] = FL_ZRO;
-  }
-  else if (vm.reg[r] >> 15) { /* a 1 in the left-most bit indicates negative */
-    vm.reg[R_COND] = FL_NEG;
-  }
-  else {
-    vm.reg[R_COND] = FL_POS;
-  }
+    if (vm.reg[r] == 0) {
+        vm.reg[R_COND] = FL_ZRO;
+    }
+    else if (vm.reg[r] >> 15) { /* a 1 in the left-most bit indicates negative */
+        vm.reg[R_COND] = FL_NEG;
+    }
+    else {
+        vm.reg[R_COND] = FL_POS;
+    }
 }
 
 /* change endianness */
@@ -71,21 +69,21 @@ uint16_t swap16(uint16_t x) {
 
 /* memory access */
 void mem_write(uint16_t address, uint16_t val) {
-  vm.memory[address] = val;
+    vm.memory[address] = val;
 }
 
 uint16_t mem_read(uint16_t address) {
-  /* reading the memory mapped keyboard register triggers a key check */
-  if (address == MR_KBSR) {
-    if (sys_check_key()) {
-      vm.memory[MR_KBSR] = (1 << 15);
-      vm.memory[MR_KBDR] = getchar();
+    /* reading the memory mapped keyboard register triggers a key check */
+    if (address == MR_KBSR) {
+        if (sys_check_key()) {
+            vm.memory[MR_KBSR] = (1 << 15);
+            vm.memory[MR_KBDR] = sys_getc();
+        }
+        else {
+            vm.memory[MR_KBSR] = 0;
+        }
     }
-    else {
-      vm.memory[MR_KBSR] = 0;
-    }
-  }
-  return vm.memory[address];
+    return vm.memory[address];
 }
 
 
