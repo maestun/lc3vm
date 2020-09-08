@@ -2,9 +2,6 @@
 //  traps.c
 //  lc3vm-orig
 //
-//  Created by developer on 08/09/2020.
-//  Copyright © 2020 Zlot. All rights reserved.
-//
 
 #include "sys.h"
 #include "traps.h"
@@ -150,15 +147,15 @@ sTrap traps[] = {
     { 0x1d, trap_stub,   "stub" },
     { 0x1e, trap_stub,   "stub" },
     { 0x1f, trap_stub,   "stub" },
-    { 0x20, trap_getc,   "get character from keyboard, not echoed onto the terminal" },
-    { 0x21, trap_out,    "output a character" },
-    { 0x22, trap_puts,   "output a word string" },
-    { 0x23, trap_in,     "get character from keyboard, echoed onto the terminal" },
-    { 0x24, trap_putsp,  "output a byte string" },
-    { 0x25, trap_halt,   "halt the program" }
+    { TRAP_GETC,    trap_getc,  "get character from keyboard, not echoed onto the terminal" },
+    { TRAP_OUT,     trap_out,   "output a character" },
+    { TRAP_PUTS,    trap_puts,  "output a word string" },
+    { TRAP_IN,      trap_in,    "get character from keyboard, echoed onto the terminal" },
+    { TRAP_PUTSP,   trap_putsp, "output a byte string" },
+    { TRAP_HALT,    trap_halt,  "halt the program" }
 };
 
-int trap_exec(uint16_t instr) {
+uint16_t trap_exec(uint16_t instr) {
     // execute trap
     uint8_t tvec = instr & 0xff;
     trapPtr t = traps[tvec].tptr;

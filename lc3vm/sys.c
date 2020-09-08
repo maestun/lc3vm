@@ -71,3 +71,19 @@ void sys_fprintf(char * format, ...) {
     fprintf(sys.term_out, format, arg);
     va_end(arg);
 }
+
+/* get keyboard status */
+uint16_t sys_check_key() {
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(STDIN_FILENO, &readfds);
+
+    struct timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0;
+    return select(1, &readfds, NULL, NULL, &timeout) != 0;
+}
+
+void sys_abort() {
+    abort();
+}
