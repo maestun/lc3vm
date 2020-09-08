@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:lc3vm-orig.xcodeproj">
+      location = "self:/Users/developer/dev/perso/lc3vm/lc3vm.xcodeproj">
    </FileRef>
 </Workspace>

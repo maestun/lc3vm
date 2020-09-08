@@ -50,14 +50,14 @@ uint16_t sign_extend(uint16_t x, int bit_count) {
 /* update condition flags based on outcome of result (negative, zero, or
  * positive */
 void update_flags(uint16_t r) {
-  if (reg[r] == 0) {
-    reg[R_COND] = FL_ZRO;
+  if (vm.reg[r] == 0) {
+    vm.reg[R_COND] = FL_ZRO;
   }
-  else if (reg[r] >> 15) { /* a 1 in the left-most bit indicates negative */
-    reg[R_COND] = FL_NEG;
+  else if (vm.reg[r] >> 15) { /* a 1 in the left-most bit indicates negative */
+    vm.reg[R_COND] = FL_NEG;
   }
   else {
-    reg[R_COND] = FL_POS;
+    vm.reg[R_COND] = FL_POS;
   }
 }
 
@@ -71,21 +71,21 @@ uint16_t swap16(uint16_t x) {
 
 /* memory access */
 void mem_write(uint16_t address, uint16_t val) {
-  memory[address] = val;
+  vm.memory[address] = val;
 }
 
 uint16_t mem_read(uint16_t address) {
   /* reading the memory mapped keyboard register triggers a key check */
   if (address == MR_KBSR) {
     if (sys_check_key()) {
-      memory[MR_KBSR] = (1 << 15);
-      memory[MR_KBDR] = getchar();
+      vm.memory[MR_KBSR] = (1 << 15);
+      vm.memory[MR_KBDR] = getchar();
     }
     else {
-      memory[MR_KBSR] = 0;
+      vm.memory[MR_KBSR] = 0;
     }
   }
-  return memory[address];
+  return vm.memory[address];
 }
 
 
@@ -111,12 +111,12 @@ uint16_t add(uint16_t instr) {
 
     if (imm_flag) {
     uint16_t imm5 = sign_extend(instr & 0x1f, 5);
-    reg[dr] = reg[sr1] + imm5;
+    vm.reg[dr] = vm.reg[sr1] + imm5;
       debug_instr("ADD R%d R%d 0x%04x\n", dr, sr1, imm5);
     }
     else {
     uint16_t sr2 = instr & 0x7;
-    reg[dr] = reg[sr1] + reg[sr2];
+    vm.reg[dr] = vm.reg[sr1] + vm.reg[sr2];
       debug_instr("ADD R%d R%d R%d\n", dr, sr1, sr2);
     }
 
@@ -143,13 +143,13 @@ uint16_t and(uint16_t instr) {
 
     if (imm_flag) {
         uint16_t imm5 = sign_extend(instr & 0x1f, 5);
-        reg[dr] = reg[sr1] & imm5;
+        vm.reg[dr] = vm.reg[sr1] & imm5;
 
         debug_instr("AND R%d R%d 0x%04x\n", dr, sr1, imm5);
     }
     else {
         uint16_t sr2 = instr & 0x7;
-        reg[dr] = reg[sr1] & reg[sr2];
+        vm.reg[dr] = vm.reg[sr1] & vm.reg[sr2];
 
         debug_instr("AND R%d R%d R%d\n", dr, sr1, sr2);
     }
@@ -168,7 +168,7 @@ uint16_t not(uint16_t instr) {
     /* source register (SR) */
     uint16_t sr = (instr >> 6) & 0x7;
 
-    reg[dr] = ~reg[sr];
+    vm.reg[dr] = ~vm.reg[sr];
 
     debug_instr("NOT R%d R%d\n", dr, sr);
     update_flags(dr);
@@ -192,11 +192,11 @@ uint16_t br(uint16_t instr) {
     * - n_flag is set and negative condition flag is set
     * - z_flag is set and zero condition flag is set
     * - p_flag is set and positive condition flag is set */
-    if ((n_flag && (reg[R_COND] & FL_NEG)) ||
-        (z_flag && (reg[R_COND] & FL_ZRO)) ||
-        (p_flag && (reg[R_COND] & FL_POS))) {
+    if ((n_flag && (vm.reg[R_COND] & FL_NEG)) ||
+        (z_flag && (vm.reg[R_COND] & FL_ZRO)) ||
+        (p_flag && (vm.reg[R_COND] & FL_POS))) {
 
-        reg[R_PC] += pc_offset;
+        vm.reg[R_PC] += pc_offset;
 
         debug_instr("BR%s%s%s 0x%04x\n",
                     n_flag ? "n" : "",
@@ -219,7 +219,7 @@ uint16_t br(uint16_t instr) {
 uint16_t jmp(uint16_t instr) {
     uint16_t base_r = (instr >> 6) & 0x7;
     debug_instr(base_r == R_R7 ? "RET\n" : "JMP R%d\n", base_r);
-    reg[R_PC] = reg[base_r];
+    vm.reg[R_PC] = vm.reg[base_r];
     return 1;
 }
 
@@ -234,7 +234,7 @@ uint16_t jmp(uint16_t instr) {
  */
 uint16_t jsr(uint16_t instr) {
     /* save PC in R7 to jump back to later */
-    reg[R_R7] = reg[R_PC];
+    vm.reg[R_R7] = vm.reg[R_PC];
 
     /* whether we are in immediate mode */
     uint16_t imm_flag = (instr >> 11) & 0x1;
@@ -246,14 +246,14 @@ uint16_t jsr(uint16_t instr) {
         debug_instr("JSR 0x%04x\n", pc_offset);
 
         /* add offset to program counter */
-        reg[R_PC] += pc_offset;
+        vm.reg[R_PC] += pc_offset;
     }
     else {
         /* assign contents of base register directly to program counter */
         uint16_t base_r = (instr >> 6) & 0x7;
 
         debug_instr("JSRR R%d\n", base_r);
-        reg[R_PC] = reg[base_r];
+        vm.reg[R_PC] = vm.reg[base_r];
     }
 
     return 1;
@@ -272,7 +272,7 @@ uint16_t ld(uint16_t instr) {
     uint16_t pc_offset = sign_extend(instr & 0x1ff, 9);
 
     /* add pc_offset to the current PC and load that memory location */
-    reg[dr] = mem_read(reg[R_PC] + pc_offset);
+    vm.reg[dr] = mem_read(vm.reg[R_PC] + pc_offset);
     update_flags(dr);
 
     debug_instr("LD R%d 0x%04x\n", dr, pc_offset);
@@ -293,7 +293,7 @@ uint16_t ldi(uint16_t instr) {
 
     /* add pc_offset to the current PC, look at that memory location to
     * get the final address */
-    reg[dr] = mem_read(mem_read(reg[R_PC] + pc_offset));
+    vm.reg[dr] = mem_read(mem_read(vm.reg[R_PC] + pc_offset));
     update_flags(dr);
     return 1;
 }
@@ -313,7 +313,7 @@ uint16_t ldr(uint16_t instr) {
     /* offset 6 */
     uint16_t offset = sign_extend(instr & 0x3f, 6);
 
-    reg[dr] = mem_read(reg[base_r] + offset);
+    vm.reg[dr] = mem_read(vm.reg[base_r] + offset);
     update_flags(dr);
     return 1;
 }
@@ -330,7 +330,7 @@ uint16_t lea(uint16_t instr) {
     /* PCoffset 9 */
     uint16_t pc_offset = sign_extend(instr & 0x1ff, 9);
 
-    reg[dr] = reg[R_PC] + pc_offset;
+    vm.reg[dr] = vm.reg[R_PC] + pc_offset;
     update_flags(dr);
     return 1;
 }
@@ -346,7 +346,7 @@ uint16_t st(uint16_t instr) {
 
     /* PCoffset 9 */
     uint16_t pc_offset = sign_extend(instr & 0x1ff, 9);
-    mem_write(reg[R_PC] + pc_offset, reg[sr]);
+    mem_write(vm.reg[R_PC] + pc_offset, vm.reg[sr]);
     return 1;
 }
 
@@ -362,7 +362,7 @@ uint16_t sti(uint16_t instr) {
     /* PCoffset 9 */
     uint16_t pc_offset = sign_extend(instr & 0x1ff, 9);
 
-    mem_write(mem_read(reg[R_PC] + pc_offset), reg[sr]);
+    mem_write(mem_read(vm.reg[R_PC] + pc_offset), vm.reg[sr]);
     return 1;
 }
 
@@ -381,7 +381,7 @@ uint16_t str(uint16_t instr) {
     /* offset 6 */
     uint16_t offset = sign_extend(instr & 0x3f, 6);
 
-    mem_write(reg[base_r] + offset, reg[sr]);
+    mem_write(vm.reg[base_r] + offset, vm.reg[sr]);
     return 1;
 }
 
@@ -406,7 +406,7 @@ uint16_t res(uint16_t instr) {
 
 uint16_t trap(uint16_t instr) {
     // save return addr
-    reg[R_R7] = reg[R_PC];
+    vm.reg[R_R7] = vm.reg[R_PC];
     
     // get trap vector: 8 bits (7...0)
     uint16_t tvec = GET_BITS(instr, 7, 0);

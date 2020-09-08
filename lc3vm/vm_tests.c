@@ -16,9 +16,9 @@ int test_add_instr_1() {
     ((R_R1 & 0x7) << 6)    |
     (R_R2 & 0x7);
 
-  memory[0x3000] = add_instr;
-  reg[R_R1] = 1;
-  reg[R_R2] = 2;
+  vm.memory[0x3000] = add_instr;
+  vm.reg[R_R1] = 1;
+  vm.reg[R_R2] = 2;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -26,13 +26,13 @@ int test_add_instr_1() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 3) {
-    printf("Expected register 0 to contain 3, got %d\n", reg[R_R0]);
+  if (vm.reg[R_R0] != 3) {
+    printf("Expected register 0 to contain 3, got %d\n", vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_POS) {
-    printf("Expected condition flags to be %d, got %d\n", FL_POS, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_POS) {
+    printf("Expected condition flags to be %d, got %d\n", FL_POS, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -49,8 +49,8 @@ int test_add_instr_2() {
     (1 << 5) |
     0x2;
 
-  memory[0x3000] = add_instr;
-  reg[R_R1] = 1;
+  vm.memory[0x3000] = add_instr;
+  vm.reg[R_R1] = 1;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -58,13 +58,13 @@ int test_add_instr_2() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 3) {
-    printf("Expected register 0 to contain 3, got %d\n", reg[R_R0]);
+  if (vm.reg[R_R0] != 3) {
+    printf("Expected register 0 to contain 3, got %d\n", vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_POS) {
-    printf("Expected condition flags to be %d, got %d\n", FL_POS, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_POS) {
+    printf("Expected condition flags to be %d, got %d\n", FL_POS, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -80,9 +80,9 @@ int test_and_instr_1() {
     ((R_R1 & 0x7) << 6)    |
     (R_R2 & 0x7);
 
-  memory[0x3000] = and_instr;
-  reg[R_R1] = 0xff;
-  reg[R_R2] = 0xf0;
+  vm.memory[0x3000] = and_instr;
+  vm.reg[R_R1] = 0xff;
+  vm.reg[R_R2] = 0xf0;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -90,13 +90,13 @@ int test_and_instr_1() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 0xf0) {
-    printf("Expected register 0 to contain %d, got %d\n", 0xf0, reg[R_R0]);
+  if (vm.reg[R_R0] != 0xf0) {
+    printf("Expected register 0 to contain %d, got %d\n", 0xf0, vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_POS) {
-    printf("Expected condition flags to be %d, got %d\n", FL_POS, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_POS) {
+    printf("Expected condition flags to be %d, got %d\n", FL_POS, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -113,8 +113,8 @@ int test_and_instr_2() {
     (1 << 5) |
     0x0f;
 
-  memory[0x3000] = and_instr;
-  reg[R_R1] = 0xff;
+  vm.memory[0x3000] = and_instr;
+  vm.reg[R_R1] = 0xff;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -122,13 +122,13 @@ int test_and_instr_2() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 0x0f) {
-    printf("Expected register 0 to contain %d, got %d\n", 0x0f, reg[R_R0]);
+  if (vm.reg[R_R0] != 0x0f) {
+    printf("Expected register 0 to contain %d, got %d\n", 0x0f, vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_POS) {
-    printf("Expected condition flags to be %d, got %d\n", FL_POS, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_POS) {
+    printf("Expected condition flags to be %d, got %d\n", FL_POS, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -144,8 +144,8 @@ int test_not_instr() {
     ((R_R1 & 0x7) << 6)    |
     0x3f;
 
-  memory[0x3000] = not_instr;
-  reg[R_R1] = 0xf;
+  vm.memory[0x3000] = not_instr;
+  vm.reg[R_R1] = 0xf;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -153,13 +153,13 @@ int test_not_instr() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 0xfff0) {
-    printf("Expected register 0 to contain %d, got %d\n", 0xfff0, reg[R_R0]);
+  if (vm.reg[R_R0] != 0xfff0) {
+    printf("Expected register 0 to contain %d, got %d\n", 0xfff0, vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_NEG) {
-    printf("Expected condition flags to be %d, got %d\n", FL_NEG, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_NEG) {
+    printf("Expected condition flags to be %d, got %d\n", FL_NEG, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -174,18 +174,18 @@ int test_br_instr_1() {
     (1 << 11) |
     0x123;
 
-  memory[0x3000] = br_instr;
+  vm.memory[0x3000] = br_instr;
 
   /* nothing should happen */
-  reg[R_COND] = 0;
+  vm.reg[R_COND] = 0;
   int result = read_and_execute_instruction();
   if (result != 1) {
     printf("Expected return value to be 1, got %d\n", result);
     pass = 0;
   }
 
-  if (reg[R_PC] != 0x3001) {
-    printf("Expected program counter to contain %d, got %d\n", 0x3001, reg[R_PC]);
+  if (vm.reg[R_PC] != 0x3001) {
+    printf("Expected program counter to contain %d, got %d\n", 0x3001, vm.reg[R_PC]);
     pass = 0;
   }
 
@@ -200,17 +200,17 @@ int test_br_instr_2() {
     (1 << 11) |
     0x0ff;
 
-  memory[0x3000] = br_instr;
+  vm.memory[0x3000] = br_instr;
 
-  reg[R_COND] = FL_NEG;
+  vm.reg[R_COND] = FL_NEG;
   int result = read_and_execute_instruction();
   if (result != 1) {
     printf("Expected return value to be 1, got %d\n", result);
     pass = 0;
   }
 
-  if (reg[R_PC] != 0x3100) {
-    printf("Expected program counter to contain %d, got %d\n", 0x3100, reg[R_PC]);
+  if (vm.reg[R_PC] != 0x3100) {
+    printf("Expected program counter to contain %d, got %d\n", 0x3100, vm.reg[R_PC]);
     pass = 0;
   }
 
@@ -225,17 +225,17 @@ int test_br_instr_3() {
     (1 << 10) |
     0x0ff;
 
-  memory[0x3000] = br_instr;
+  vm.memory[0x3000] = br_instr;
 
-  reg[R_COND] = FL_ZRO;
+  vm.reg[R_COND] = FL_ZRO;
   int result = read_and_execute_instruction();
   if (result != 1) {
     printf("Expected return value to be 1, got %d\n", result);
     pass = 0;
   }
 
-  if (reg[R_PC] != 0x3100) {
-    printf("Expected program counter to contain %d, got %d\n", 0x3100, reg[R_PC]);
+  if (vm.reg[R_PC] != 0x3100) {
+    printf("Expected program counter to contain %d, got %d\n", 0x3100, vm.reg[R_PC]);
     pass = 0;
   }
 
@@ -250,17 +250,17 @@ int test_br_instr_4() {
     (1 << 9) |
     0x0ff;
 
-  memory[0x3000] = br_instr;
+  vm.memory[0x3000] = br_instr;
 
-  reg[R_COND] = FL_POS;
+  vm.reg[R_COND] = FL_POS;
   int result = read_and_execute_instruction();
   if (result != 1) {
     printf("Expected return value to be 1, got %d\n", result);
     pass = 0;
   }
 
-  if (reg[R_PC] != 0x3100) {
-    printf("Expected program counter to contain %d, got %d\n", 0x3100, reg[R_PC]);
+  if (vm.reg[R_PC] != 0x3100) {
+    printf("Expected program counter to contain %d, got %d\n", 0x3100, vm.reg[R_PC]);
     pass = 0;
   }
 
@@ -274,8 +274,8 @@ int test_jmp_instr() {
     ((OP_JMP & 0xf) << 12) |
     ((R_R0 & 0x7) << 6);
 
-  memory[0x3000] = jmp_instr;
-  reg[R_R0] = 0x1234;
+  vm.memory[0x3000] = jmp_instr;
+  vm.reg[R_R0] = 0x1234;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -283,8 +283,8 @@ int test_jmp_instr() {
     pass = 0;
   }
 
-  if (reg[R_PC] != 0x1234) {
-    printf("Expected program counter to contain %d, got %d\n", 0x1234, reg[R_PC]);
+  if (vm.reg[R_PC] != 0x1234) {
+    printf("Expected program counter to contain %d, got %d\n", 0x1234, vm.reg[R_PC]);
     pass = 0;
   }
 
@@ -299,7 +299,7 @@ int test_jsr_instr_1() {
     (1 << 11) |
     0xff;
 
-  memory[0x3000] = jsr_instr;
+  vm.memory[0x3000] = jsr_instr;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -307,13 +307,13 @@ int test_jsr_instr_1() {
     pass = 0;
   }
 
-  if (reg[R_PC] != 0x3100) {
-    printf("Expected program counter to contain %d, got %d\n", 0x3100, reg[R_PC]);
+  if (vm.reg[R_PC] != 0x3100) {
+    printf("Expected program counter to contain %d, got %d\n", 0x3100, vm.reg[R_PC]);
     pass = 0;
   }
 
-  if (reg[R_R7] != 0x3001) {
-    printf("Expected register 7 to contain %d, got %d\n", 0x3001, reg[R_R7]);
+  if (vm.reg[R_R7] != 0x3001) {
+    printf("Expected register 7 to contain %d, got %d\n", 0x3001, vm.reg[R_R7]);
     pass = 0;
   }
 
@@ -327,8 +327,8 @@ int test_jsr_instr_2() {
     ((OP_JSR & 0xf) << 12) |
     ((R_R0 & 0x7) << 6);
 
-  memory[0x3000] = jsr_instr;
-  reg[R_R0] = 0x1234;
+  vm.memory[0x3000] = jsr_instr;
+  vm.reg[R_R0] = 0x1234;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -336,13 +336,13 @@ int test_jsr_instr_2() {
     pass = 0;
   }
 
-  if (reg[R_PC] != 0x1234) {
-    printf("Expected program counter to contain %d, got %d\n", 0x1234, reg[R_PC]);
+  if (vm.reg[R_PC] != 0x1234) {
+    printf("Expected program counter to contain %d, got %d\n", 0x1234, vm.reg[R_PC]);
     pass = 0;
   }
 
-  if (reg[R_R7] != 0x3001) {
-    printf("Expected register 7 to contain %d, got %d\n", 0x3001, reg[R_R7]);
+  if (vm.reg[R_R7] != 0x3001) {
+    printf("Expected register 7 to contain %d, got %d\n", 0x3001, vm.reg[R_R7]);
     pass = 0;
   }
 
@@ -357,8 +357,8 @@ int test_ld_instr() {
     ((R_R0 & 0x7) << 9)   |
     0xff;
 
-  memory[0x3000] = ld_instr;
-  memory[0x3100] = 0x123;
+  vm.memory[0x3000] = ld_instr;
+  vm.memory[0x3100] = 0x123;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -366,13 +366,13 @@ int test_ld_instr() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 0x123) {
-    printf("Expected register 0 to contain %d, got %d\n", 0x123, reg[R_R0]);
+  if (vm.reg[R_R0] != 0x123) {
+    printf("Expected register 0 to contain %d, got %d\n", 0x123, vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_POS) {
-    printf("Expected condition flags to be %d, got %d\n", FL_POS, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_POS) {
+    printf("Expected condition flags to be %d, got %d\n", FL_POS, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -387,9 +387,9 @@ int test_ldi_instr() {
     ((R_R0 & 0x7) << 9)   |
     0xff;
 
-  memory[0x3000] = ldi_instr;
-  memory[0x3100] = 0x3200;
-  memory[0x3200] = 0x123;
+  vm.memory[0x3000] = ldi_instr;
+  vm.memory[0x3100] = 0x3200;
+  vm.memory[0x3200] = 0x123;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -397,13 +397,13 @@ int test_ldi_instr() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 0x123) {
-    printf("Expected register 0 to contain %d, got %d\n", 0x123, reg[R_R0]);
+  if (vm.reg[R_R0] != 0x123) {
+    printf("Expected register 0 to contain %d, got %d\n", 0x123, vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_POS) {
-    printf("Expected condition flags to be %d, got %d\n", FL_POS, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_POS) {
+    printf("Expected condition flags to be %d, got %d\n", FL_POS, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -419,9 +419,9 @@ int test_ldr_instr() {
     ((R_R1 & 0x7) << 6)    |
     0xf;
 
-  memory[0x3000] = ldr_instr;
-  reg[R_R1] = 0x31f1;
-  memory[0x3200] = 0x123;
+  vm.memory[0x3000] = ldr_instr;
+  vm.reg[R_R1] = 0x31f1;
+  vm.memory[0x3200] = 0x123;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -429,13 +429,13 @@ int test_ldr_instr() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 0x123) {
-    printf("Expected register 0 to contain %d, got %d\n", 0x123, reg[R_R0]);
+  if (vm.reg[R_R0] != 0x123) {
+    printf("Expected register 0 to contain %d, got %d\n", 0x123, vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_POS) {
-    printf("Expected condition flags to be %d, got %d\n", FL_POS, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_POS) {
+    printf("Expected condition flags to be %d, got %d\n", FL_POS, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -450,7 +450,7 @@ int test_lea_instr() {
     ((R_R0 & 0x7) << 9)    |
     0xff;
 
-  memory[0x3000] = lea_instr;
+  vm.memory[0x3000] = lea_instr;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -458,13 +458,13 @@ int test_lea_instr() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 0x3100) {
-    printf("Expected register 0 to contain %d, got %d\n", 0x3100, reg[R_R0]);
+  if (vm.reg[R_R0] != 0x3100) {
+    printf("Expected register 0 to contain %d, got %d\n", 0x3100, vm.reg[R_R0]);
     pass = 0;
   }
 
-  if (reg[R_COND] != FL_POS) {
-    printf("Expected condition flags to be %d, got %d\n", FL_POS, reg[R_COND]);
+  if (vm.reg[R_COND] != FL_POS) {
+    printf("Expected condition flags to be %d, got %d\n", FL_POS, vm.reg[R_COND]);
     pass = 0;
   }
 
@@ -479,8 +479,8 @@ int test_st_instr() {
     ((R_R0 & 0x7) << 9)    |
     0xff;
 
-  memory[0x3000] = st_instr;
-  reg[R_R0] = 0x123;
+  vm.memory[0x3000] = st_instr;
+  vm.reg[R_R0] = 0x123;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -488,8 +488,8 @@ int test_st_instr() {
     pass = 0;
   }
 
-  if (memory[0x3100] != 0x123) {
-    printf("Expected memory location %d to contain %d, got %d\n", 0x3100, 0x123, reg[R_R0]);
+  if (vm.memory[0x3100] != 0x123) {
+    printf("Expected memory location %d to contain %d, got %d\n", 0x3100, 0x123, vm.reg[R_R0]);
     pass = 0;
   }
 
@@ -504,9 +504,9 @@ int test_sti_instr() {
     ((R_R0 & 0x7) << 9)    |
     0xff;
 
-  memory[0x3000] = sti_instr;
-  memory[0x3100] = 0x3200;
-  reg[R_R0] = 0x123;
+  vm.memory[0x3000] = sti_instr;
+  vm.memory[0x3100] = 0x3200;
+  vm.reg[R_R0] = 0x123;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -514,8 +514,8 @@ int test_sti_instr() {
     pass = 0;
   }
 
-  if (memory[0x3200] != 0x123) {
-    printf("Expected memory location %d to contain %d, got %d\n", 0x3200, 0x123, reg[R_R0]);
+  if (vm.memory[0x3200] != 0x123) {
+    printf("Expected memory location %d to contain %d, got %d\n", 0x3200, 0x123, vm.reg[R_R0]);
     pass = 0;
   }
 
@@ -531,9 +531,9 @@ int test_str_instr() {
     ((R_R1 & 0x7) << 6)    |
     0xf;
 
-  memory[0x3000] = str_instr;
-  reg[R_R0] = 0x123;
-  reg[R_R1] = 0x31f1;
+  vm.memory[0x3000] = str_instr;
+  vm.reg[R_R0] = 0x123;
+  vm.reg[R_R1] = 0x31f1;
 
   int result = read_and_execute_instruction();
   if (result != 1) {
@@ -541,8 +541,8 @@ int test_str_instr() {
     pass = 0;
   }
 
-  if (memory[0x3200] != 0x123) {
-    printf("Expected memory location %d to contain %d, got %d\n", 0x3200, 0x123, reg[R_R0]);
+  if (vm.memory[0x3200] != 0x123) {
+    printf("Expected memory location %d to contain %d, got %d\n", 0x3200, 0x123, vm.reg[R_R0]);
     pass = 0;
   }
 
@@ -571,8 +571,8 @@ int test_trap_getc() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 'x') {
-    printf("Expected register 0 to contain %d, got %d\n", 'x', reg[R_R0]);
+  if (vm.reg[R_R0] != 'x') {
+    printf("Expected register 0 to contain %d, got %d\n", 'x', vm.reg[R_R0]);
     pass = 0;
   }
 
@@ -596,7 +596,7 @@ int test_trap_out() {
   FILE *in = fmemopen(in_buf, sizeof(in_buf), "r");
   FILE *out = fmemopen(out_buf, sizeof(out_buf), "w");
 
-  reg[R_R0] = 'x';
+  vm.reg[R_R0] = 'x';
 
   int result = trap_exec(trap_out_instr);
   fclose(in);
@@ -629,11 +629,11 @@ int test_trap_puts() {
 
     sys_init(in, out);
     
-  reg[R_R0] = 0x3100;
-  memory[0x3100] = 'h';
-  memory[0x3101] = 'e';
-  memory[0x3102] = 'y';
-  memory[0x3103] = 0;
+  vm.reg[R_R0] = 0x3100;
+  vm.memory[0x3100] = 'h';
+  vm.memory[0x3101] = 'e';
+  vm.memory[0x3102] = 'y';
+  vm.memory[0x3103] = 0;
 
   int result = trap_exec(trap_puts_instr);
   fclose(in);
@@ -673,8 +673,8 @@ int test_trap_in() {
     pass = 0;
   }
 
-  if (reg[R_R0] != 'x') {
-    printf("Expected register 0 to contain %d, got %d\n", 'x', reg[R_R0]);
+  if (vm.reg[R_R0] != 'x') {
+    printf("Expected register 0 to contain %d, got %d\n", 'x', vm.reg[R_R0]);
   }
 
   if (strncmp(out_buf, "Enter a character: x", 27) != 0) {
@@ -697,12 +697,12 @@ int test_trap_putsp() {
   FILE *in = fmemopen(in_buf, sizeof(in_buf), "r");
   FILE *out = fmemopen(out_buf, sizeof(out_buf), "w");
 sys_init(in, out);
-  reg[R_R0] = 0x3100;
-  memory[0x3100] = 'h' | ('e' << 8);
-  memory[0x3101] = 'y' | (' ' << 8);
-  memory[0x3102] = 'd' | ('u' << 8);
-  memory[0x3103] = 'd' | ('e' << 8);
-  memory[0x3104] = 0;
+  vm.reg[R_R0] = 0x3100;
+  vm.memory[0x3100] = 'h' | ('e' << 8);
+  vm.memory[0x3101] = 'y' | (' ' << 8);
+  vm.memory[0x3102] = 'd' | ('u' << 8);
+  vm.memory[0x3103] = 'd' | ('e' << 8);
+  vm.memory[0x3104] = 0;
 
   int result = trap_exec(trap_putsp_instr);
   fclose(in);
@@ -781,16 +781,16 @@ int vm_run_tests() {
   };
     
 
-  int i, result, ok = 1;
-  for (i = 0; tests[i] != NULL; i++) {
-    /* clear memory */
-    memset(reg, 0, sizeof(reg));
-    memset(memory, 0, sizeof(memory));
+    int i, result, ok = 1;
+    for (i = 0; tests[i] != NULL; i++) {
+        /* clear memory */
+        memset(vm.reg, 0, sizeof(vm.reg));
+        memset(vm.memory, 0, sizeof(vm.memory));
 
     /* set the PC to starting position */
     /* 0x3000 is the default */
     enum { PC_START = 0x3000 };
-    reg[R_PC] = PC_START;
+    vm.reg[R_PC] = PC_START;
 
     result = tests[i]();
     if (!result) {

@@ -28,7 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8B28A61825076CC800E3F0FF /* lc3vm-orig */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "lc3vm-orig"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B28A61825076CC800E3F0FF /* lc3vm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lc3vm; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B28A61B25076CC800E3F0FF /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		8B28A6222507825C00E3F0FF /* vm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vm.h; sourceTree = "<group>"; };
 		8B28A6232507825C00E3F0FF /* vm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vm.c; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 		8B28A60F25076CC800E3F0FF = {
 			isa = PBXGroup;
 			children = (
-				8B28A61A25076CC800E3F0FF /* lc3vm-orig */,
+				8B28A61A25076CC800E3F0FF /* lc3vm */,
 				8B28A61925076CC800E3F0FF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,12 +65,12 @@
 		8B28A61925076CC800E3F0FF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8B28A61825076CC800E3F0FF /* lc3vm-orig */,
+				8B28A61825076CC800E3F0FF /* lc3vm */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8B28A61A25076CC800E3F0FF /* lc3vm-orig */ = {
+		8B28A61A25076CC800E3F0FF /* lc3vm */ = {
 			isa = PBXGroup;
 			children = (
 				8B28A6252507826E00E3F0FF /* config.h */,
@@ -86,15 +86,15 @@
 				8B28A626250783EA00E3F0FF /* vm_tests.h */,
 				8B28A627250783EA00E3F0FF /* vm_tests.c */,
 			);
-			path = "lc3vm-orig";
+			path = lc3vm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8B28A61725076CC800E3F0FF /* lc3vm-orig */ = {
+		8B28A61725076CC800E3F0FF /* lc3vm */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8B28A61F25076CC800E3F0FF /* Build configuration list for PBXNativeTarget "lc3vm-orig" */;
+			buildConfigurationList = 8B28A61F25076CC800E3F0FF /* Build configuration list for PBXNativeTarget "lc3vm" */;
 			buildPhases = (
 				8B28A61425076CC800E3F0FF /* Sources */,
 				8B28A61525076CC800E3F0FF /* Frameworks */,
@@ -104,9 +104,9 @@
 			);
 			dependencies = (
 			);
-			name = "lc3vm-orig";
+			name = lc3vm;
 			productName = "lc3vm-orig";
-			productReference = 8B28A61825076CC800E3F0FF /* lc3vm-orig */;
+			productReference = 8B28A61825076CC800E3F0FF /* lc3vm */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -123,7 +123,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8B28A61325076CC800E3F0FF /* Build configuration list for PBXProject "lc3vm-orig" */;
+			buildConfigurationList = 8B28A61325076CC800E3F0FF /* Build configuration list for PBXProject "lc3vm" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -136,7 +136,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8B28A61725076CC800E3F0FF /* lc3vm-orig */,
+				8B28A61725076CC800E3F0FF /* lc3vm */,
 			);
 		};
 /* End PBXProject section */
@@ -286,7 +286,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8B28A61325076CC800E3F0FF /* Build configuration list for PBXProject "lc3vm-orig" */ = {
+		8B28A61325076CC800E3F0FF /* Build configuration list for PBXProject "lc3vm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8B28A61D25076CC800E3F0FF /* Debug */,
@@ -295,7 +295,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8B28A61F25076CC800E3F0FF /* Build configuration list for PBXNativeTarget "lc3vm-orig" */ = {
+		8B28A61F25076CC800E3F0FF /* Build configuration list for PBXNativeTarget "lc3vm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8B28A62025076CC800E3F0FF /* Debug */,

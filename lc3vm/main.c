@@ -29,7 +29,7 @@ int main(int argc, const char* argv[]) {
   /* set the PC to starting position */
   /* 0x3000 is the default */
   enum { PC_START = 0x3000 };
-  reg[R_PC] = PC_START;
+  vm.reg[R_PC] = PC_START;
 
   int running = 1;
   while (running) {

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8B28A61725076CC800E3F0FF"
-               BuildableName = "lc3vm-orig"
-               BlueprintName = "lc3vm-orig"
-               ReferencedContainer = "container:lc3vm-orig.xcodeproj">
+               BuildableName = "lc3vm"
+               BlueprintName = "lc3vm"
+               ReferencedContainer = "container:lc3vm.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B28A61725076CC800E3F0FF"
-            BuildableName = "lc3vm-orig"
-            BlueprintName = "lc3vm-orig"
-            ReferencedContainer = "container:lc3vm-orig.xcodeproj">
+            BuildableName = "lc3vm"
+            BlueprintName = "lc3vm"
+            ReferencedContainer = "container:lc3vm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B28A61725076CC800E3F0FF"
-            BuildableName = "lc3vm-orig"
-            BlueprintName = "lc3vm-orig"
-            ReferencedContainer = "container:lc3vm-orig.xcodeproj">
+            BuildableName = "lc3vm"
+            BlueprintName = "lc3vm"
+            ReferencedContainer = "container:lc3vm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

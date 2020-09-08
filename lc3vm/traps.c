@@ -25,14 +25,14 @@ typedef struct {
 // Its ASCII code is copied into R0. The high eight bits of R0 are cleared.
 int trap_getc() {
     uint16_t c = sys_getc();
-    reg[R_R0] = c;
+    vm.reg[R_R0] = c;
     return 1;
 }
 
 // TRAP 0x21: OUT
 // Write a character in R0[7:0] to the console display.
 int trap_out() {
-    char c = (char)reg[R_R0 & 0xff];
+    char c = (char)vm.reg[R_R0 & 0xff];
 //    putc(c, out);
     sys_putc(c);
     return 1;
@@ -45,7 +45,7 @@ int trap_out() {
 // Writing terminates with the occurrence of 0x0000 in a memory location.
 int trap_puts() {
     /* one char per word */
-    uint16_t *word = memory + reg[R_R0];
+    uint16_t *word = vm.memory + vm.reg[R_R0];
     while (*word) {
       sys_putc((char)(*word & 0xff));
       word++;
@@ -67,7 +67,7 @@ int trap_in() {
     sys_putc((char)c);
     sys_fflush();
 
-    reg[R_R0] = c;
+    vm.reg[R_R0] = c;
     return 1;
 }
 
@@ -85,7 +85,7 @@ int trap_in() {
 int trap_putsp() {
     // one char per byte (two bytes per word)
     // here we need to swap back to big endian format
-    uint16_t *word = memory + reg[R_R0];
+    uint16_t *word = vm.memory + vm.reg[R_R0];
     while (*word) {
       sys_putc((char)(*word & 0xff));
 

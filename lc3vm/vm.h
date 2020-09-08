@@ -11,7 +11,7 @@
 #include "opcodes.h"
 
 /* 65536 locations */
-extern uint16_t memory[UINT16_MAX];
+//extern uint16_t vm.memory[UINT16_MAX];
 
 enum {
   R_R0 = 0,
@@ -27,7 +27,7 @@ enum {
   R_COUNT
 };
 
-extern uint16_t reg[R_COUNT];
+//extern uint16_t vm.reg[R_COUNT];
 
 
 /* condition flags */
@@ -43,6 +43,27 @@ enum {
   MR_KBSR = 0xFE00, /* keyboard status */
   MR_KBDR = 0xFE02  /* keyboard data */
 };
+
+
+typedef struct {
+    uint32_t    len;
+    
+} sScript;
+
+typedef struct {
+    uint8_t     running;
+    uint16_t    memory[UINT16_MAX];
+    uint16_t    reg[R_COUNT];
+} sVM;
+
+extern sVM vm;
+
+
+void vm_init(void);
+void vm_deinit(void);
+
+void vm_load_script();
+void vm_run();
 
 int read_and_execute_instruction(void);
 int read_image(const char * image_path);
