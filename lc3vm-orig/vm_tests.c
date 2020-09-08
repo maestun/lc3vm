@@ -662,14 +662,14 @@ int test_trap_in() {
     ((OP_TRAP & 0xf) << 12) |
     (TRAP_IN & 0xff);
 
-  char in_buf[] = {'x'};
-  char out_buf[256];
-  FILE *in = fmemopen(in_buf, sizeof(in_buf), "r");
-  FILE *out = fmemopen(out_buf, sizeof(out_buf), "w");
-sys_init(in, out);
-  int result = trap_exec(trap_in_instr);
-  fclose(in);
-  fclose(out);
+    char in_buf[] = {'x'};
+    char out_buf[256];
+    FILE *in = fmemopen(in_buf, sizeof(in_buf), "r");
+    FILE *out = fmemopen(out_buf, sizeof(out_buf), "w");
+    sys_init(in, out);
+    int result = trap_exec(trap_in_instr);
+    fclose(in);
+    fclose(out);
 
   if (result != 1) {
     printf("Expected return value to be 1, got %d\n", result);
@@ -802,6 +802,6 @@ int vm_run_tests() {
     }
   }
   
-    printf(ok ? "All tests passed!\n" : "Tests failed!\n");
+    printf(ok ? "✅ All tests passed!\n" : "❌ Tests failed!\n");
     return ok;
 }

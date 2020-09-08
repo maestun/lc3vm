@@ -68,6 +68,6 @@ void sys_fflush() {
 void sys_fprintf(char * format, ...) {
     va_list arg;
     va_start(arg, format);
-    fprintf(stdout, format, arg);
+    fprintf(sys.term_out, format, arg);
     va_end(arg);
 }
