@@ -45,9 +45,11 @@ typedef struct {
     uint16_t *  data;
 } sScript;
 
+#define RAM_MAX UINT16_MAX
+
 typedef struct {
     uint8_t     running;
-    uint16_t    memory[UINT16_MAX];
+    uint16_t    memory[RAM_MAX];
     uint16_t    reg[R_COUNT];
 } sVM;
 

@@ -32,11 +32,11 @@ void debug_instr(char * format, ...) {
 //    if(dbfp == NULL) {
 //        dbfp = fopen("debug.s", "w");
 //    }
-    va_list arg;
-    va_start(arg, format);
-    vfprintf(stdout, format, arg);
-    fflush(stdout);
-    va_end(arg);
+//    va_list arg;
+//    va_start(arg, format);
+//    vfprintf(stdout, format, arg);
+//    fflush(stdout);
+//    va_end(arg);
 }
 
 /* convert small bit number to 16-bit, keeping sign bit intact */
@@ -419,7 +419,7 @@ sOpcode opcodes[] = {
 int op_exec(uint16_t instr) {
     opPtr f = opcodes[instr >> 12].optr;
     
-    printf("0x%04x 0x%04x", vm.reg[R_PC], instr);
+    // printf("0x%04x 0x%04x", vm.reg[R_PC], instr);
     
     return f(instr);
 }

@@ -79,6 +79,10 @@ Index of this file:
 #include <stdint.h>         // intptr_t
 #endif
 
+extern "C" {
+    #include "vm.h"
+}
+
 // Visual Studio warnings
 #ifdef _MSC_VER
 #pragma warning (disable: 4996) // 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen
@@ -258,7 +262,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     if (show_app_simple_overlay)      ShowExampleAppSimpleOverlay(&show_app_simple_overlay);
     if (show_app_window_titles)       ShowExampleAppWindowTitles(&show_app_window_titles);
     if (show_app_custom_rendering)    ShowExampleAppCustomRendering(&show_app_custom_rendering);
-    if (show_app_memory_watch)      ShowExampleAppMemoryWatch(&show_app_memory_watch);
+    if (show_app_memory_watch)        ShowExampleAppMemoryWatch(&show_app_memory_watch);
 
     // Dear ImGui Apps (accessible from the "Tools" menu)
     static bool show_app_metrics = false;
@@ -5153,7 +5157,10 @@ static void ShowExampleAppCustomRendering(bool* p_open)
 
 static void ShowExampleAppMemoryWatch(bool* p_open) {
     static MemoryEditor mem_edit;
-    mem_edit.DrawWindow("Memory Editor", (void *) 0x1000ff00, 0xffff);
+//    static bool v = true;
+//    vm.memory[0] = v ? 0xbabe : 0xcafe;
+//    v=!v;
+    mem_edit.DrawWindow("Memory Editor", (void *) vm.memory, RAM_MAX);
 }
 
 //-----------------------------------------------------------------------------

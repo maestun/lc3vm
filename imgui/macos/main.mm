@@ -48,6 +48,11 @@ static sScript ** _scripts;
 
 -(void)updateAndDrawDemoView
 {
+    
+    // VM
+    vm_step();
+    
+    
     // Start the Dear ImGui frame
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplOSX_NewFrame(self);
@@ -111,9 +116,6 @@ static sScript ** _scripts;
     // Present
     [[self openGLContext] flushBuffer];
 
-    // VM
-    vm_step();
-    
     if (!animationTimer)
         animationTimer = [NSTimer scheduledTimerWithTimeInterval:0.017 target:self selector:@selector(animationTimerFired:) userInfo:nil repeats:YES];
 }

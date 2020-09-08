@@ -36,7 +36,7 @@ uint16_t mem_read(uint16_t address) {
 /* read and execute instruction */
 void read_and_execute_instruction() {
 
-    int is_max = (R_PC == UINT16_MAX);
+    int is_max = (R_PC == RAM_MAX);
     uint16_t instr = mem_read(vm.reg[R_PC]++);
     vm.running = op_exec(instr);
     if (vm.running && is_max) {
