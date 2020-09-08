@@ -120,10 +120,16 @@ void vm_run(sScript * script) {
     // copy script to vm memory
     memcpy(vm.memory + script->org, script->data, script->len * sizeof(uint16_t));
     vm.reg[R_PC] = script->org;
-    
+
     // run
     vm.running = 1;
-    while (vm.running) {
+//    while (vm.running) {
+//        vm_step();
+//    }
+}
+
+void vm_step() {
+    if(vm.running) {
         read_and_execute_instruction();
     }
 }
