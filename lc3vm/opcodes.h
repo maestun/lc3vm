@@ -1,6 +1,6 @@
 //
 //  opcodes.h
-//  lc3vm-orig
+//  lc3vm
 //
 
 #ifndef opcodes_h

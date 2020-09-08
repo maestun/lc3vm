@@ -1,6 +1,6 @@
 //
 //  sys.c
-//  lc3vm-orig
+//  lc3vm
 //
 
 #include "sys.h"

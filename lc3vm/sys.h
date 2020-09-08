@@ -1,6 +1,6 @@
 //
 //  sys.h
-//  lc3vm-orig
+//  lc3vm
 //
 
 #ifndef sys_h

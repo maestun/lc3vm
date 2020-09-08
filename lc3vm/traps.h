@@ -1,6 +1,6 @@
 //
 //  traps.h
-//  lc3vm-orig
+//  lc3vm
 //
 
 #ifndef traps_h

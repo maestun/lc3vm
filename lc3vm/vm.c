@@ -1,6 +1,6 @@
 //
 //  vm.c
-//  lc3vm-orig
+//  lc3vm
 //
 
 #include "vm.h"
@@ -60,11 +60,12 @@ sScript * vm_load(const char * script_path) {
     FILE * fp = fopen(script_path, "rb");
     if (fp) {
         script = read_image_file(fp);
-        
-        printf("Loaded script from file '%s'\nOrigin: 0x%04x\nLength: 0x%04x\n",
+        strcpy(script->name, strrchr(script_path, kPathSeparator) + 1);
+        printf("Loaded script from file '%s'\nOrigin: 0x%04x\nLength: 0x%04x\nName: %s\n",
                script_path,
                script->org,
-               script->len);
+               script->len,
+               script->name);
         
         fclose(fp);
     }

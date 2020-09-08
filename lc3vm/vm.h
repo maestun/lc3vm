@@ -1,6 +1,6 @@
 //
 //  vm.h
-//  lc3vm-orig
+//  lc3vm
 //
 
 #ifndef vm_h
@@ -50,6 +50,7 @@ enum {
 typedef struct {
     uint32_t    len;
     uint16_t    org;
+    char        name[kPathMaxLen];
 //    uint16_t *  data;
 } sScript;
 

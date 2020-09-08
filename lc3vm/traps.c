@@ -1,6 +1,6 @@
 //
 //  traps.c
-//  lc3vm-orig
+//  lc3vm
 //
 
 #include "sys.h"
@@ -102,7 +102,7 @@ int trap_putsp() {
 // TRAP 0x25: HALT
 // Halt execution and print a message on the console.
 int trap_halt() {
-    sys_fprintf("HALT");
+    sys_fprintf("HALT\n");
     sys_fflush();
     return 0;
 }
@@ -159,6 +159,6 @@ uint16_t trap_exec(uint16_t instr) {
     // execute trap
     uint8_t tvec = instr & 0xff;
     trapPtr t = traps[tvec].tptr;
-    //debug_instr("TRAP\t0x%02x\t; %s\n", tvec, traps[tvec].desc);
+    // debug_instr("TRAP\t0x%02x\t; %s\n", tvec, traps[tvec].desc);
     return t();
 }

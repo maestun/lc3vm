@@ -1,6 +1,6 @@
 //
 //  vm_tests.h
-//  lc3vm-orig
+//  lc3vm
 //
 
 #ifndef vm_tests_h

@@ -29,9 +29,9 @@
 #define kPathMaxLen         (256)
 #define kDescMaxLen         (256)
 #ifdef _WIN32
-#  define kPathSeparator    "\\"
+#  define kPathSeparator    '\\'
 #else
-#  define kPathSeparator    "/"
+#  define kPathSeparator    '/'
 #endif
 
 typedef uint8_t     u8;
