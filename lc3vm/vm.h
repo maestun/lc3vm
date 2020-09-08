@@ -51,7 +51,7 @@ typedef struct {
     uint32_t    len;
     uint16_t    org;
     char        name[kPathMaxLen];
-//    uint16_t *  data;
+    uint16_t *  data;
 } sScript;
 
 typedef struct {
@@ -68,7 +68,7 @@ void        vm_deinit(void);
 sScript *   vm_load(const char * script_path);
 void        vm_run(sScript * script);
 
-int         read_and_execute_instruction(void);
+void         read_and_execute_instruction(void);
 //int         read_image(const char * image_path);
 
 #endif /* vm_h */

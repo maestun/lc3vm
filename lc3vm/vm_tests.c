@@ -20,9 +20,9 @@ int test_add_instr_1() {
   vm.reg[R_R1] = 1;
   vm.reg[R_R2] = 2;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -52,9 +52,9 @@ int test_add_instr_2() {
   vm.memory[0x3000] = add_instr;
   vm.reg[R_R1] = 1;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -84,9 +84,9 @@ int test_and_instr_1() {
   vm.reg[R_R1] = 0xff;
   vm.reg[R_R2] = 0xf0;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -116,9 +116,9 @@ int test_and_instr_2() {
   vm.memory[0x3000] = and_instr;
   vm.reg[R_R1] = 0xff;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -147,9 +147,9 @@ int test_not_instr() {
   vm.memory[0x3000] = not_instr;
   vm.reg[R_R1] = 0xf;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -178,9 +178,9 @@ int test_br_instr_1() {
 
   /* nothing should happen */
   vm.reg[R_COND] = 0;
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -203,9 +203,9 @@ int test_br_instr_2() {
   vm.memory[0x3000] = br_instr;
 
   vm.reg[R_COND] = FL_NEG;
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -228,9 +228,9 @@ int test_br_instr_3() {
   vm.memory[0x3000] = br_instr;
 
   vm.reg[R_COND] = FL_ZRO;
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -253,9 +253,9 @@ int test_br_instr_4() {
   vm.memory[0x3000] = br_instr;
 
   vm.reg[R_COND] = FL_POS;
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -277,9 +277,9 @@ int test_jmp_instr() {
   vm.memory[0x3000] = jmp_instr;
   vm.reg[R_R0] = 0x1234;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -301,9 +301,9 @@ int test_jsr_instr_1() {
 
   vm.memory[0x3000] = jsr_instr;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -330,9 +330,9 @@ int test_jsr_instr_2() {
   vm.memory[0x3000] = jsr_instr;
   vm.reg[R_R0] = 0x1234;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -360,9 +360,9 @@ int test_ld_instr() {
   vm.memory[0x3000] = ld_instr;
   vm.memory[0x3100] = 0x123;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -391,9 +391,9 @@ int test_ldi_instr() {
   vm.memory[0x3100] = 0x3200;
   vm.memory[0x3200] = 0x123;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -423,9 +423,9 @@ int test_ldr_instr() {
   vm.reg[R_R1] = 0x31f1;
   vm.memory[0x3200] = 0x123;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -452,9 +452,9 @@ int test_lea_instr() {
 
   vm.memory[0x3000] = lea_instr;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -482,9 +482,9 @@ int test_st_instr() {
   vm.memory[0x3000] = st_instr;
   vm.reg[R_R0] = 0x123;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -508,9 +508,9 @@ int test_sti_instr() {
   vm.memory[0x3100] = 0x3200;
   vm.reg[R_R0] = 0x123;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -535,9 +535,9 @@ int test_str_instr() {
   vm.reg[R_R0] = 0x123;
   vm.reg[R_R1] = 0x31f1;
 
-  int result = read_and_execute_instruction();
-  if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+  read_and_execute_instruction();
+  if (vm.running != 1) {
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -567,7 +567,7 @@ int test_trap_getc() {
     sys_deinit();
 
   if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -603,7 +603,7 @@ int test_trap_out() {
   fclose(out);
 
   if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -640,7 +640,7 @@ int test_trap_puts() {
   fclose(out);
 
   if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -669,7 +669,7 @@ int test_trap_in() {
     fclose(out);
 
   if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -709,7 +709,7 @@ sys_init(in, out);
   fclose(out);
 
   if (result != 1) {
-    printf("Expected return value to be 1, got %d\n", result);
+    printf("Expected return value to be 1, got %d\n", vm.running);
     pass = 0;
   }
 
@@ -739,7 +739,7 @@ int test_trap_halt() {
   fclose(out);
 
   if (result != 0) {
-    printf("Expected return value to be 0, got %d\n", result);
+    printf("Expected return value to be 0, got %d\n", vm.running);
     pass = 0;
   }
 
