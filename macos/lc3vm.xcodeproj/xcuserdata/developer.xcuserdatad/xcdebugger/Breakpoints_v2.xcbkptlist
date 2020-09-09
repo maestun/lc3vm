@@ -30,41 +30,41 @@
             filePath = "../lc3vm/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "__main(argc, argv)"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "main(argc, argv)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EEFE6A39-394D-4423-9EC6-DB05C51E1577"
+            uuid = "78B64425-4495-4EF6-B247-5090EBEC0EFA"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../lc3vm/vm.c"
+            filePath = "../lc3vm/disasm.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "vm_step()"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "disasm_memory(origin, end)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D7B4A6AC-01E1-4EA9-AB65-636AF71CCDCA"
-            shouldBeEnabled = "No"
+            uuid = "4ED268C1-2041-46FA-B9F3-C06540901291"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../lc3vm/opcodes.c"
+            filePath = "../lc3vm/disasm.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "424"
-            endingLineNumber = "424"
-            landmarkName = "op_exec(instr)"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "disasm(data, origin, end)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

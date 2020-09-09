@@ -27,6 +27,7 @@
 #define kProgName           "lc3vm"
 #define kProgVersion        "0.1"
 #define kPathMaxLen         (256)
+#define kNameMaxLen         (16)
 #define kDescMaxLen         (256)
 #ifdef _WIN32
 #  define kPathSeparator    '\\'

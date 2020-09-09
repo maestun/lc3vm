@@ -4,11 +4,12 @@
 //
 
 #include "config.h"
+#include "disasm.h"
 #include "sys.h"
 #include "vm.h"
 #include "vm_tests.h"
 
-int __main(int argc, const char* argv[]) {
+int main(int argc, const char* argv[]) {
     if (argc < 2) {
         printf("%s --test | [image-file1] ...\n", kProgName);
         exit(2);
@@ -39,7 +40,14 @@ int __main(int argc, const char* argv[]) {
     // run vm
     vm_init();
     if(script_count > 0) {
-        vm_run(scripts[0]);
+        char * disasm = disasm_script(scripts[0]);
+        printf("Disasm:\n%s", disasm);
+        free(disasm);
+        vm_start(scripts[0]);
+        while (vm.running) {
+            vm_step();
+        }
+
     }
     vm_deinit();
     return 0;

@@ -11,6 +11,7 @@
 
 extern "C" {
     #include "vm.h"
+    #include "disasm.h"
     #include "vm_tests.h"
 }
 
@@ -288,8 +289,11 @@ static sScript ** _scripts;
     // run vm
     vm_init();
     if(_scripts[0] != NULL) {
+        char * disasm = disasm_script(_scripts[0]);
+        printf(disasm);
         vm_run(_scripts[0]);
     }
+    
     // vm_deinit();
 }
 

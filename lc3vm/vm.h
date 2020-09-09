@@ -59,7 +59,7 @@ void        vm_init(void);
 void        vm_deinit(void);
 sScript *   vm_load(const char * script_path);
 void        vm_unload_script(sScript * script);
-void        vm_run(sScript * script);
+void        vm_start(sScript * script);
 void        vm_step(void);
 
 #endif /* vm_h */

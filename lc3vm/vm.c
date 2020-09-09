@@ -116,16 +116,13 @@ void vm_deinit() {
     sys_deinit();
 }
 
-void vm_run(sScript * script) {
+void vm_start(sScript * script) {
     // copy script to vm memory
     memcpy(vm.memory + script->org, script->data, script->len * sizeof(uint16_t));
     vm.reg[R_PC] = script->org;
 
     // run
     vm.running = 1;
-//    while (vm.running) {
-//        vm_step();
-//    }
 }
 
 void vm_step() {
