@@ -4,7 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>lc3vm-orig.xcscheme_^#shared#^_</key>
+		<key>lc3vm-imgui.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>lc3vm.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -13,6 +18,16 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>8B28A61725076CC800E3F0FF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8B9C3F282508F31600C947F9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8B9C3F402508F37500C947F9</key>
 		<dict>
 			<key>primary</key>
 			<true/>

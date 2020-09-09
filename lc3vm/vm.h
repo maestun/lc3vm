@@ -45,9 +45,11 @@ typedef struct {
     uint16_t *  data;
 } sScript;
 
+#define RAM_MAX UINT16_MAX
+
 typedef struct {
     uint8_t     running;
-    uint16_t    memory[UINT16_MAX];
+    uint16_t    memory[RAM_MAX];
     uint16_t    reg[R_COUNT];
 } sVM;
 
@@ -57,6 +59,7 @@ void        vm_init(void);
 void        vm_deinit(void);
 sScript *   vm_load(const char * script_path);
 void        vm_unload_script(sScript * script);
-void        vm_run(sScript * script);
+void        vm_start(sScript * script);
+void        vm_step(void);
 
 #endif /* vm_h */

@@ -12,6 +12,7 @@ typedef int (*trapPtr)(void);
 typedef struct {
     uint8_t code;
     trapPtr tptr;
+    char    name[kNameMaxLen];
     char    desc[kDescMaxLen];
 } sTrap;
 
@@ -115,44 +116,44 @@ int trap_stub() {
 // MARK: - Trap jump table
 // =============================================================================
 sTrap traps[] = {
-    { 0x00, trap_stub,   "stub" },
-    { 0x01, trap_stub,   "stub" },
-    { 0x02, trap_stub,   "stub" },
-    { 0x03, trap_stub,   "stub" },
-    { 0x04, trap_stub,   "stub" },
-    { 0x05, trap_stub,   "stub" },
-    { 0x06, trap_stub,   "stub" },
-    { 0x07, trap_stub,   "stub" },
-    { 0x08, trap_stub,   "stub" },
-    { 0x09, trap_stub,   "stub" },
-    { 0x0a, trap_stub,   "stub" },
-    { 0x0b, trap_stub,   "stub" },
-    { 0x0c, trap_stub,   "stub" },
-    { 0x0d, trap_stub,   "stub" },
-    { 0x0e, trap_stub,   "stub" },
-    { 0x0f, trap_stub,   "stub" },
-    { 0x10, trap_stub,   "stub" },
-    { 0x11, trap_stub,   "stub" },
-    { 0x12, trap_stub,   "stub" },
-    { 0x13, trap_stub,   "stub" },
-    { 0x14, trap_stub,   "stub" },
-    { 0x15, trap_stub,   "stub" },
-    { 0x16, trap_stub,   "stub" },
-    { 0x17, trap_stub,   "stub" },
-    { 0x18, trap_stub,   "stub" },
-    { 0x19, trap_stub,   "stub" },
-    { 0x1a, trap_stub,   "stub" },
-    { 0x1b, trap_stub,   "stub" },
-    { 0x1c, trap_stub,   "stub" },
-    { 0x1d, trap_stub,   "stub" },
-    { 0x1e, trap_stub,   "stub" },
-    { 0x1f, trap_stub,   "stub" },
-    { TRAP_GETC,    trap_getc,  "get character from keyboard, not echoed onto the terminal" },
-    { TRAP_OUT,     trap_out,   "output a character" },
-    { TRAP_PUTS,    trap_puts,  "output a word string" },
-    { TRAP_IN,      trap_in,    "get character from keyboard, echoed onto the terminal" },
-    { TRAP_PUTSP,   trap_putsp, "output a byte string" },
-    { TRAP_HALT,    trap_halt,  "halt the program" }
+    { 0x00, trap_stub,  "stub", "stub" },
+    { 0x01, trap_stub,  "stub", "stub" },
+    { 0x02, trap_stub,  "stub", "stub" },
+    { 0x03, trap_stub,  "stub", "stub" },
+    { 0x04, trap_stub,  "stub", "stub" },
+    { 0x05, trap_stub,  "stub", "stub" },
+    { 0x06, trap_stub,  "stub", "stub" },
+    { 0x07, trap_stub,  "stub", "stub" },
+    { 0x08, trap_stub,  "stub", "stub" },
+    { 0x09, trap_stub,  "stub", "stub" },
+    { 0x0a, trap_stub,  "stub", "stub" },
+    { 0x0b, trap_stub,  "stub", "stub" },
+    { 0x0c, trap_stub,  "stub", "stub" },
+    { 0x0d, trap_stub,  "stub", "stub" },
+    { 0x0e, trap_stub,  "stub", "stub" },
+    { 0x0f, trap_stub,  "stub", "stub" },
+    { 0x10, trap_stub,  "stub", "stub" },
+    { 0x11, trap_stub,  "stub", "stub" },
+    { 0x12, trap_stub,  "stub", "stub" },
+    { 0x13, trap_stub,  "stub", "stub" },
+    { 0x14, trap_stub,  "stub", "stub" },
+    { 0x15, trap_stub,  "stub", "stub" },
+    { 0x16, trap_stub,  "stub", "stub" },
+    { 0x17, trap_stub,  "stub", "stub" },
+    { 0x18, trap_stub,  "stub", "stub" },
+    { 0x19, trap_stub,  "stub", "stub" },
+    { 0x1a, trap_stub,  "stub", "stub" },
+    { 0x1b, trap_stub,  "stub", "stub" },
+    { 0x1c, trap_stub,  "stub", "stub" },
+    { 0x1d, trap_stub,  "stub", "stub" },
+    { 0x1e, trap_stub,  "stub", "stub" },
+    { 0x1f, trap_stub,  "stub", "stub" },
+    { TRAP_GETC,    trap_getc,  "GETC", "get character from keyboard, not echoed onto the terminal" },
+    { TRAP_OUT,     trap_out,   "OUT",  "output a character" },
+    { TRAP_PUTS,    trap_puts,  "PUTS", "output a word string" },
+    { TRAP_IN,      trap_in,    "IN",   "get character from keyboard, echoed onto the terminal" },
+    { TRAP_PUTSP,   trap_putsp, "PUTSP","output a byte string" },
+    { TRAP_HALT,    trap_halt,  "HALT", "halt the program" }
 };
 
 uint16_t trap_exec(uint16_t instr) {
@@ -161,4 +162,8 @@ uint16_t trap_exec(uint16_t instr) {
     trapPtr t = traps[tvec].tptr;
     // debug_instr("TRAP\t0x%02x\t; %s\n", tvec, traps[tvec].desc);
     return t();
+}
+
+char * trap_name(uint16_t tvec) {
+    return traps[tvec].name;
 }

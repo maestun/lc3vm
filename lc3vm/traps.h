@@ -18,6 +18,7 @@ enum {
   TRAP_HALT = 0x25   /* halt the program */
 };
 
-uint16_t trap_exec(uint16_t tvec);
-
+uint16_t    trap_exec(uint16_t tvec);
+char *      trap_desc(uint16_t tvec);
+char *      trap_name(uint16_t tvec);
 #endif /* traps_h */
