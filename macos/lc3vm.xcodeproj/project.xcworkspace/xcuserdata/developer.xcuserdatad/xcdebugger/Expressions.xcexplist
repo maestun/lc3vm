@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "br:opcodes.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "vm">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "main:main.c">
+      </ContextState>
+      <ContextState
+         contextName = "op_exec:opcodes.c">
+      </ContextState>
+      <ContextState
+         contextName = "guess_platform:platform.c">
+      </ContextState>
+      <ContextState
+         contextName = "script_load:script.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "alis">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "alis_init:alis.c">
+      </ContextState>
+      <ContextState
+         contextName = "get_platform:platform.c">
+      </ContextState>
+      <ContextState
+         contextName = "op_disasm:opcodes.c">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
