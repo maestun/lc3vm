@@ -21,6 +21,22 @@ static void save_D7_then_exec_opname() {
 //    vm_execute_instruction(code, EOpcodeKindOpname);
 }
 
+u8 read8(void) {
+    return alis.memory[alis.pc++];
+}
+u16 read16(void) {
+    return (alis.memory[alis.pc++] << 8) + alis.memory[alis.pc++];
+}
+u32 read24(void) {
+    return (alis.memory[alis.pc++] << 16) + (alis.memory[alis.pc++] << 8) + alis.memory[alis.pc++];
+}
+void readBytes(u32 len, u8 * dest) {
+    while(len--) {
+        *dest++ = alis.memory[alis.pc++];
+    }
+}
+
+
 
 // ============================================================================
 #pragma mark - TODO: opcodes
@@ -75,24 +91,24 @@ static void ctab() {
 static void cdim() {
     
     // read word param
-//    vm->d0 = vm_read_16() - 1;
-//
-//    // read byte param, store it at vram + offset
-//    vm->d1 = vm_read_8();
-//    *(vm->virtual_ram + vm->d0) = vm->d1; // (vm->ram + 0x2030f) doit valoir 1
-//
-//    vm->d0--;
-//
-//    // read byte param, store it at vram + (offset - 1)
-//    *(vm->virtual_ram + --vm->d0) = vm_read_8();
-//
-//    // loop w/ counter, read words, store in vram
-//    vm->d0 -= 2;
-//    while(vm->d1-- > 0) {
-//        vm->d2 = vm_read_16();
-//        *(u16 *)(vm->virtual_ram + vm->d0) = vm->d2;
-//        vm->d0 -= 2;
-//    }
+    u16 d0 = read16() - 1;
+
+    // read byte param, store it at vram + offset
+    u8 d1 = read8();
+    *(alis.memory + d0) = d1; // (vm->ram + 0x2030f) doit valoir 1
+
+    d0--;
+
+    // read byte param, store it at vram + (offset - 1)
+    *(alis.memory + --d0) = read8();
+
+    // loop w/ counter, read words, store in vram
+    d0 -= 2;
+    while(d1-- > 0) {
+        u16 d2 = read16();
+        *(u16 *)(alis.memory + d0) = d2;
+        d0 -= 2;
+    }
 }
 
 static void crandom() {
@@ -188,40 +204,42 @@ static void cload() {
 }
 
 static void cdefsc() {
-// read a word
-//    /*
-//     00011a2e 10 1b           move.b     (A3)+,D0b
-//     00011a30 e1 40           asl.w      #0x8,D0w
-//     00011a32 10 1b           move.b     (A3)+,D0b
-//     */
-//    u16 offset = vm_read_16();
-//
-//    /*
-//     00011a3a 08 f0 00        bset.b     0x6,(0x0,A0,D0w*0x1)
-//     */
-//    u8 * a0 = vm->scene_ptr;
-//    *(a0 + offset) &= 0x6;
-//
-//    /*
-//     00011a40 11 9b 00 01     move.b     (A3)+,(0x1,A0,D0w*0x1)
-//     */
-//    *(a0 + offset + 1) = vm_read_8();
-//
-//    u8 counter = 0x1f;
-//
-//    /*
-//     00011a46 43 f0 00 06     lea        (0x6,A0,D0w*0x1),A1
-//     */
-//    u8 * a1 = (a0 + offset + 1);
-//
-//    /*
-//     __cdefsc_copy_32_bytes
-//     00011a4a 12 db           move.b     (A3)+,(A1)+
-//     00011a4c 51 c9 ff fc     dbf        D1w,__cdefsc_copy_32_bytes
-//     */
-//    do {
-//        *(a1) = vm_read_8();
-//    } while(--counter != 0);
+    // reads 35 bytes
+    // debug
+    for (int i=0; i <35;i++) {
+        alis.pc++;
+    }
+    return;
+    
+    /*
+     00011a2e 10 1b           move.b     (A3)+,D0b
+     00011a30 e1 40           asl.w      #0x8,D0w
+     00011a32 10 1b           move.b     (A3)+,D0b
+     */
+    // read a word
+    u16 offset = read16();
+
+    /*
+     00011a3a 08 f0 00        bset.b     0x6,(0x0,A0,D0w*0x1)
+     */
+    *(alis.scene_ptr + offset) &= 0x6;
+
+    /*
+     00011a40 11 9b 00 01     move.b     (A3)+,(0x1,A0,D0w*0x1)
+     */
+    *(alis.scene_ptr + offset + 1) = read8();
+
+    /*
+     00011a46 43 f0 00 06     lea        (0x6,A0,D0w*0x1),A1
+     */
+    u8 * ptr = (alis.scene_ptr + offset + 6);
+
+    /*
+     __cdefsc_copy_32_bytes
+     00011a4a 12 db           move.b     (A3)+,(A1)+
+     00011a4c 51 c9 ff fc     dbf        D1w,__cdefsc_copy_32_bytes
+     */
+    readBytes(0x1f, ptr);
 //
 //    /*
 //     00011a50 22 79 00        movea.l    (DAT_000170c2).l,A1

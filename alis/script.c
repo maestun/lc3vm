@@ -5,6 +5,7 @@
 
 #include "alis.h"
 #include "asm.h"
+#include "debug.h"
 #include "platform.h"
 #include "script.h"
 #include "utils.h"
@@ -263,7 +264,7 @@ sAlisScript * script_load(const char * script_path) {
     sAlisScript * script = NULL;
     FILE * fp = fopen(script_path, "rb");
     if (fp) {
-        alis_debug(EDebugVerbose,
+        debug(EDebugVerbose,
                    "Loading script file: %s\n", script_path);
         
         // get script file size
@@ -280,18 +281,18 @@ sAlisScript * script_load(const char * script_path) {
         // decrunch if needed
         u8 * data = buf;
         if(is_packed(buf)) {
-            alis_debug(EDebugVerbose, "Unpacking file...\n");
+            debug(EDebugVerbose, "Unpacking file...\n");
             
             u32 depaksz = get_depacked_size(buf);
             if(is_main(buf)) {
                 // main script: load main header into vm
-                alis_debug(EDebugVerbose, "Main script detected\nHeader:");
+                debug(EDebugVerbose, "Main script detected\nHeader:");
                 main = 1;
                 for(uint8_t idx = 0; idx < kVMHeaderLen; idx++) {
                     alis.header[idx] = buf[HEADER_MAGIC_LEN_SZ + HEADER_CHECK_SZ + idx];
-                    alis_debug(EDebugVerbose, " 0x%02x", alis.header[idx]);
+                    debug(EDebugVerbose, " 0x%02x", alis.header[idx]);
                 }
-                alis_debug(EDebugVerbose, "\n");
+                debug(EDebugVerbose, "\n");
             }
 
             // alloc and depack
@@ -306,7 +307,7 @@ sAlisScript * script_load(const char * script_path) {
                   depaksz,
                   &buf[dic_offset]);
             
-            alis_debug(EDebugVerbose,
+            debug(EDebugVerbose,
                        "Unpacking done in %ld bytes (~%d%% packing ratio)\n",
                        depaksz, 100 - (100 * sz) / depaksz);
             

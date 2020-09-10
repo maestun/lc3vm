@@ -7,6 +7,7 @@
 #define alis_vm_h
 
 #include "config.h"
+#include "debug.h"
 #include "platform.h"
 #include "script.h"
 
@@ -58,6 +59,9 @@ typedef struct {
     // pointer to virtual stack origin in virtual ram
     u8 *    sp_org;
     
+    // scene pointer
+    u8 *    scene_ptr; // A0
+    
     // variables
     s16     varD6;
     s16     varD7;
@@ -79,8 +83,5 @@ void            alis_init(sPlatform platform);
 u8              alis_main(void);
 void            alis_deinit(void);
 void            alis_start_script(sAlisScript * script);
-void            alis_step(void);
-
-void            alis_debug(EDebugLevel level, char * format, ...);
 
 #endif /* alis_vm_h */

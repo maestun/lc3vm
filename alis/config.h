@@ -50,6 +50,5 @@ typedef enum {
     EDebugVerbose,
 } EDebugLevel;
 
-#define DEBUG_LEVEL EDebugVerbose
 
 #endif /* config_h */

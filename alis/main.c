@@ -25,7 +25,7 @@ int main(int argc, const char* argv[]) {
             alis_deinit();
         }
         else {
-            alis_debug(EDebugFatal,
+            debug(EDebugFatal,
                        "Platform '%s' is not supported.\n",
                        pl.desc);
         }

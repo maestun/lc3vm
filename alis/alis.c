@@ -12,37 +12,19 @@
 sAlisVM alis;
 
 // =============================================================================
-// MARK: - Helpers
-// =============================================================================
-
-void alis_debug(EDebugLevel level, char * format, ...) {
-//    static FILE * dbfp = NULL;
-//    if(dbfp == NULL) {
-//        dbfp = fopen("alis_debug.log", "w");
-//    }
-    if(level <= DEBUG_LEVEL) {
-        va_list arg;
-        va_start(arg, format);
-        vfprintf(stdout, format, arg);
-        fflush(stdout);
-        va_end(arg);
-    }
-}
-
-// =============================================================================
 // MARK: - Private
 // =============================================================================
 static alisRet readexec_opcode() {
     if(alis.pc == kMaxVirtualRAMSize) {
         // pc overflow !
-        alis_debug(EDebugFatal, "PC OVERFLOW !");
+        debug(EDebugFatal, "PC OVERFLOW !");
     }
     else {
         // fetch opcode
-        alis_debug(EDebugVerbose, "0x%06x: ", alis.pc);
+        debug(EDebugVerbose, "0x%06x: ", alis.pc);
         u8 i = alis.memory[alis.pc++];
         sAlisOpcode opcode = opcodes[i];
-        alis_debug(EDebugVerbose, "0x%02x\t%s\n", i, opcode.name);
+        debug(EDebugVerbose, "0x%02x\t%s\n", i, opcode.name);
         opcode.fptr();
     }
 }
@@ -71,6 +53,9 @@ void alis_init(sPlatform platform) {
     
     alis.platform = platform;
     
+    // TODO: scene ptr ??
+    alis.scene_ptr = (alis.memory + 0x6000);
+    
     // TODO: init sys w/ platform
 }
 
@@ -87,7 +72,7 @@ u8 alis_main() {
         }
     }
     else {
-        alis_debug(EDebugFatal,
+        debug(EDebugFatal,
                    "Failed to load main script '%s'\n",
                    alis.platform.main);
         ret = 1;
@@ -102,13 +87,6 @@ void alis_start_script(sAlisScript * script) {
            script->codelen * sizeof(u8));
     
     // set pc to script origin in virtual ram
-    alis.pc = script->org;
-    
+    alis.pc = script->org; // TODO: determine org
     alis.running = 1;
-}
-
-void alis_step() {
-    if(alis.running) {
-        readexec_opcode();
-    }
 }

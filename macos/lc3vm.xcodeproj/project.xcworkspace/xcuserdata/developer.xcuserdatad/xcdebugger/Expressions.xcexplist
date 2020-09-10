@@ -17,6 +17,20 @@
          contextName = "op_exec:opcodes.c">
       </ContextState>
       <ContextState
+         contextName = "WORD:asm.c">
+      </ContextState>
+      <ContextState
+         contextName = "cdefsc:opcodes.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "alis.pc">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "alis_start_script:alis.c">
+      </ContextState>
+      <ContextState
          contextName = "guess_platform:platform.c">
       </ContextState>
       <ContextState
