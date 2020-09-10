@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "platform.h"
 #include "script.h"
+#include "sys.h"
 
 #define kVMHeaderLen            (16 * sizeof(u8))
 #define kMaxVirtualRAMSize      (1024 * 1024 * sizeof(u8))
@@ -71,7 +72,8 @@ typedef struct {
     // helper: executed instructions count
     u32     icount;
     
-    
+    // system stuff
+    mouse_t mouse;
 } sAlisVM;
 
 extern sAlisVM alis;

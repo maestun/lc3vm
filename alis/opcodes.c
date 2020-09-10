@@ -35,6 +35,12 @@ void readBytes(u32 len, u8 * dest) {
         *dest++ = alis.memory[alis.pc++];
     }
 }
+uint16_t sign_extend(uint16_t x, int bit_count) {
+    if ((x >> (bit_count - 1)) & 1) {
+        x |= (0xFFFF << bit_count);
+    }
+    return x;
+}
 
 
 
@@ -534,7 +540,7 @@ static void cmousoff() {
 }
 
 static void cmouse() {
-    // log_debug("STUBBED");
+    alis.mouse = sys_get_mouse();
 }
 
 static void cdefmouse() {
@@ -1056,33 +1062,102 @@ static void cjsr24() {
 }
 
 static void cjmp8() {
-//    u16 offset16 = vm_read_8_ext();
-//    vm->script->ptr += offset16;
+    u16 offset = sign_extend(read8(), 8);
+    alis.pc += offset;
 }
 
 static void cjmp16() {
-//    u16 offset16 = vm_read_16();
-//    vm->script->ptr += offset16;
+    u16 offset = read16();
+    alis.pc += offset;
 }
 
 static void cjmp24() {
-//    u32 offset32 = vm_read_24();
-//    vm->script->ptr += offset32;
+    u32 offset = read24();
+    alis.pc += offset;
 }
 
 static void cret() {}
-static void cbz8() {}
-static void cbz16() {}
-static void cbz24() {}
-static void cbnz8() {}
-static void cbnz16() {}
-static void cbnz24() {}
-static void cbeq8() {}
-static void cbeq16() {}
-static void cbeq24() {}
-static void cbne8() {}
-static void cbne16() {}
-static void cbne24() {}
+
+static void cbz8() {
+    u16 offset = read8();
+    if(alis.varD7 == 0) {
+        offset = sign_extend(read8(), 8);
+        alis.pc += offset;
+    }
+}
+
+static void cbz16() {
+    u16 offset = read16();
+    if(alis.varD7 == 0) {
+        alis.pc += offset;
+    }
+}
+static void cbz24() {
+    u32 offset = read24();
+    if(alis.varD7 == 0) {
+        alis.pc += offset;
+    }
+}
+
+static void cbnz8() {
+    u16 offset = read8();
+    if(alis.varD7) {
+        offset = sign_extend(read8(), 8);
+        alis.pc += offset;
+    }
+}
+
+static void cbnz16() {
+    u16 offset = read16();
+    if(alis.varD7) {
+        alis.pc += offset;
+    }
+}
+
+static void cbnz24() {
+    u32 offset = read24();
+    if(alis.varD7) {
+        alis.pc += offset;
+    }
+}
+static void cbeq8() {
+    u16 offset = read8();
+    if(alis.varD7 == alis.varD6) {
+        offset = sign_extend(read8(), 8);
+        alis.pc += offset;
+    }
+}
+static void cbeq16() {
+    u16 offset = read16();
+    if(alis.varD7 == alis.varD6) {
+        alis.pc += offset;
+    }
+}
+static void cbeq24() {
+    u32 offset = read24();
+    if(alis.varD7 == alis.varD6) {
+        alis.pc += offset;
+    }
+}
+static void cbne8() {
+    u16 offset = read8();
+    if(alis.varD7 != alis.varD6) {
+        offset = sign_extend(read8(), 8);
+        alis.pc += offset;
+    }
+}
+static void cbne16() {
+    u16 offset = read16();
+    if(alis.varD7 != alis.varD6) {
+        alis.pc += offset;
+    }
+}
+static void cbne24() {
+    u32 offset = read24();
+    if(alis.varD7 != alis.varD6) {
+        alis.pc += offset;
+    }
+}
 
 static void cstart8() {
     // read byte, extend sign to word, then to long

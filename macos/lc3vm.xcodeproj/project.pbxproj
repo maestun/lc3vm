@@ -41,6 +41,7 @@
 		8B9C4037250A3C7F00C947F9 /* asm.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B9C4035250A3C7F00C947F9 /* asm.c */; };
 		8B9C403B250A3E5200C947F9 /* script.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B9C403A250A3E5200C947F9 /* script.c */; };
 		8B9C4044250A6AC200C947F9 /* debug.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B9C4043250A6AC200C947F9 /* debug.c */; };
+		8B9C4047250A721D00C947F9 /* sys.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B9C4046250A721D00C947F9 /* sys.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -124,6 +125,8 @@
 		8B9C403A250A3E5200C947F9 /* script.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = script.c; sourceTree = "<group>"; };
 		8B9C4042250A6AC200C947F9 /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
 		8B9C4043250A6AC200C947F9 /* debug.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = debug.c; sourceTree = "<group>"; };
+		8B9C4045250A721D00C947F9 /* sys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sys.h; sourceTree = "<group>"; };
+		8B9C4046250A721D00C947F9 /* sys.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sys.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +255,8 @@
 				8B9C4012250921F600C947F9 /* platform.c */,
 				8B9C4039250A3E5200C947F9 /* script.h */,
 				8B9C403A250A3E5200C947F9 /* script.c */,
+				8B9C4045250A721D00C947F9 /* sys.h */,
+				8B9C4046250A721D00C947F9 /* sys.c */,
 				8B9C402E250A2F9300C947F9 /* utils.h */,
 				8B9C402F250A2F9300C947F9 /* utils.c */,
 			);
@@ -399,6 +404,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B9C4047250A721D00C947F9 /* sys.c in Sources */,
 				8B9C4030250A2F9300C947F9 /* utils.c in Sources */,
 				8B9C402C250A2A8F00C947F9 /* main.c in Sources */,
 				8B9C401B250A2A5B00C947F9 /* alis.c in Sources */,
