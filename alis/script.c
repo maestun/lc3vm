@@ -253,9 +253,11 @@ void depak_11() {
  (main only)
  6...21     16      main header bytes
  22...29    8       depack dictionary
+ 30...xx    ?       packed data
  
  (other)
  6...13     8       depack dictionary
+ 14...xx    ?       packed data
  */
 sAlisScript * script_load(const char * script_path) {
     sAlisScript * script = NULL;
@@ -296,30 +298,35 @@ sAlisScript * script_load(const char * script_path) {
             u8 dic_offset = HEADER_MAGIC_LEN_SZ +
                             HEADER_CHECK_SZ +
                             (main ? kVMHeaderLen : 0);
-
+            u8 pak_offset = dic_offset + HEADER_DIC_SZ;
             u8 * depakbuf = malloc(depaksz * sizeof(u8));
-            depak(buf, depakbuf, sz, depaksz, &buf[dic_offset]);
+            depak(buf + pak_offset,
+                  depakbuf,
+                  sz - pak_offset,
+                  depaksz,
+                  &buf[dic_offset]);
             
             alis_debug(EDebugVerbose,
                        "Unpacking done in %ld bytes (~%d%% packing ratio)\n",
                        depaksz, 100 - (100 * sz) / depaksz);
             
             // cleanup
-            free(buf);
-            buf = NULL;
             data = depakbuf;
             sz = depaksz;
+            free(buf);
+            buf = NULL;
         }
         
         // init script
         u8 headersz = (main ? kMainScriptHeaderLen : kScriptHeaderLen);  // TODO: thats a guess
         script = (sAlisScript *)malloc(sizeof(sAlisScript));
         strcpy(script->name, strrchr(script_path, kPathSeparator) + 1);
-        script->org = 0;
-        script->len = sz - headersz;
-        script->data = data;
+        script->org = 0; // TODO: determine origin in virtual ram
         script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess
+        script->data = data;
+        script->datalen = sz;
         script->code = script->data + headersz;
+        script->codelen = sz - headersz;
         script->header = script->data;
         
         // cleanup

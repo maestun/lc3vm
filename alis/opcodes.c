@@ -188,7 +188,7 @@ static void cload() {
 }
 
 static void cdefsc() {
-//    // read a word
+// read a word
 //    /*
 //     00011a2e 10 1b           move.b     (A3)+,D0b
 //     00011a30 e1 40           asl.w      #0x8,D0w

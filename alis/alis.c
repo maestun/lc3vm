@@ -39,8 +39,10 @@ static alisRet readexec_opcode() {
     }
     else {
         // fetch opcode
+        alis_debug(EDebugVerbose, "0x%06x: ", alis.pc);
         u8 i = alis.memory[alis.pc++];
         sAlisOpcode opcode = opcodes[i];
+        alis_debug(EDebugVerbose, "0x%02x\t%s\n", i, opcode.name);
         opcode.fptr();
     }
 }
@@ -95,7 +97,9 @@ u8 alis_main() {
 
 void alis_start_script(sAlisScript * script) {
     // copy script data to virtual ram, at given offset (script origin)
-    memcpy(alis.memory + script->org, script->code, script->len * sizeof(u8));
+    memcpy(alis.memory + script->org,
+           script->code,
+           script->codelen * sizeof(u8));
     
     // set pc to script origin in virtual ram
     alis.pc = script->org;

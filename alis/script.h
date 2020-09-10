@@ -22,14 +22,17 @@ typedef struct {
     u16     ID;
     char    name[kPathMaxLen];
     u8 *    header;
-    // script length (in bytes)
-    u32     len;
+
     // offset to script origin in virtual ram
     u32     org;
+
     // script data
     u8 *    data;
+    u32     datalen;
+
     // script code
     u8 *    code;
+    u32     codelen;
 } sAlisScript;
 
 sAlisScript *   script_load(const char * script_path);
