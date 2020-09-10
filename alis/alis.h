@@ -14,6 +14,7 @@
 
 #define kVMHeaderLen            (16 * sizeof(u8))
 #define kMaxVirtualRAMSize      (1024 * 1024 * sizeof(u8))
+#define kMaxScripts             (UINT8_MAX)
 
 // =============================================================================
 // MARK: - OPCODES
@@ -46,19 +47,23 @@ typedef struct {
     u8          running;
     
     // virtual ram data
-    u8          memory[kMaxVirtualRAMSize];
+//    u8          memory[kMaxVirtualRAMSize];
     // pointer to virtual ram origin
-    u8 *        memory_org;
+//    u8 *        memory_org;
 
     // virtual program counter
-    u32     pc;
+    u8 *        pc;
     // pointer to script origin in virtual ram
-    u8 *    pc_org;
+    u8 *        pc_org;
+    
+    // loaded scripts
+    sAlisScript *   scripts[kMaxScripts];
+    u8              scriptID;
     
     // virtual stack pointer
-    u8 *    sp;
-    // pointer to virtual stack origin in virtual ram
-    u8 *    sp_org;
+//    u32 *   sp;
+//    // pointer to virtual stack origin in virtual ram (TODO: A6 ??)
+//    u32 *   sp_org;
     
     // scene pointer
     u8 *    scene_ptr; // A0

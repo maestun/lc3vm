@@ -259,6 +259,19 @@ void depak_11() {
  (other)
  6...13     8       depack dictionary
  14...xx    ?       packed data
+
+ 
+ UNPACKED SCRIPT FILE FORMAT
+ byte(s)    len     role
+ -------------------------------------------------------------------------------
+ (main only)
+ 0...23     16      header bytes
+ 24...xx    ?       unpacked data (1st word is ID, must be zero)
+ 
+ (other)
+ 0...7      8       header bytes
+ 8...xx     ?       unpacked data (1st word is ID, must not be zero)
+
  */
 sAlisScript * script_load(const char * script_path) {
     sAlisScript * script = NULL;
@@ -322,13 +335,14 @@ sAlisScript * script_load(const char * script_path) {
         u8 headersz = (main ? kMainScriptHeaderLen : kScriptHeaderLen);  // TODO: thats a guess
         script = (sAlisScript *)malloc(sizeof(sAlisScript));
         strcpy(script->name, strrchr(script_path, kPathSeparator) + 1);
-        script->org = 0; // TODO: determine origin in virtual ram
+//        script->org = 0; // TODO: determine origin in virtual ram
         script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess
         script->data = data;
         script->datalen = sz;
         script->code = script->data + headersz;
         script->codelen = sz - headersz;
         script->header = script->data;
+        script->sp = script->stack;
         
         // cleanup
         fclose(fp);

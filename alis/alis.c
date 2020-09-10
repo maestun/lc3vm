@@ -15,16 +15,16 @@ sAlisVM alis;
 // MARK: - Private
 // =============================================================================
 static alisRet readexec_opcode() {
-    if(alis.pc == kMaxVirtualRAMSize) {
+    if(alis.pc - alis.pc_org == kMaxVirtualRAMSize) {
         // pc overflow !
         debug(EDebugFatal, "PC OVERFLOW !");
     }
     else {
         // fetch opcode
         debug(EDebugVerbose, "0x%06x: ", alis.pc);
-        u8 i = alis.memory[alis.pc++];
-        sAlisOpcode opcode = opcodes[i];
-        debug(EDebugVerbose, "0x%02x\t%s\n", i, opcode.name);
+        u8 code = *(alis.pc++);
+        sAlisOpcode opcode = opcodes[code];
+        debug(EDebugVerbose, "0x%02x\t%s\n", code, opcode.name);
         opcode.fptr();
     }
 }
@@ -35,12 +35,11 @@ static alisRet readexec_opcode() {
 // =============================================================================
 void alis_init(sPlatform platform) {
     // clear virtual memory
-    memset(alis.memory, 0, sizeof(alis.memory));
+    // memset(alis.memory, 0, sizeof(alis.memory));
     
     // init pointers
-    alis.memory_org = alis.memory;
-    alis.pc_org = alis.memory;
-    alis.sp_org = alis.memory;
+//    alis.memory_org = alis.memory;
+//    alis.pc_org = alis.memory;
     
     // init vars
     alis.varD6 = alis.varD7 = 0;
@@ -54,12 +53,16 @@ void alis_init(sPlatform platform) {
     alis.platform = platform;
     
     // TODO: scene ptr ??
-    alis.scene_ptr = (alis.memory + 0x6000);
+//    alis.scene_ptr = (alis.memory + 0x6000);
     
     // TODO: init sys w/ platform
 }
 
 void alis_deinit() {
+    // free scripts
+    for(int i = 0; i < kMaxScripts; i++) {
+        script_unload(alis.scripts[i]);
+    }
 }
 
 u8 alis_main() {
@@ -82,11 +85,13 @@ u8 alis_main() {
 
 void alis_start_script(sAlisScript * script) {
     // copy script data to virtual ram, at given offset (script origin)
-    memcpy(alis.memory + script->org,
-           script->code,
-           script->codelen * sizeof(u8));
+//    memcpy(alis.memory + script->org,
+//           script->code,
+//           script->codelen * sizeof(u8));
+    
+    alis.scripts[script->ID] = script;
     
     // set pc to script origin in virtual ram
-    alis.pc = script->org; // TODO: determine org
+    alis.pc = alis.pc_org = script->code; // TODO: determine org
     alis.running = 1;
 }

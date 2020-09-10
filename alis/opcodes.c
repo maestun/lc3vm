@@ -22,17 +22,17 @@ static void save_D7_then_exec_opname() {
 }
 
 u8 read8(void) {
-    return alis.memory[alis.pc++];
+    return *alis.pc++;
 }
 u16 read16(void) {
-    return (alis.memory[alis.pc++] << 8) + alis.memory[alis.pc++];
+    return (*alis.pc++ << 8) + *alis.pc++;
 }
 u32 read24(void) {
-    return (alis.memory[alis.pc++] << 16) + (alis.memory[alis.pc++] << 8) + alis.memory[alis.pc++];
+    return (*alis.pc++ << 16) + (*alis.pc++ << 8) + *alis.pc++;
 }
 void readBytes(u32 len, u8 * dest) {
     while(len--) {
-        *dest++ = alis.memory[alis.pc++];
+        *dest++ = *alis.pc++;
     }
 }
 uint16_t sign_extend(uint16_t x, int bit_count) {
@@ -94,26 +94,26 @@ static void ctab() {
     // log_debug("STUBBED");
 }
 
+// ???
+// read x bytes
 static void cdim() {
+
+    u8 * stack_org = (u8 *)alis.scripts[alis.scriptID]->stack;
     
     // read word param
-    u16 d0 = read16() - 1;
-
-    // read byte param, store it at vram + offset
-    u8 d1 = read8();
-    *(alis.memory + d0) = d1; // (vm->ram + 0x2030f) doit valoir 1
-
-    d0--;
-
-    // read byte param, store it at vram + (offset - 1)
-    *(alis.memory + --d0) = read8();
-
-    // loop w/ counter, read words, store in vram
-    d0 -= 2;
-    while(d1-- > 0) {
-        u16 d2 = read16();
-        *(u16 *)(alis.memory + d0) = d2;
-        d0 -= 2;
+    u16 offset = read16();
+    u8 counter = read8();
+    u8 byte2 = read8();
+    
+    stack_org[--offset] = counter;
+    stack_org[--offset] = byte2;
+    
+    // loop w/ counter, read words, store backwards
+    while(counter--) {
+        u16 w = read16();
+        offset -= 2;
+        stack_org[offset] = (w >> 8) & 0xff;
+        stack_org[offset + 1] = w & 0xff;
     }
 }
 
@@ -206,11 +206,23 @@ static void cexit() {
 }
 
 static void cload() {
-    // log_debug("STUBBED");
+    // get script ID
+    u16 id = read16();
+    
+    // get file name
+    char * name = (char *)alis.pc;
+    size_t len = strlen(name);
+    
+    // load script into vm
+    sAlisScript * script = script_load(name);
+    alis.scripts[id] = script;
+    alis.pc += len;
 }
 
+// ???
+// reads 35 bytes
 static void cdefsc() {
-    // reads 35 bytes
+    
     // debug
     for (int i=0; i <35;i++) {
         alis.pc++;
@@ -1210,12 +1222,12 @@ sAlisOpcode opcodes[] = {
     DECL_OPCODE(0x15, cbnz8,        "branch if non-zero with 8-bit offset"),
     DECL_OPCODE(0x16, cbnz16,       "branch if non-zero with 16-bit offset"),
     DECL_OPCODE(0x17, cbnz24,       "branch if non-zero with 24-bit offset"),
-    DECL_OPCODE(0x18, cbeq8, "branch if equal with 8-bit offset"),
-    DECL_OPCODE(0x19, cbeq16, "branch if equal with 16-bit offset"),
-    DECL_OPCODE(0x1a, cbeq24, "branch if equal with 24-bit offset"),
-    DECL_OPCODE(0x1b, cbne8, "branch if non-equal with 8-bit offset"),
-    DECL_OPCODE(0x1c, cbne16, "branch if non-equal with 16-bit offset"),
-    DECL_OPCODE(0x1d, cbne24, "branch if non-equal with 24-bit offset"),
+    DECL_OPCODE(0x18, cbeq8,        "branch if equal with 8-bit offset"),
+    DECL_OPCODE(0x19, cbeq16,       "branch if equal with 16-bit offset"),
+    DECL_OPCODE(0x1a, cbeq24,       "branch if equal with 24-bit offset"),
+    DECL_OPCODE(0x1b, cbne8,        "branch if non-equal with 8-bit offset"),
+    DECL_OPCODE(0x1c, cbne16,       "branch if non-equal with 16-bit offset"),
+    DECL_OPCODE(0x1d, cbne24,       "branch if non-equal with 24-bit offset"),
     DECL_OPCODE(0x1e, cstore, "TODO: add desc"),
     DECL_OPCODE(0x1f, ceval, "TODO: add desc"),
     DECL_OPCODE(0x20, cadd, "TODO: add desc"),
@@ -1255,7 +1267,7 @@ sAlisOpcode opcodes[] = {
     DECL_OPCODE(0x42, cstop, "TODO: add desc"),
     DECL_OPCODE(0x43, cstopret, "TODO: add desc"),
     DECL_OPCODE(0x44, cexit, "TODO: add desc"),
-    DECL_OPCODE(0x45, cload, "TODO: add desc"),
+    DECL_OPCODE(0x45, cload,        "Load and depack a script, set into vm"),
     DECL_OPCODE(0x46, cdefsc, "Define Scene ??"),
     DECL_OPCODE(0x47, cscreen, "TODO: add desc"),
     DECL_OPCODE(0x48, cput, "TODO: add desc"),

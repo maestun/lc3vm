@@ -11,6 +11,7 @@
 #define kMainScriptID           (0)
 #define kMainScriptHeaderLen    (24 * sizeof(u8))
 #define kScriptHeaderLen        (8 * sizeof(u8))
+#define kScriptStackSize        (1024 * sizeof(u32)) // TODO: arbitrary
 
 #define kDepackFolder           "depack"
 #define kDepackExtension        "bin"
@@ -24,7 +25,7 @@ typedef struct {
     u8 *    header;
 
     // offset to script origin in virtual ram
-    u32     org;
+//    u32     org;
 
     // script data
     u8 *    data;
@@ -33,6 +34,12 @@ typedef struct {
     // script code
     u8 *    code;
     u32     codelen;
+    
+    // each script has its own stack ?
+    u32     stack[kScriptStackSize];
+    u32 *   sp;
+    //u32     sp_org;
+    
 } sAlisScript;
 
 sAlisScript *   script_load(const char * script_path);
