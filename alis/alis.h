@@ -30,8 +30,6 @@ typedef struct {
     char        name[kNameMaxLen];
     char        desc[kDescMaxLen];
 } sAlisOpcode;
-extern sAlisOpcode opcodes[];
-
 
 // =============================================================================
 // MARK: - VM
@@ -90,5 +88,6 @@ void            alis_init(sPlatform platform);
 u8              alis_main(void);
 void            alis_deinit(void);
 void            alis_start_script(sAlisScript * script);
+
 
 #endif /* alis_vm_h */

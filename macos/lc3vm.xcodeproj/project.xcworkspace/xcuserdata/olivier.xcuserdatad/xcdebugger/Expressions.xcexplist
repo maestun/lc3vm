@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "readexec:alis.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "addnames">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "cdim:opcodes.c">
          <PersistentStrings>
             <PersistentString

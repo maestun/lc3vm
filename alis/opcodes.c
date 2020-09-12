@@ -5,6 +5,7 @@
 //
 
 #include "alis.h"
+#include "alis_private.h"
 
 // =============================================================================
 #pragma mark - Helpers
@@ -13,43 +14,14 @@ static void cstart(u32 offset) {
     // TODO: check OP_CSTART in asm source
 }
 
-static void save_D7_then_exec_opname() {
-    // save d7.w into d6.w
-//    MOVE_W(vm->d7, vm->d6);
-//
-//    u8 code = vm_read_8();
-//    vm_execute_instruction(code, EOpcodeKindOpname);
-}
-
-u8 read8(void) {
-    return *alis.pc++;
-}
-u16 read16(void) {
-    return (*alis.pc++ << 8) + *alis.pc++;
-}
-u32 read24(void) {
-    return (*alis.pc++ << 16) + (*alis.pc++ << 8) + *alis.pc++;
-}
-void readBytes(u32 len, u8 * dest) {
-    while(len--) {
-        *dest++ = *alis.pc++;
-    }
-}
-uint16_t sign_extend(uint16_t x, int bit_count) {
-    if ((x >> (bit_count - 1)) & 1) {
-        x |= (0xFFFF << bit_count);
-    }
-    return x;
-}
-
-
 
 // ============================================================================
 #pragma mark - TODO: opcodes
 // ============================================================================
 static void cstore() {
-    save_D7_then_exec_opname();
-    
+    alis.varD6 = alis.varD7;
+    readexec_opname();
+
 //    0001144a 20 79 00        movea.l    (DAT_00017146).l,A0
 //             01 71 46
 //    00011450 23 f9 00        move.l     (DAT_0001714e).l,(DAT_00017146).l
@@ -60,6 +32,7 @@ static void cstore() {
 //    vm->d0 = 0;
 //    u8 b = vm_read_8();
 //    vm_execute_instruction(b, EOpcodeKindStorename);
+    readexec_addname();
 }
 
 static void ceval() {
@@ -1074,7 +1047,7 @@ static void cjsr24() {
 }
 
 static void cjmp8() {
-    u16 offset = sign_extend(read8(), 8);
+    u16 offset = extend_w(read8());
     alis.pc += offset;
 }
 
@@ -1093,7 +1066,7 @@ static void cret() {}
 static void cbz8() {
     u16 offset = read8();
     if(alis.varD7 == 0) {
-        offset = sign_extend(read8(), 8);
+        offset = extend_w(read8());
         alis.pc += offset;
     }
 }
@@ -1114,7 +1087,7 @@ static void cbz24() {
 static void cbnz8() {
     u16 offset = read8();
     if(alis.varD7) {
-        offset = sign_extend(read8(), 8);
+        offset = extend_w(read8());
         alis.pc += offset;
     }
 }
@@ -1135,7 +1108,7 @@ static void cbnz24() {
 static void cbeq8() {
     u16 offset = read8();
     if(alis.varD7 == alis.varD6) {
-        offset = sign_extend(read8(), 8);
+        offset = extend_w(read8());
         alis.pc += offset;
     }
 }
@@ -1154,7 +1127,7 @@ static void cbeq24() {
 static void cbne8() {
     u16 offset = read8();
     if(alis.varD7 != alis.varD6) {
-        offset = sign_extend(read8(), 8);
+        offset = extend_w(read8());
         alis.pc += offset;
     }
 }
@@ -1195,7 +1168,7 @@ static void cstart24() {
 
 
 // ============================================================================
-#pragma mark - Opcode pointer table
+#pragma mark - Opcode pointer table (256 values)
 // ============================================================================
 sAlisOpcode opcodes[] = {
     DECL_OPCODE(0x00, cnul,         "TODO: add desc"),

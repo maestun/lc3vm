@@ -7,6 +7,7 @@
 //
 
 #include "alis.h"
+#include "alis_private.h"
 #include "sys.h"
 
 sAlisVM alis;
@@ -14,19 +15,64 @@ sAlisVM alis;
 // =============================================================================
 // MARK: - Private
 // =============================================================================
-static alisRet readexec_opcode() {
+alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
     if(alis.pc - alis.pc_org == kMaxVirtualRAMSize) {
         // pc overflow !
         debug(EDebugFatal, "PC OVERFLOW !");
     }
     else {
-        // fetch opcode
-        debug(EDebugVerbose, "0x%06x: ", alis.pc);
+        for(int i = 0; i < identation; i++) {
+            debug(EDebugVerbose, "\t");
+        }
+        // fetch code
+        debug(EDebugVerbose, "0x%06x: %s ", alis.pc, name);
         u8 code = *(alis.pc++);
-        sAlisOpcode opcode = opcodes[code];
-        debug(EDebugVerbose, "0x%02x\t%s\n", code, opcode.name);
-        opcode.fptr();
+        sAlisOpcode opcode = table[code];
+        debug(EDebugVerbose, "%s (0x%02x)\n", opcode.name, code);
+        return opcode.fptr();
     }
+}
+
+alisRet readexec_opcode() {
+    readexec(opcodes, "opcode", 0);
+}
+alisRet readexec_opname() {
+    readexec(opernames, "opername", 1);
+}
+alisRet readexec_storename() {
+    readexec(storenames, "stname", 2);
+}
+alisRet readexec_addname() {
+    readexec(addnames, "addname", 2);
+}
+
+u8 read8(void) {
+    return *alis.pc++;
+}
+u16 read16(void) {
+    return (*alis.pc++ << 8) + *alis.pc++;
+}
+u32 read24(void) {
+    return (*alis.pc++ << 16) + (*alis.pc++ << 8) + *alis.pc++;
+}
+void readBytes(u32 len, u8 * dest) {
+    while(len--) {
+        *dest++ = *alis.pc++;
+    }
+}
+void readToZero(u8 * dest) {
+    while(*alis.pc++) {
+        *dest++ = *alis.pc;
+    }
+}
+uint16_t sign_extend(uint16_t x, int bit_count) {
+    if ((x >> (bit_count - 1)) & 1) {
+        x |= (0xFFFF << bit_count);
+    }
+    return x;
+}
+uint16_t extend_w(uint8_t x) {
+    return sign_extend(x, 8);
 }
 
 
