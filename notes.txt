@@ -5,7 +5,7 @@ CSTORE
 $11446: 
 cstore -> 
     d6 <- d7
-    readexec_opname
+    readexec_opername
     $15116:
     opname oimmb 0x00 ->
         d7 <- extend(pc++)
@@ -14,10 +14,10 @@ cstore ->
     $15d2c:
     ??? ??oprnd??? 0x38 ->
         move.w     D7w,-(A4)    ; empile d7 ??
-        readexec_opname
+        readexec_opername
         $15ab6:
         opname oprnd 0x38 ->
-            readexec_opname
+            readexec_opername
             $15116:
             opname oimmb 0x00 ->
                 d7 <- extend(pc++)
