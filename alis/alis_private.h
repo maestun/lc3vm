@@ -7,6 +7,7 @@
 #define alis_private_h
 
 #include "alis.h"
+#include "sys.h"
 
 u8 read8(void) ;
 u16 read16(void);
@@ -17,7 +18,7 @@ uint16_t sign_extend(uint16_t x, int bit_count);
 uint16_t extend_w(uint8_t x);
 
 alisRet readexec_opcode(void);
-alisRet readexec_opname(void);
+alisRet readexec_opername(void);
 alisRet readexec_storename(void);
 alisRet readexec_addname(void);
 

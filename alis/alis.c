@@ -36,11 +36,11 @@ alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
 alisRet readexec_opcode() {
     readexec(opcodes, "opcode", 0);
 }
-alisRet readexec_opname() {
+alisRet readexec_opername() {
     readexec(opernames, "opername", 1);
 }
 alisRet readexec_storename() {
-    readexec(storenames, "stname", 2);
+    readexec(storenames, "storename", 2);
 }
 alisRet readexec_addname() {
     readexec(addnames, "addname", 2);

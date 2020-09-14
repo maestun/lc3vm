@@ -9,9 +9,9 @@
 #include "alis.h"
 #include "alis_private.h"
 
-// ============================================================================
+// =============================================================================
 #pragma mark - TODO: opernames
-// ============================================================================
+// =============================================================================
 void oimmb() {
     // reads a byte, extends into D7
     u8 b = read8();
@@ -103,6 +103,7 @@ void opile() {
 }
 void oeval() {
     // log_debug("STUBBED");
+    
 }
 void ofin() {
     // log_debug("STUBBED");
@@ -123,22 +124,22 @@ void oeqv() {
     // log_debug("STUBBED");
 }
 void oegal() {
-    // log_debug("STUBBED");
+    alis.varD7 = (alis.varD6 == alis.varD7) ? 0xff : 0x0;
 }
 void odiff() {
-    // log_debug("STUBBED");
+    alis.varD7 = (alis.varD6 != alis.varD7) ? 0xff : 0x0;
 }
 void oinfeg() {
-    // log_debug("STUBBED");
+    alis.varD7 = (alis.varD6 <= alis.varD7) ? 0xff : 0x0;
 }
 void osupeg() {
-    // log_debug("STUBBED");
+    alis.varD7 = (alis.varD6 >= alis.varD7) ? 0xff : 0x0;
 }
 void oinf() {
-    // log_debug("STUBBED");
+    alis.varD7 = (alis.varD6 < alis.varD7) ? 0xff : 0x0;
 }
 void osup() {
-    // log_debug("STUBBED");
+    alis.varD7 = (alis.varD6 > alis.varD7) ? 0xff : 0x0;
 }
 void oadd() {
     // log_debug("STUBBED");
@@ -156,10 +157,10 @@ void omul() {
     // log_debug("STUBBED");
 }
 void oneg() {
-    // log_debug("STUBBED");
+    alis.varD7 = -alis.varD7;
 }
 void oabs() {
-    // log_debug("STUBBED");
+    alis.varD7 = (alis.varD7 < 0) ? -alis.varD7 : alis.varD7;
 }
 void ornd() {
     // log_debug("STUBBED");
@@ -168,13 +169,12 @@ void osgn() {
     // log_debug("STUBBED");
 }
 void onot() {
-    // log_debug("STUBBED");
+    alis.varD7 = ~alis.varD7;
 }
 void oinkey() {
     // log_debug("STUBBED");
 }
 void okeyon() {
-    // log_debug("STUBBED");
 }
 void ojoy() {
     // log_debug("STUBBED");
@@ -267,12 +267,16 @@ void oconfig() {
     // log_debug("STUBBED");
 }
 static void cnul() {
-    // log_debug("STUBBED");
 }
 
-// ============================================================================
+// =============================================================================
 #pragma mark - Opername Pointer table (85 values)
-// ============================================================================
+// In the disasm, the table JTAB_OPERNAMES is at address $10ee8 -> $10f92.
+// So it contains 0xaa / 170 bytes, or 85 words, it matches the opernames count.
+// So the routine FUN_READEXEC_OPERNAME() gets a BYTE code from script pc,
+//  then retrieves a WORD offset at (JTAB_OPERNAMES[code]), then
+//  jumps at the address (JTAB_OPERAMES + offset).
+// =============================================================================
 sAlisOpcode opernames[] = {
     DECL_OPCODE(0x00, oimmb, "TODO add desc"),
     DECL_OPCODE(0x01, oimmw, "TODO add desc"),

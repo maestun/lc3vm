@@ -98,7 +98,11 @@ static void seval() {
 //    00015d3c 30 30 00 00     move.w     (0x0,A0,D0w*offset JTAB_STORENAME),D0w
 //    00015d40 4e f0 00 00     jmp        (0x0,A0,D0w*0x1)
 
+    // TODO: push D7 into virtual stack
+    alis.scripts[alis.scriptID]->stack;
     
+    // opername_oeval_0x1c
+    oeval();
     
 }
 static void ofin() {
@@ -107,6 +111,11 @@ static void ofin() {
 
 // ============================================================================
 #pragma mark - Storenames pointer table
+// In the disasm, the table JTAB_STOREADD_NAMES is at address $10f92 -> $10fce.
+// So it contains 0x3c / 60 bytes, or 30 words, it matches the storeadd count.
+// So the routine FUN_READEXEC_OPERNAME() gets a BYTE code from script pc,
+//  then retrieves a WORD offset at (JTAB_OPERNAMES[code]), then
+//  jumps at the address (JTAB_OPERAMES + offset).
 // ============================================================================
 sAlisOpcode storenames[] = {
     DECL_OPCODE(0x00, cnul, "TODO add desc"),

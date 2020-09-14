@@ -20,23 +20,13 @@ static void cstart(u32 offset) {
 // ============================================================================
 static void cstore() {
     alis.varD6 = alis.varD7;
-    readexec_opname();
-
-//    0001144a 20 79 00        movea.l    (DAT_00017146).l,A0
-//             01 71 46
-//    00011450 23 f9 00        move.l     (DAT_0001714e).l,(DAT_00017146).l
-//             01 71 4e
-//             00 01 71 46
-//    0001145a 23 c8 00        move.l     A0,(DAT_0001714e).l
-//             01 71 4e
-//    vm->d0 = 0;
-//    u8 b = vm_read_8();
-//    vm_execute_instruction(b, EOpcodeKindStorename);
-    readexec_addname();
+    readexec_opername();
+    readexec_storename();
 }
 
 static void ceval() {
-    // log_debug("STUBBED");
+    alis.varD6 = alis.varD7;
+    readexec_opername();
 }
 
 static void cadd() {
@@ -438,10 +428,17 @@ static void cinitab() {
 
 static void cfopen() {
     // log_debug("STUBBED");
+    if(*alis.pc == 0xff) {
+        
+    }
+    else {
+        u8 * name = alis.pc;
+        sys_fopen((char *)name);
+    }
 }
 
 static void cfclose() {
-    // log_debug("STUBBED");
+    sys_fclose(alis.fp);
 }
 
 static void cfcreat() {
