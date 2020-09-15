@@ -1,5 +1,5 @@
-# This script imports an Atari TOS program into Ghidra creating TEXT, DATA, BSS sections
-#@author Christian Zietz
+# This script imports an ALIS Atari TOS program into Ghidra
+#@author Christian Zietz / maestun
 #@category Import
 #@keybinding 
 #@menupath 
@@ -28,17 +28,37 @@
 import struct
 import jarray
 
-# Arbitrary address to relocate program to
+#############################################
+# CHANGE DATA HERE DEPENDING ON VM EXECUTABLE
 reloc_addr = 0xaa9a
 
-alis_jtab_opcodes = 0x10d22
-alis_jtab_opcodes_len = 454
-alis_jtab_opcodes_names = ["cnul", "cesc1", "cesc2", "cesc3", "cbreakpt", "cjsr8", "cjsr16", "cjsr24", "cjmp8", "cjmp16", "cjmp24", "cjsrabs", "cjmpabs", "cjsrind16", "cjsrind24", "cjmpind16", "cjmpind24", "cret", "cbz8", "cbz16", "cbz24", "cbnz8", "cbnz16", "cbnz24", "cbeq8", "cbeq16", "cbeq24", "cbne8", "cbne16", "cbne24", "cstore", "ceval", "cadd", "csub", "cmul", "cdiv", "cvprint", "csprinti", "csprinta", "clocate", "ctab", "cdim", "crandom", "cloop8", "cloop16", "cloop24", "cswitch1", "cswitch2", "cstart8", "cstart16", "cstart24", "cleave", "cprotect", "casleep", "cclock", "cnul", "cscmov", "cscset", "cclipping", "cswitching", "cwlive", "cunload", "cwakeup", "csleep", "clive", "ckill", "cstop", "cstopret", "cexit", "cload", "cdefsc", "cscreen", "cput", "cputnat", "cerase", "cerasen", "cset", "cmov", "copensc", "cclosesc", "cerasall", "cforme", "cdelforme", "ctstmov", "ctstset", "cftstmov", "cftstset", "csuccent", "cpredent", "cnearent", "cneartyp", "cnearmat", "cviewent", "cviewtyp", "cviewmat", "corient", "crstent", "csend", "cscanon", "cscanoff", "cinteron", "cinteroff", "cscanclr", "callentity", "cpalette", "cdefcolor", "ctiming", "czap", "cexplode", "cding", "cnoise", "cinitab", "cfopen", "cfclose", "cfcreat", "cfdel", "cfreadv", "cfwritev", "cfwritei", "cfreadb", "cfwriteb", "cplot", "cdraw", "cbox", "cboxf", "cink", "cpset", "cpmove", "cpmode", "cpicture", "cxyscroll", "clinking", "cmouson", "cmousoff", "cmouse", "cdefmouse", "csetmouse", "cdefvect", "csetvect", "cnul", "capproach", "cescape", "cvtstmov", "cvftstmov", "cvmov", "cdefworld", "cworld", "cfindmat", "cfindtyp", "cmusic", "cdelmusic", "ccadence", "csetvolum", "cxinv", "cxinvon", "cxinvoff", "clistent", "csound", "cmsound", "credon", "credoff", "cdelsound", "cwmov", "cwtstmov", "cwftstmov", "ctstform", "cxput", "cxputat", "cmput", "cmputat", "cmxput", "cmxputat", "cmmusic", "cmforme", "csettime", "cgettime", "cvinput", "csinput", "cnul", "cnul", "cnul", "crunfilm", "cvpicprint", "cspicprint", "cvputprint", "csputprint", "cfont", "cpaper", "ctoblack", "cmovcolor", "ctopalet", "cnumput", "cscheart", "cscpos", "cscsize", "cschoriz", "cscvertic", "cscreduce", "cscscale", "creducing", "cscmap", "cscdump", "cfindcla", "cnearcla", "cviewcla", "cinstru", "cminstru", "cordspr", "calign", "cbackstar", "cstarring", "cengine", "cautobase", "cquality", "chsprite", "cselpalet", "clinepalet", "cautomode", "cautofile", "ccancel", "ccancall", "ccancen", "cblast", "cscback", "cscrolpage", "cmatent", "cshrink", "cdefmap", "csetmap", "cputmap", "csavepal", "csczoom", "ctexmap", "calloctab", "cfreetab", "cscantab", "cneartab", "cscsun", "cdarkpal", "cscdark", "caset", "camov", "cscaset", "cscamov", "cscfollow", "cscview", "cfilm", "cwalkmap", "catstmap", "cavtstmov", "cavmov", "caim", "cpointpix", "cchartmap", "cscsky", "czoom"]
-alis_jtab_opernames = 0x10ee8
-alis_jtab_opernames_len = 170
-alis_jtab_storeadd = 0x10f92
-alis_jtab_storeadd_len = 60
+# ISHAR 1 / CR ELITE
+# alis_jtab_opcodes = 0x10d22
+# alis_jtab_opcodes_len = 454
+# alis_jtab_opernames = 0x10ee8
+# alis_jtab_opernames_len = 
+# alis_jtab_storenames = 0x
+# alis_jtab_storenames_len = 
+# alis_jtab_addnames = 0x
+# alis_jtab_addnames_len = 
 
+
+# ISHAR 2 / CR ELITE
+alis_jtab_opcodes = 0x12cb6
+alis_jtab_opcodes_len = 462
+alis_jtab_opernames = 0x12e84
+alis_jtab_opernames_len = 170
+alis_jtab_storenames = 0x12f2e
+alis_jtab_storenames_len = 30
+alis_jtab_addnames = 0x12f6a
+alis_jtab_addnames_len = 30
+
+# COMMON
+alis_jtab_opcodes_names = ["cnul", "cesc1", "cesc2", "cesc3", "cbreakpt", "cjsr8", "cjsr16", "cjsr24", "cjmp8", "cjmp16", "cjmp24", "cjsrabs", "cjmpabs", "cjsrind16", "cjsrind24", "cjmpind16", "cjmpind24", "cret", "cbz8", "cbz16", "cbz24", "cbnz8", "cbnz16", "cbnz24", "cbeq8", "cbeq16", "cbeq24", "cbne8", "cbne16", "cbne24", "cstore", "ceval", "cadd", "csub", "cmul", "cdiv", "cvprint", "csprinti", "csprinta", "clocate", "ctab", "cdim", "crandom", "cloop8", "cloop16", "cloop24", "cswitch1", "cswitch2", "cstart8", "cstart16", "cstart24", "cleave", "cprotect", "casleep", "cclock", "cnul", "cscmov", "cscset", "cclipping", "cswitching", "cwlive", "cunload", "cwakeup", "csleep", "clive", "ckill", "cstop", "cstopret", "cexit", "cload", "cdefsc", "cscreen", "cput", "cputnat", "cerase", "cerasen", "cset", "cmov", "copensc", "cclosesc", "cerasall", "cforme", "cdelforme", "ctstmov", "ctstset", "cftstmov", "cftstset", "csuccent", "cpredent", "cnearent", "cneartyp", "cnearmat", "cviewent", "cviewtyp", "cviewmat", "corient", "crstent", "csend", "cscanon", "cscanoff", "cinteron", "cinteroff", "cscanclr", "callentity", "cpalette", "cdefcolor", "ctiming", "czap", "cexplode", "cding", "cnoise", "cinitab", "cfopen", "cfclose", "cfcreat", "cfdel", "cfreadv", "cfwritev", "cfwritei", "cfreadb", "cfwriteb", "cplot", "cdraw", "cbox", "cboxf", "cink", "cpset", "cpmove", "cpmode", "cpicture", "cxyscroll", "clinking", "cmouson", "cmousoff", "cmouse", "cdefmouse", "csetmouse", "cdefvect", "csetvect", "cnul", "capproach", "cescape", "cvtstmov", "cvftstmov", "cvmov", "cdefworld", "cworld", "cfindmat", "cfindtyp", "cmusic", "cdelmusic", "ccadence", "csetvolum", "cxinv", "cxinvon", "cxinvoff", "clistent", "csound", "cmsound", "credon", "credoff", "cdelsound", "cwmov", "cwtstmov", "cwftstmov", "ctstform", "cxput", "cxputat", "cmput", "cmputat", "cmxput", "cmxputat", "cmmusic", "cmforme", "csettime", "cgettime", "cvinput", "csinput", "cnul", "cnul", "cnul", "crunfilm", "cvpicprint", "cspicprint", "cvputprint", "csputprint", "cfont", "cpaper", "ctoblack", "cmovcolor", "ctopalet", "cnumput", "cscheart", "cscpos", "cscsize", "cschoriz", "cscvertic", "cscreduce", "cscscale", "creducing", "cscmap", "cscdump", "cfindcla", "cnearcla", "cviewcla", "cinstru", "cminstru", "cordspr", "calign", "cbackstar", "cstarring", "cengine", "cautobase", "cquality", "chsprite", "cselpalet", "clinepalet", "cautomode", "cautofile", "ccancel", "ccancall", "ccancen", "cblast", "cscback", "cscrolpage", "cmatent", "cshrink", "cdefmap", "csetmap", "cputmap", "csavepal", "csczoom", "ctexmap", "calloctab", "cfreetab", "cscantab", "cneartab", "cscsun", "cdarkpal", "cscdark", "caset", "camov", "cscaset", "cscamov", "cscfollow", "cscview", "cfilm", "cwalkmap", "catstmap", "cavtstmov", "cavmov", "caim", "cpointpix", "cchartmap", "cscsky", "czoom"]
+alis_jtab_opernames_names = ["oimmb", "oimmw", "oimmp", "olocb", "olocw", "olocp", "oloctp", "oloctc", "olocti", "odirb", "odirw", "odirp", "odirtp", "odirtc", "odirti", "omainb", "omainw", "omainp", "omaintp", "omaintc", "omainti", "ohimb", "ohimw", "ohimp", "ohimtp", "ohimtc", "ohimti", "opile", "oeval", "ofin", "cnul", "cnul", "opushacc", "oand", "oor", "oxor", "oeqv", "oegal", "odiff", "oinfeg", "osupeg", "oinf", "osup", "oadd", "osub", "omod", "odiv", "omul", "oneg", "oabs", "ornd", "osgn", "onot", "oinkey", "okeyon", "ojoy", "oprnd", "oscan", "oshiftkey", "ofree", "omodel", "ogetkey", "oleft", "oright", "omid", "olen", "oasc", "ostr", "osadd", "osegal", "osdiff", "osinfeg", "ossupeg", "osinf", "ossup", "ospushacc", "ospile", "oval", "oexistf", "ochr", "ochange", "ocountry", "omip", "ojoykey", "oconfig"]
+alis_jtab_storenames_names = ["cnul", "cnul", "cnul", "slocb", "slocw", "slocp", "sloctp", "sloctc", "slocti", "sdirb", "sdirw", "sdirp", "sdirtp", "sdirtc", "sdirti", "smainb", "smainw", "smainp", "smaintp", "smaintc", "smainti", "shimb", "shimw", "shimp", "shimtp", "shimtc", "shimti", "spile", "seval", "ofin"]
+alis_jtab_addnames_names = ["cnul", "cnul", "cnul", "alocb", "alocw", "alocp", "aloctp", "aloctc", "alocti", "adirb", "adirw", "adirp", "adirtp", "adirtc", "adirti", "amainb", "amainw", "amainp", "amaintp", "amaintc", "amainti", "ahimb", "ahimw", "ahimp", "ahimtp", "ahimtc", "ahimti", "spile", "aeval", "ofin"]
+#############################################
 
 # Ask user for the file to import
 file = askFile("Please specify a file to import", "Import")
@@ -180,9 +200,12 @@ flat.createLabel(text_start, "ENTRY_POINT", True)
 # Run disassembler on entry point
 flat.disassemble(text_start)
 
+# Open for user to see and to start analyzing
+program.endTransaction(txn, True)
+openProgram(program)
+
 # ALIS / OPCODES
 alis_jtab_opcodes_addr = start.getNewAddress(alis_jtab_opcodes)
-# print("Opcode table addr: " + alis_jtab_opcodes_addr.toString())
 for opcode in range(0, alis_jtab_opcodes_len / 2):
     # read big endian word at address (alis_jtab_opcodes + code)
     print("Opcode: " + hex(opcode))
@@ -197,8 +220,50 @@ for opcode in range(0, alis_jtab_opcodes_len / 2):
     print("----------------------------------")
     createFunction(opcode_addr, function_name)
 
+# ALIS / OPERNAMES
+alis_jtab_opernames_addr = start.getNewAddress(alis_jtab_opernames)
+for opername in range(0, alis_jtab_opernames_len / 2):
+    # read big endian word at address
+    print("Opername: " + hex(opername))
+    offset_addr = start.getNewAddress(alis_jtab_opernames + (opername * 2))
+    print("Offset addr: " + offset_addr.toString())
+    offset = mem.getShort(offset_addr, True)
+    print("Offset value: " + hex(offset))
+    opername_addr = start.getNewAddress(alis_jtab_opernames + offset)
+    print("Opername addr: " + opername_addr.toString())
+    function_name = "OPERNAME_" + alis_jtab_opernames_names[opername].upper() + "_" + hex(opername)
+    print("Creating function: " + function_name + " at addr $" + opername_addr.toString())
+    print("----------------------------------")
+    createFunction(opername_addr, function_name)
 
-# Open for user to see and to start analyzing
-program.endTransaction(txn, True)
-openProgram(program)
+# ALIS / STORENAMES
+alis_jtab_storenames_addr = start.getNewAddress(alis_jtab_storenames)
+for storename in range(0, alis_jtab_storenames_len / 2):
+    # read big endian word at address
+    print("Storename: " + hex(storename))
+    offset_addr = start.getNewAddress(alis_jtab_storenames + (storename * 2))
+    print("Offset addr: " + offset_addr.toString())
+    offset = mem.getShort(offset_addr, True)
+    print("Offset value: " + hex(offset))
+    storename_addr = start.getNewAddress(alis_jtab_storenames + offset)
+    print("Storename addr: " + storename_addr.toString())
+    function_name = "STORENAME_" + alis_jtab_storename_names[storename].upper() + "_" + hex(storename)
+    print("Creating function: " + function_name + " at addr $" + storename_addr.toString())
+    print("----------------------------------")
+    createFunction(storename_addr, function_name)
 
+# ALIS / addnameS
+alis_jtab_addnames_addr = start.getNewAddress(alis_jtab_addnames)
+for addname in range(0, alis_jtab_addnames_len / 2):
+    # read big endian word at address
+    print("Addname: " + hex(addname))
+    offset_addr = start.getNewAddress(alis_jtab_addnames + (addname * 2))
+    print("Offset addr: " + offset_addr.toString())
+    offset = mem.getShort(offset_addr, True)
+    print("Offset value: " + hex(offset))
+    addname_addr = start.getNewAddress(alis_jtab_addnames + offset)
+    print("Addname addr: " + addname_addr.toString())
+    function_name = "ADDNAME_" + alis_jtab_addnames_names[addname].upper() + "_" + hex(addname)
+    print("Creating function: " + function_name + " at addr $" + addname_addr.toString())
+    print("----------------------------------")
+    createFunction(addname_addr, function_name)
