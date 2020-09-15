@@ -45,6 +45,7 @@ typedef struct {
     uint16_t *  data;
 } sScript;
 
+#define OP_LEN
 #define RAM_MAX UINT16_MAX
 
 typedef struct {

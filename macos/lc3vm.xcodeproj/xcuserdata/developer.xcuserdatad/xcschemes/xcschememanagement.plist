@@ -4,10 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>lc3vm-imgui.xcscheme_^#shared#^_</key>
+		<key>alis.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
+		</dict>
+		<key>lc3vm-imgui.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 		<key>lc3vm.xcscheme_^#shared#^_</key>
 		<dict>
@@ -28,6 +33,11 @@
 			<true/>
 		</dict>
 		<key>8B9C3F402508F37500C947F9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8B9C4019250A2A5B00C947F9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
