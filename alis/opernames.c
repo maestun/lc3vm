@@ -112,16 +112,25 @@ void opushacc() {
     // log_debug("STUBBED");
 }
 void oand() {
-    // log_debug("STUBBED");
+    alis.varD6 = alis.varD7;
+    readexec_opername();
+    alis.varD7 &= alis.varD6;
 }
 void oor() {
-    // log_debug("STUBBED");
+    alis.varD6 = alis.varD7;
+    readexec_opername();
+    alis.varD7 |= alis.varD6;
 }
 void oxor() {
-    // log_debug("STUBBED");
+    alis.varD6 = alis.varD7;
+    readexec_opername();
+    alis.varD7 ^= alis.varD6;
 }
 void oeqv() {
-    // log_debug("STUBBED");
+    alis.varD6 = alis.varD7;
+    readexec_opername();
+    alis.varD7 ^= alis.varD6;
+    alis.varD7 = ~alis.varD7;
 }
 void oegal() {
     alis.varD7 = (alis.varD6 == alis.varD7) ? 0xff : 0x0;
@@ -142,19 +151,50 @@ void osup() {
     alis.varD7 = (alis.varD6 > alis.varD7) ? 0xff : 0x0;
 }
 void oadd() {
-    // log_debug("STUBBED");
+//00017932 61 00 fc 38     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
+//00017936 de 46           add.w      D6w,D7w
+//00017938 4e 75           rts
+    alis.varD6 = alis.varD7;
+    readexec_opername();
+    alis.varD7 += alis.varD6;
 }
 void osub() {
-    // log_debug("STUBBED");
+//0001793a 61 00 fc 30     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
+//0001793e 9c 47           sub.w      D7w,D6w
+//00017940 3e 06           move.w     D6w,D7w
+//00017942 4e 75           rts
+    alis.varD6 = alis.varD7;
+    readexec_opername();
+    alis.varD6 -= alis.varD7;
+    alis.varD7 = alis.varD6;
 }
 void omod() {
-    // log_debug("STUBBED");
+//00017944 61 00 fc 26     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
+//00017948 48 c6           ext.l      D6
+//0001794a 8d c7           divs.w     D7w,D6
+//0001794c 2e 06           move.l     D6,D7
+//0001794e 48 47           swap       D7
+//00017950 4e 75           rts
+    debug(EDebugWarning, "%s: TODO", __FUNCTION__);
 }
 void odiv() {
-    // log_debug("STUBBED");
+//00017952 61 00 fc 18     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
+//00017956 48 c6           ext.l      D6
+//00017958 8d c7           divs.w     D7w,D6
+//0001795a 3e 06           move.w     D6w,D7w
+//0001795c 4e 75           rts
+    alis.varD6 = alis.varD7;
+    readexec_opername();
+    alis.varD6 /= alis.varD7;
+    alis.varD7 = alis.varD6;
 }
 void omul() {
-    // log_debug("STUBBED");
+//0001795e 61 00 fc 0c     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
+//00017962 cf c6           muls.w     D6w,D7
+//00017964 4e 75           rts
+    alis.varD6 = alis.varD7;
+    readexec_opername();
+    alis.varD7 *= alis.varD6;
 }
 void oneg() {
     alis.varD7 = -alis.varD7;
@@ -175,6 +215,7 @@ void oinkey() {
     // log_debug("STUBBED");
 }
 void okeyon() {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
 }
 void ojoy() {
     // log_debug("STUBBED");

@@ -36,8 +36,8 @@ typedef struct {
     u32     codelen;
     
     // each script has its own stack ?
-    u32     stack[kScriptStackSize];
-    u32 *   sp;
+    u8     stack[kScriptStackSize]; // A6 register
+    u8 *   sp;
     //u32     sp_org;
     
 } sAlisScript;

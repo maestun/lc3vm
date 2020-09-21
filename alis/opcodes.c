@@ -523,6 +523,7 @@ static void cmousoff() {
 
 static void cmouse() {
     alis.mouse = sys_get_mouse();
+    readexec_storename();
 }
 
 static void cdefmouse() {
@@ -818,7 +819,7 @@ static void cengine() {
 }
 
 static void cautobase() {
-    // log_debug("STUBBED");
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
 }
 
 static void cquality() {
@@ -997,20 +998,48 @@ static void czoom() {
 // ============================================================================
 #pragma mark - Empty opcodes
 // ============================================================================
-static void cnul()      {  }
-static void cesc1()     {  }
-static void cesc2()     {  }
-static void cesc3()     {  }
-static void cclock()    {  }
-static void cbreakpt()  {  }
-static void cmul()      {  }
-static void cdiv()      {  }
-static void cjsrabs()   {  }
-static void cjmpabs()   {  }
-static void cjsrind16() {  }
-static void cjsrind24() {  }
-static void cjmpind16() {  }
-static void cjmpind24() {  }
+static void cnul()      {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cesc1()     {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cesc2()     {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cesc3()     {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cclock()    {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cbreakpt()  {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cmul()      {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cdiv()      {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cjsrabs()   {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cjmpabs()   {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cjsrind16() {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cjsrind24() {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cjmpind16() {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
+static void cjmpind24() {
+    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+}
 
 
 // ============================================================================

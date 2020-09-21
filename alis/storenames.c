@@ -31,10 +31,34 @@ static void slocti() {
     // log_debug("STUBBED");
 }
 static void sdirb() {
-    // log_debug("STUBBED");
+//    **************************************************************
+//    * - Reads a byte offset from script                          *
+//    * - Stores D7.b at (A6 + offset)                             *
+//    **************************************************************
+//    undefined STORENAME_SDIRB_0x9()
+//undefined         D0b:1          <RETURN>
+//    STORENAME_SDIRB_0x9
+//00017f80 42 40           clr.w      D0w
+//00017f82 10 1b           move.b     (A3)+,D0b
+//00017f84 1d 87 00 00     move.b     D7b,(0x0,A6,D0w*0x1)
+//00017f88 4e 75           rts
+    u8 offset = read8();
+    *(alis.scripts[alis.scriptID]->stack + offset) = (u8)alis.varD7;
 }
 static void sdirw() {
-    // log_debug("STUBBED");
+   
+//    **************************************************************
+//    * - Reads a byte offset from script                          *
+//    * - Stores D7.w at (A6 + offset)                             *
+//    **************************************************************
+//    undefined STORENAME_SDIRW_0xa()
+//undefined         D0b:1          <RETURN>
+//    STORENAME_SDIRW_0xa
+//00017f8a 42 40           clr.w      D0w
+//00017f8c 10 1b           move.b     (A3)+,D0b
+//00017f8e 3d 87 00 00     move.w     D7w,(0x0,A6,D0w*0x1)
+    u8 offset = read8();
+    *(alis.scripts[alis.scriptID]->stack + offset) = (u16)alis.varD7;
 }
 static void sdirp() {
     // log_debug("STUBBED");
@@ -102,7 +126,7 @@ static void seval() {
     alis.scripts[alis.scriptID]->stack;
     
     // opername_oeval_0x1c
-    oeval();
+    // oeval();
     
 }
 static void ofin() {

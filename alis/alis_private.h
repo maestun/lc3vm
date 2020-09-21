@@ -7,6 +7,7 @@
 #define alis_private_h
 
 #include "alis.h"
+#include "debug.h"
 #include "sys.h"
 
 u8 read8(void) ;
