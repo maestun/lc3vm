@@ -79,7 +79,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0955DF52250BCC9B0068CFB9 /* notes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = notes.txt; path = ../notes.txt; sourceTree = "<group>"; };
 		0981CBCD250B46970097F862 /* storenames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = storenames.c; sourceTree = "<group>"; };
 		0981CBCE250B46970097F862 /* addnames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = addnames.c; sourceTree = "<group>"; };
 		0981CBCF250B46970097F862 /* escnames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = escnames.c; sourceTree = "<group>"; };
@@ -169,7 +168,6 @@
 		8B28A60F25076CC800E3F0FF = {
 			isa = PBXGroup;
 			children = (
-				0955DF52250BCC9B0068CFB9 /* notes.txt */,
 				8B9C400D250921E900C947F9 /* alis */,
 				8B28A6672507C4F800E3F0FF /* imgui */,
 				8B28A6532507C31D00E3F0FF /* lc3vm */,

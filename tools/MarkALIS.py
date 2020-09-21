@@ -1,4 +1,4 @@
-# This creates functions in an ALIS Atari program
+# This GHIDRA SCRIPT creates functions in an ALIS Atari program
 #@author maestun
 #@category ALIS
 #@keybinding 

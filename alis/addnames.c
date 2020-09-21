@@ -15,10 +15,26 @@
 static void cnul() {
 }
 static void alocb() {
-    // log_debug("STUBBED");
+    
+//    ADDNAME_ALOCB_0x3
+//00018194 10 1b           move.b     (A3)+,D0b
+//00018196 e1 40           asl.w      #0x8,D0w
+//00018198 10 1b           move.b     (A3)+,D0b
+//0001819a df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
+//0001819e 4e 75           rts
+    u16 offset = read16();
+    *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) += (u8)alis.varD7;
 }
 static void alocw() {
-    // log_debug("STUBBED");
+//    ADDNAME_ALOCW_0x4
+//000181a0 10 1b           move.b     (A3)+,D0b
+//000181a2 e1 40           asl.w      #0x8,D0w
+//000181a4 10 1b           move.b     (A3)+,D0b
+//000181a6 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
+//000181aa 4e 75           rts
+
+    u16 offset = read16();
+    *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) += (u16)alis.varD7;
 }
 static void alocp() {
     // log_debug("STUBBED");
@@ -33,10 +49,22 @@ static void alocti() {
     // log_debug("STUBBED");
 }
 static void adirb() {
-    // log_debug("STUBBED");
+//    ADDNAME_ADIRB_0x9
+//00018214 42 40           clr.w      D0w
+//00018216 10 1b           move.b     (A3)+,D0b
+//00018218 df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
+//0001821c 4e 75           rts
+    u8 offset = read8();
+    *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) += (u8)alis.varD7;
 }
 static void adirw() {
-    // log_debug("STUBBED");
+//    ADDNAME_ADIRW_0xa
+//0001821e 42 40           clr.w      D0w
+//00018220 10 1b           move.b     (A3)+,D0b
+//00018222 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
+//00018226 4e 75           rts
+    u8 offset = read8();
+    *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) += (u16)alis.varD7;
 }
 static void adirp() {
     // log_debug("STUBBED");
