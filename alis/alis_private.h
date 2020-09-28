@@ -28,4 +28,15 @@ extern sAlisOpcode opernames[];
 extern sAlisOpcode storenames[];
 extern sAlisOpcode addnames[];
 
+extern void oeval(void);
+
+void writeStack8(u16 offset, u8 value);
+void writeStack16(u16 offset, u16 value);
+
+void addStack8(u16 offset, u8 value);
+void addStack16(u16 offset, u16 value);
+
+u16 pop16();
+u8 pop8();
+
 #endif /* alis_private_h */

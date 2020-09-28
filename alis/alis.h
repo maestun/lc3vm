@@ -44,11 +44,6 @@ typedef struct {
     // true if vm is running
     u8          running;
     
-    // virtual ram data
-//    u8          memory[kMaxVirtualRAMSize];
-    // pointer to virtual ram origin
-//    u8 *        memory_org;
-
     // virtual program counter
     u8 *        pc;
     // pointer to script origin in virtual ram
@@ -58,17 +53,26 @@ typedef struct {
     sAlisScript *   scripts[kMaxScripts];
     u8              scriptID;
     
+    // vm stack (A4 ???)
+    u8 *        vm_stack;
+    
+    
     // virtual stack pointer
 //    u32 *   sp;
 //    // pointer to virtual stack origin in virtual ram (TODO: A6 ??)
 //    u32 *   sp_org;
     
     // scene pointer
-    u8 *    scene_ptr; // A0
+    // u8 *    scene_ptr; // A0
     
     // variables
     s16     varD6;
     s16     varD7;
+    u16     varD4; // address of return for ctl loop
+    
+    u8      bssChunk1[256];
+    u8      bssChunk2[256];
+    u8      bssChunk3[256];
     
     // helper: file pointer
     FILE *  fp;
@@ -77,6 +81,19 @@ typedef struct {
     
     // system stuff
     mouse_t mouse;
+    
+    
+    
+    
+    
+    
+    
+    
+    // unknown vars
+    u32 DAT_000194fe;
+    
+    
+    
 } sAlisVM;
 
 extern sAlisVM alis;

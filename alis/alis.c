@@ -25,7 +25,8 @@ alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
             debug(EDebugVerbose, "\t");
         }
         // fetch code
-        debug(EDebugVerbose, "0x%06x: %s ", alis.pc, name);
+        long steem_pc = 0x2d290; // TODO: adresse de main.ao dans l'emulateur steeù, aide pour debug
+        debug(EDebugVerbose, "0x%06x: %s ", alis.pc - alis.pc_org + steem_pc, name);
         u8 code = *(alis.pc++);
         sAlisOpcode opcode = table[code];
         debug(EDebugVerbose, "%s (0x%02x)\n", opcode.name, code);
@@ -36,12 +37,15 @@ alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
 alisRet readexec_opcode() {
     readexec(opcodes, "opcode", 0);
 }
+
 alisRet readexec_opername() {
     readexec(opernames, "opername", 1);
 }
+
 alisRet readexec_storename() {
     readexec(storenames, "storename", 2);
 }
+
 alisRet readexec_addname() {
     readexec(addnames, "addname", 2);
 }
@@ -49,31 +53,64 @@ alisRet readexec_addname() {
 u8 read8(void) {
     return *alis.pc++;
 }
+
 u16 read16(void) {
     return (*alis.pc++ << 8) + *alis.pc++;
 }
+
 u32 read24(void) {
     return (*alis.pc++ << 16) + (*alis.pc++ << 8) + *alis.pc++;
 }
+
 void readBytes(u32 len, u8 * dest) {
     while(len--) {
         *dest++ = *alis.pc++;
     }
 }
+
 void readToZero(u8 * dest) {
     while(*alis.pc++) {
         *dest++ = *alis.pc;
     }
 }
+
 uint16_t sign_extend(uint16_t x, int bit_count) {
     if ((x >> (bit_count - 1)) & 1) {
         x |= (0xFFFF << bit_count);
     }
     return x;
 }
+
 uint16_t extend_w(uint8_t x) {
     return sign_extend(x, 8);
 }
+
+void writeStack8(u16 offset, u8 value) {
+    *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) = value;
+}
+
+void writeStack16(u16 offset, u16 value) {
+    *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) = value;
+}
+
+void addStack8(u16 offset, u8 value) {
+    *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) += value;
+}
+
+void addStack16(u16 offset, u16 value) {
+    *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) += value;
+}
+
+u8 pop8() {
+    u8 val = *alis.vm_stack++;
+    return val;
+}
+
+u16 pop16() {
+    u16 val = (*alis.vm_stack++ << 8) + *alis.vm_stack++;
+    return val;
+}
+
 
 
 // =============================================================================

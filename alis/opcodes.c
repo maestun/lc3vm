@@ -19,6 +19,9 @@ static void cstart(u32 offset) {
 #pragma mark - TODO: opcodes
 // ============================================================================
 static void cstore() {
+    // example: in main.ao script
+    // $2d670     1e 00 00 06 42 6d
+    // cstore oimmb #$0 slocb #$426d
     alis.varD6 = alis.varD7;
     readexec_opername();
     readexec_storename();
@@ -182,38 +185,164 @@ static void cload() {
     alis.pc += len;
 }
 
-// ???
+
+
+// =============================================================================
+void FUN_00013d82() {
+//    clr.w      ($4,A0,D0)
+//    move.w     (W_000195a0).l,D1
+//
+//    bne.w      __not_zero
+//    move.w     D0,(W_000195a0).l
+//    rts
+//__not_zero:
+//    move.w     D1,D2
+//    move.w     ($4,A0,D2),D1
+//    bne.w      __not_zero
+//    move.w     D0,($4,A0,D2)
+//    rts
+}
+// =============================================================================
+void FUN_00013dda() {
+//    move.b         ($21,A0),D0
+//    ext.w          D0
+//    move.b         ($25,A0),D1
+//    ext.w          D1
+//    muls.w         D1,D0
+//    move.b         ($24,A0),D2
+//    ext.w          D2
+//    move.b         ($22,A0),D3
+//    ext.w          D3
+//    muls.w         D3,D2
+//    sub.w          D2,D0
+//    move.b         D0,($26,A0)
+//    move.b         ($22,A0),D0
+//    ext.w          D0
+//    move.b         ($23,A0),D1
+//    ext.w          D1
+//    muls.w         D1,D0
+//    move.b         ($25,A0),D2
+//    ext.w          D2
+//    move.b         ($20,A0),D3
+//    ext.w          D3
+//    muls.w         D3,D2
+//    sub.w          D2,D0
+//    move.b         D0,($27,A0)
+//    move.b         ($20,A0),D0
+//    ext.w          D0
+//    move.b         ($24,A0),D1
+//    ext.w          D1
+//    muls.w         D1,D0
+//    move.b         ($23,A0),D2
+//    ext.w          D2
+//    move.b         ($21,A0),D3
+//    ext.w          D3
+//    muls.w         D3,D2
+//    sub.w          D2,D0
+//    move.b         D0,($28,A0)
+//    rts
+//    move.b         ($21,A0),D0
+//    ext.w          D0
+//    move.b         ($25,A0),D1
+//    ext.w          D1
+//    muls.w         D1,D0
+//    move.b         ($24,A0),D2
+//    ext.w          D2
+//    move.b         ($22,A0),D3
+//    ext.w          D3
+//    muls.w         D3,D2
+}
+
+
 // reads 35 bytes
 static void cdefsc() {
-    
-    // debug
-    for (int i=0; i <35;i++) {
-        alis.pc++;
-    }
-    return;
-    
     /*
-     00011a2e 10 1b           move.b     (A3)+,D0b
-     00011a30 e1 40           asl.w      #0x8,D0w
-     00011a32 10 1b           move.b     (A3)+,D0b
-     */
-    // read a word
+     ; code address: $139ca
+     opcode_cdefsc:
+         move.b         (A3)+,D0
+         asl.w          #$8,D0
+         move.b         (A3)+,D0
+    */
     u16 offset = read16();
-
     /*
-     00011a3a 08 f0 00        bset.b     0x6,(0x0,A0,D0w*0x1)
+         movea.l        (ADDR_VSTACK).l,A0 ; correspond à a6 !!! / A0 vaut $224f0, contient $22690 soit vstack
      */
-    *(alis.scene_ptr + offset) &= 0x6;
+    u8 * vstack_ptr = alis.scripts[alis.scriptID]->stack;
+    /*
+         bset.b         #$6,(A0,D0)
+     */
+    *(vstack_ptr + offset) &= 0x6;
+    /*
+         move.b         (A3)+,($1,A0,D0)
+     */
+    *(vstack_ptr + offset + 1) = read8();
+    /*
+         moveq          #$1f,D1
+         lea            ($6,A0,D0),A1
+
+     __loop32:
+         move.b         (A3)+,(A1)+
+         dbf            D1,__loop32
+    */
+    
+    /*
+         movea.l        (ADDR_SCRIPT_0001955e).l,A1 ; qque part dans le script
+         
+         move.w         (W_00019562).l,D1
+         
+         beq.w          __error10
+         move.w         ($4,A1,D1),(W_00019562).l
+         
+         
+         move.w         D1,($2,A0,D0)
+         clr.w          ($6,A1,D1)
+         clr.w          ($4,A0,D0)
+         move.b         ($1,A0,D0),($1,A1,D1)
+         
+         move.w         ($e,A0,D0),D2
+         andi.w         #-$10,D2
+         move.w         D2,($c,A1,D1)
+         move.w         ($10,A0,D0),($e,A1,D1)
+         
+         move.w         #$7fff,($10,A1,D1)
+         
+         move.w         ($e,A0,D0),D2
+         add.w          ($12,A0,D0),D2
+         ori.w          #$f,D2
+         move.w         D2,($16,A1,D1)
+         move.w         ($10,A0,D0),D2
+         add.w          ($14,A0,D0),D2
+         move.w         D2,($18,A1,D1)
+         clr.w          ($2a,A0,D0)
+         clr.w          ($2c,A0,D0)
+         clr.w          ($2e,A0,D0)
+         bsr.w          FUN_00013d82
+         lea            ($0,A0,D0),A0
+         bsr.w          FUN_00013dda
+         rts
+         
+     __error10:
+         move.l     #$a,D0
+
+     forever:
+         bra forever
+
+
+
+
+     */
+    
+
 
     /*
      00011a40 11 9b 00 01     move.b     (A3)+,(0x1,A0,D0w*0x1)
      */
-    *(alis.scene_ptr + offset + 1) = read8();
+    *(vstack_ptr + offset + 1) = read8();
 
     /*
      00011a46 43 f0 00 06     lea        (0x6,A0,D0w*0x1),A1
      */
-    u8 * ptr = (alis.scene_ptr + offset + 6);
+    u8 * ptr = (vstack_ptr + offset + 6);
 
     /*
      __cdefsc_copy_32_bytes
@@ -228,7 +357,9 @@ static void cdefsc() {
 //     00011a56 32 39 00        move.w     (DAT_000170c6).l,D1w
 //              01 70 c6
 //     */
-//    // TODO: ..
+    
+    
+    
 //
 //
 //    /*
@@ -1087,7 +1218,10 @@ static void cjmp24() {
     alis.pc += offset;
 }
 
-static void cret() {}
+static void cret() {
+    // return from subroutine (cjsr)
+    
+}
 
 static void cbz8() {
     u16 offset = read8();

@@ -15,7 +15,6 @@
 static void cnul() {
 }
 static void alocb() {
-    
 //    ADDNAME_ALOCB_0x3
 //00018194 10 1b           move.b     (A3)+,D0b
 //00018196 e1 40           asl.w      #0x8,D0w
@@ -23,7 +22,7 @@ static void alocb() {
 //0001819a df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
 //0001819e 4e 75           rts
     u16 offset = read16();
-    *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) += (u8)alis.varD7;
+    addStack8(offset, (u8)alis.varD7);
 }
 static void alocw() {
 //    ADDNAME_ALOCW_0x4
@@ -32,9 +31,8 @@ static void alocw() {
 //000181a4 10 1b           move.b     (A3)+,D0b
 //000181a6 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
 //000181aa 4e 75           rts
-
     u16 offset = read16();
-    *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) += (u16)alis.varD7;
+    addStack16(offset, alis.varD7);
 }
 static void alocp() {
     // log_debug("STUBBED");

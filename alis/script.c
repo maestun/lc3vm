@@ -11,19 +11,12 @@
 #include "utils.h"
 
 
-void depak_2(void);
-void depak_6(void);
-void depak_11(void);
-//void get_moar_data(void) {}
+static uint8_t * p_depak = NULL;
+static uint8_t * p_depak_end = NULL;
+static uint8_t * p_pak = NULL;
+static uint8_t * p_pak_end = NULL;
+static uint8_t * p_dic;
 
-uint8_t * p_depak = NULL;
-uint8_t * p_depak_end = NULL;
-uint8_t * p_pak = NULL;
-uint8_t * p_pak_end = NULL;
-uint8_t * p_dic;
-
-uint32_t depak_counter = 0;
-uint32_t pak_counter = 0;
 
 // =============================================================================
 // MARK: - Depacker
@@ -54,12 +47,53 @@ int is_main(uint8_t * pak_buffer) {
 }
 
 
+void depak_11() {
+//    printf("depak_11 ($163a8)\n");
+    ADDREG_B(d0, d7);               // ADD.B     D0,D7
+    CLRREG_W(d5);                      // CLR.W     D5
+    ROLREG_L(d7, d5);               // ROL.L     D7,D5
+    SWAP(d5);                       // SWAP      D5
+//    if(p_pak > p_pak_end) {         // CMPA.L    A4,A0
+//        get_moar_data(); // BGE       _DEPACK_GET_MORE_DATA ; read 32k bytes
+//    }
+
+// _DEPACK_12:
+    uint16_t w = *p_pak;
+    w <<= 8;
+    w += *(p_pak + 1);
+//    printf("depak11: read word 0x%x at address 0x%x\n", w, (uint32_t)p_pak);
+    p_pak += 2;
+    MOVE_W(w, d5);                  // MOVE.W    (A0)+,D5
+//    MOVE(W, 0, p_pak++, d5)
+
+    SWAP(d5);                       // SWAP      D5
+
+    SUBREG_B(d7, d0);               // SUB.B     D7,D0
+    MOVEQ(16, d7);                  // MOVEQ     #$10,D7
+    ROLREG_L(d0, d5);               // ROL.L     D0,D5
+
+    SUBREG_B(d0, d7);               // SUB.B     D0,D7
+}
+
+
+void depak_2() {
+//    printf("depak_2 ($1639e)\n");
+    SUBREG_B(d0, d7);               // SUB.B     D0,D7
+    if((int8_t)BYTE(d7) < 0) {      // BMI.S     _DEPACK_11
+        depak_11();
+    }
+    else {
+        CLRREG_W(d5);                      // CLR.W     D5
+        ROLREG_L(d0, d5);               // ROL.L     D0,D5
+    }
+}
+
+
 void depak(uint8_t * aPakBuffer, // A0
            uint8_t * aDepakBuffer, // A1 -> pointe sur byte courant, A2 pointe sur dernier byte
            size_t aPakSize,
            size_t aDepakSize, // D1
            uint8_t * aDic) { // A5
-
 
 //    printf("DEPACK: unpacking...\n");
 //    printf("PAK buffer start: 0x%08x\n", (uint32_t) aPakBuffer);
@@ -121,7 +155,8 @@ _depak_5:
 
 _depak_3:
 //    printf("depak_3 ($1635a)\n");
-    depak_6();                      // BSR.S     _DEPACK_6
+    MOVEQ(3, d0);                   // MOVEQ     #3,D0
+    depak_2();
     CLRREG_W(d0);                      // CLR.W     D0
 
 //    printf("Dic: byte %d is 0x%02x\n", WORD(d5), p_dic[WORD(d5)]);
@@ -167,7 +202,8 @@ _depak_7:
 
 _depak_10:
 //    printf("depak_10\n");
-    depak_6();                      // BSR.S     _DEPACK_6
+    MOVEQ(3, d0);                   // MOVEQ     #3,D0
+    depak_2();                      // BSR.S     _DEPACK_6
 
     ADDREG_W(d5, d2);               // ADD.W     D5,D2
     if(WORD(d5) == 7) {             // CMP.W     #7,D5
@@ -184,58 +220,6 @@ _depak_10:
 _depak_end:
 //    printf("depak_end\n");
     return;
-}
-
-
-void depak_6() {
-//    printf("depak_6 ($1639c)\n");
-    MOVEQ(3, d0);                   // MOVEQ     #3,D0
-    depak_2();
-}
-
-
-void depak_2() {
-//    printf("depak_2 ($1639e)\n");
-    SUBREG_B(d0, d7);               // SUB.B     D0,D7
-    if((int8_t)BYTE(d7) < 0) {      // BMI.S     _DEPACK_11
-        depak_11();
-    }
-    else {
-        CLRREG_W(d5);                      // CLR.W     D5
-        ROLREG_L(d0, d5);               // ROL.L     D0,D5
-    }
-    return;                         // RTS
-}
-
-
-void depak_11() {
-//    printf("depak_11 ($163a8)\n");
-    ADDREG_B(d0, d7);               // ADD.B     D0,D7
-    CLRREG_W(d5);                      // CLR.W     D5
-    ROLREG_L(d7, d5);               // ROL.L     D7,D5
-    SWAP(d5);                       // SWAP      D5
-//    if(p_pak > p_pak_end) {         // CMPA.L    A4,A0
-//        get_moar_data(); // BGE       _DEPACK_GET_MORE_DATA ; read 32k bytes
-//    }
-
-// _DEPACK_12:
-    uint16_t w = *p_pak;
-    w <<= 8;
-    w += *(p_pak + 1);
-//    printf("depak11: read word 0x%x at address 0x%x\n", w, (uint32_t)p_pak);
-    p_pak += 2;
-    MOVE_W(w, d5);                  // MOVE.W    (A0)+,D5
-//    MOVE(W, 0, p_pak++, d5)
-
-
-    SWAP(d5);                       // SWAP      D5
-
-    SUBREG_B(d7, d0);               // SUB.B     D7,D0
-    MOVEQ(16, d7);                  // MOVEQ     #$10,D7
-    ROLREG_L(d0, d5);               // ROL.L     D0,D5
-
-    SUBREG_B(d0, d7);               // SUB.B     D0,D7
-    return;                         // RTS ($163c2)
 }
 
 
@@ -264,14 +248,8 @@ void depak_11() {
  UNPACKED SCRIPT FILE FORMAT
  byte(s)    len     role
  -------------------------------------------------------------------------------
- (main only)
- 0...23     16      header bytes
+ 0...23     24      header bytes
  24...xx    ?       unpacked data (1st word is ID, must be zero)
- 
- (other)
- 0...7      8       header bytes
- 8...xx     ?       unpacked data (1st word is ID, must not be zero)
-
  */
 sAlisScript * script_load(const char * script_path) {
     sAlisScript * script = NULL;

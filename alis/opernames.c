@@ -9,6 +9,8 @@
 #include "alis.h"
 #include "alis_private.h"
 
+static int oeval_end = 0;
+
 // =============================================================================
 #pragma mark - TODO: opernames
 // =============================================================================
@@ -17,29 +19,73 @@ void oimmb() {
     u8 b = read8();
     u16 w = extend_w(b);
     alis.varD7 = w;
+    debug(EDebugVerbose, "\tvarD7 <- 0x%04x\n", alis.varD7);
 }
 void oimmw() {
     // reads a word into D7
     alis.varD7 = read16();
+    debug(EDebugVerbose, "\tvarD7 <- 0x%04x\n", alis.varD7);
 }
 void oimmp() {
-    u8 buf[kPathMaxLen]; // TODO: alloc ram
-    readToZero(buf);
+    // reads null-terminated data into bssChunk1
+    readToZero(alis.bssChunk1);
 }
 void olocb() {
-    // log_debug("STUBBED");
+//    OPERNAME_OLOCB_0x3
+//000175b0 10 1b           move.b     (A3)+,D0b
+//000175b2 e1 40           asl.w      #0x8,D0w
+//000175b4 10 1b           move.b     (A3)+,D0b
+//000175b6 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
+//000175ba 48 87           ext.w      D7w
+//000175bc 4e 75           rts
+    u16 offset = read16();
+    u8 b = (u8)*(alis.scripts[alis.scriptID]->stack + offset);
+    alis.varD7 = extend_w(b);
 }
 void olocw() {
-    // log_debug("STUBBED");
+//    OPERNAME_OLOCW_0x4
+//000175be 10 1b           move.b     (A3)+,D0b
+//000175c0 e1 40           asl.w      #0x8,D0w
+//000175c2 10 1b           move.b     (A3)+,D0b
+//000175c4 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
+//000175c8 4e 75           rts
+    u16 offset = read16();
+    u16 w = (u16)*(alis.scripts[alis.scriptID]->stack + offset);
+    alis.varD7 = w;
 }
 void olocp() {
-    // log_debug("STUBBED");
+//    OPERNAME_OLOCP_0x5
+//000175ca 10 1b           move.b     (A3)+,D0b
+//000175cc e1 40           asl.w      #0x8,D0w
+//000175ce 10 1b           move.b     (A3)+,D0b
+//000175d0 43 f6 00 00     lea        (0x0,A6,D0w*0x1),A1
+//000175d4 20 79 00        movea.l    (ADDR_BSS_256_CHUNK_1).l,A0
+//01 95 e2
+//    LAB_000175da                                    XREF[1]:     000175dc(j)
+//000175da 10 d9           move.b     (A1)+,(A0)+
+//000175dc 66 00 ff fc     bne.w      LAB_000175da
+//000175e0 4e 75           rts
+    u16 offset = read16();
+    u8 * src_ptr = (alis.scripts[alis.scriptID]->stack + offset);
+    u8 * dst_ptr = alis.bssChunk1;
+    while(*src_ptr) {
+        *dst_ptr++ = *src_ptr++;
+    }
 }
 void oloctp() {
     // log_debug("STUBBED");
 }
 void oloctc() {
-    // log_debug("STUBBED");
+//    OPERNAME_OLOCTC_0x7
+//000175e2 10 1b           move.b     (A3)+,D0b
+//000175e4 e1 40           asl.w      #0x8,D0w
+//000175e6 10 1b           move.b     (A3)+,D0b
+//000175e8 61 00 02 2e     bsr.w      FUN_00017818                                     undefined FUN_00017818()
+//000175ec 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
+//000175f0 48 87           ext.w      D7w
+//000175f2 4e 75           rts
+    u16 offset = read16();
+
 }
 void olocti() {
     // log_debug("STUBBED");
@@ -101,12 +147,16 @@ void ohimti() {
 void opile() {
     // log_debug("STUBBED");
 }
+
 void oeval() {
-    // log_debug("STUBBED");
-    
+    // exec opernames until ofin() is called
+    oeval_end = 0;
+    while(!oeval_end) {
+        readexec_opername();
+    }
 }
 void ofin() {
-    // log_debug("STUBBED");
+    oeval_end = 1;
 }
 void opushacc() {
     // log_debug("STUBBED");
@@ -299,13 +349,13 @@ void ocountry() {
     // log_debug("STUBBED");
 }
 void omip() {
-    // log_debug("STUBBED");
+    alis.varD7 = 0x64;
 }
 void ojoykey() {
     // log_debug("STUBBED");
 }
 void oconfig() {
-    // log_debug("STUBBED");
+    alis.varD7 = 0;
 }
 static void cnul() {
 }
@@ -320,88 +370,173 @@ static void cnul() {
 // =============================================================================
 sAlisOpcode opernames[] = {
     DECL_OPCODE(0x00, oimmb, "TODO add desc"),
+    {},
     DECL_OPCODE(0x01, oimmw, "TODO add desc"),
+    {},
     DECL_OPCODE(0x02, oimmp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x03, olocb, "TODO add desc"),
+    {},
     DECL_OPCODE(0x04, olocw, "TODO add desc"),
+    {},
     DECL_OPCODE(0x05, olocp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x06, oloctp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x07, oloctc, "TODO add desc"),
+    {},
     DECL_OPCODE(0x08, olocti, "TODO add desc"),
+    {},
     DECL_OPCODE(0x09, odirb, "TODO add desc"),
+    {},
     DECL_OPCODE(0x0A, odirw, "TODO add desc"),
+    {},
     DECL_OPCODE(0x0B, odirp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x0C, odirtp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x0D, odirtc, "TODO add desc"),
+    {},
     DECL_OPCODE(0x0E, odirti, "TODO add desc"),
+    {},
     DECL_OPCODE(0x0F, omainb, "TODO add desc"),
+    {},
     DECL_OPCODE(0x10, omainw, "TODO add desc"),
+    {},
     DECL_OPCODE(0x11, omainp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x12, omaintp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x13, omaintc, "TODO add desc"),
+    {},
     DECL_OPCODE(0x14, omainti, "TODO add desc"),
+    {},
     DECL_OPCODE(0x15, ohimb, "TODO add desc"),
+    {},
     DECL_OPCODE(0x16, ohimw, "TODO add desc"),
+    {},
     DECL_OPCODE(0x17, ohimp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x18, ohimtp, "TODO add desc"),
+    {},
     DECL_OPCODE(0x19, ohimtc, "TODO add desc"),
+    {},
     DECL_OPCODE(0x1A, ohimti, "TODO add desc"),
+    {},
     DECL_OPCODE(0x1B, opile, "TODO add desc"),
+    {},
     DECL_OPCODE(0x1C, oeval, "TODO add desc"),
+    {},
     DECL_OPCODE(0x1D, ofin, "TODO add desc"),
+    {},
     DECL_OPCODE(0x1E, cnul, "TODO add desc"),
+    {},
     DECL_OPCODE(0x1F, cnul, "TODO add desc"),
+    {},
     DECL_OPCODE(0x20, opushacc, "TODO add desc"),
+    {},
     DECL_OPCODE(0x21, oand, "TODO add desc"),
+    {},
     DECL_OPCODE(0x22, oor, "TODO add desc"),
+    {},
     DECL_OPCODE(0x23, oxor, "TODO add desc"),
+    {},
     DECL_OPCODE(0x24, oeqv, "TODO add desc"),
+    {},
     DECL_OPCODE(0x25, oegal, "TODO add desc"),
+    {},
     DECL_OPCODE(0x26, odiff, "TODO add desc"),
+    {},
     DECL_OPCODE(0x27, oinfeg, "TODO add desc"),
+    {},
     DECL_OPCODE(0x28, osupeg, "TODO add desc"),
+    {},
     DECL_OPCODE(0x29, oinf, "TODO add desc"),
+    {},
     DECL_OPCODE(0x2A, osup, "TODO add desc"),
+    {},
     DECL_OPCODE(0x2B, oadd, "TODO add desc"),
+    {},
     DECL_OPCODE(0x2C, osub, "TODO add desc"),
+    {},
     DECL_OPCODE(0x2D, omod, "TODO add desc"),
+    {},
     DECL_OPCODE(0x2E, odiv, "TODO add desc"),
+    {},
     DECL_OPCODE(0x2F, omul, "TODO add desc"),
+    {},
     DECL_OPCODE(0x30, oneg, "TODO add desc"),
+    {},
     DECL_OPCODE(0x31, oabs, "TODO add desc"),
+    {},
     DECL_OPCODE(0x32, ornd, "TODO add desc"),
+    {},
     DECL_OPCODE(0x33, osgn, "TODO add desc"),
+    {},
     DECL_OPCODE(0x34, onot, "TODO add desc"),
+    {},
     DECL_OPCODE(0x35, oinkey, "TODO add desc"),
+    {},
     DECL_OPCODE(0x36, okeyon, "TODO add desc"),
+    {},
     DECL_OPCODE(0x37, ojoy, "TODO add desc"),
+    {},
     DECL_OPCODE(0x38, oprnd, "TODO add desc"),
+    {},
     DECL_OPCODE(0x39, oscan, "TODO add desc"),
+    {},
     DECL_OPCODE(0x3A, oshiftkey, "TODO add desc"),
+    {},
     DECL_OPCODE(0x3B, ofree, "TODO add desc"),
+    {},
     DECL_OPCODE(0x3C, omodel, "TODO add desc"),
+    {},
     DECL_OPCODE(0x3D, ogetkey, "TODO add desc"),
+    {},
     DECL_OPCODE(0x3E, oleft, "TODO add desc"),
+    {},
     DECL_OPCODE(0x3F, oright, "TODO add desc"),
+    {},
     DECL_OPCODE(0x40, omid, "TODO add desc"),
+    {},
     DECL_OPCODE(0x41, olen, "TODO add desc"),
+    {},
     DECL_OPCODE(0x42, oasc, "TODO add desc"),
+    {},
     DECL_OPCODE(0x43, ostr, "TODO add desc"),
+    {},
     DECL_OPCODE(0x44, osadd, "TODO add desc"),
+    {},
     DECL_OPCODE(0x45, osegal, "TODO add desc"),
+    {},
     DECL_OPCODE(0x46, osdiff, "TODO add desc"),
+    {},
     DECL_OPCODE(0x47, osinfeg, "TODO add desc"),
+    {},
     DECL_OPCODE(0x48, ossupeg, "TODO add desc"),
+    {},
     DECL_OPCODE(0x49, osinf, "TODO add desc"),
+    {},
     DECL_OPCODE(0x4A, ossup, "TODO add desc"),
+    {},
     DECL_OPCODE(0x4B, ospushacc, "TODO add desc"),
+    {},
     DECL_OPCODE(0x4C, ospile, "TODO add desc"),
+    {},
     DECL_OPCODE(0x4D, oval, "TODO add desc"),
+    {},
     DECL_OPCODE(0x4E, oexistf, "TODO add desc"),
+    {},
     DECL_OPCODE(0x4F, ochr, "TODO add desc"),
+    {},
     DECL_OPCODE(0x50, ochange, "TODO add desc"),
+    {},
     DECL_OPCODE(0x51, ocountry, "TODO add desc"),
+    {},
     DECL_OPCODE(0x52, omip, "TODO add desc"),
+    {},
     DECL_OPCODE(0x53, ojoykey, "TODO add desc"),
+    {},
     DECL_OPCODE(0x54, oconfig, "TODO add desc"),
+    {}
 };

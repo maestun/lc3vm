@@ -46,8 +46,8 @@
             filePath = "../alis/opcodes.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "cload()"
             landmarkType = "9">
          </BreakpointContent>
@@ -63,8 +63,8 @@
             filePath = "../alis/alis.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "readexec(table, name, identation)"
             landmarkType = "9">
          </BreakpointContent>
@@ -79,8 +79,8 @@
             filePath = "../alis/alis.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "readexec_opername()"
             landmarkType = "9">
          </BreakpointContent>
@@ -95,8 +95,8 @@
             filePath = "../alis/opernames.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "oimmp()"
             landmarkType = "9">
          </BreakpointContent>
@@ -111,8 +111,8 @@
             filePath = "../alis/alis.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "readexec_addname()"
             landmarkType = "9">
          </BreakpointContent>
@@ -127,8 +127,8 @@
             filePath = "../alis/opcodes.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "562"
+            endingLineNumber = "562"
             landmarkName = "cfopen()"
             landmarkType = "9">
          </BreakpointContent>
@@ -143,8 +143,8 @@
             filePath = "../alis/opcodes.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "cstore()"
             landmarkType = "9">
          </BreakpointContent>
@@ -159,8 +159,8 @@
             filePath = "../alis/opcodes.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "435"
-            endingLineNumber = "435"
+            startingLineNumber = "566"
+            endingLineNumber = "566"
             landmarkName = "cfopen()"
             landmarkType = "9">
          </BreakpointContent>
@@ -175,8 +175,8 @@
             filePath = "../alis/storenames.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "sdirb()"
             landmarkType = "9">
          </BreakpointContent>
@@ -191,8 +191,8 @@
             filePath = "../alis/storenames.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "sdirw()"
             landmarkType = "9">
          </BreakpointContent>
