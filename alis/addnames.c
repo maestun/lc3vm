@@ -22,7 +22,7 @@ static void alocb() {
 //0001819a df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
 //0001819e 4e 75           rts
     u16 offset = read16();
-    addStack8(offset, (u8)alis.varD7);
+    add8(offset, (u8)alis.varD7);
 }
 static void alocw() {
 //    ADDNAME_ALOCW_0x4
@@ -32,7 +32,7 @@ static void alocw() {
 //000181a6 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
 //000181aa 4e 75           rts
     u16 offset = read16();
-    addStack16(offset, alis.varD7);
+    add16(offset, alis.varD7);
 }
 static void alocp() {
     // log_debug("STUBBED");

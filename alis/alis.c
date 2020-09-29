@@ -82,19 +82,19 @@ uint16_t extend_w(uint8_t x) {
     return sign_extend(x, 8);
 }
 
-void writeStack8(u16 offset, u8 value) {
+void write8(u16 offset, u8 value) {
     *(u8 *)(alis.scripts[alis.scriptID]->vram_org + offset) = value;
 }
 
-void writeStack16(u16 offset, u16 value) {
+void write16(u16 offset, u16 value) {
     *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset) = value;
 }
 
-void addStack8(u16 offset, u8 value) {
+void add8(u16 offset, u8 value) {
     *(u8 *)(alis.scripts[alis.scriptID]->vram_org + offset) += value;
 }
 
-void addStack16(u16 offset, u16 value) {
+void add16(u16 offset, u16 value) {
     *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset) += value;
 }
 
@@ -107,8 +107,6 @@ u16 pop16() {
     u16 val = (*alis.stack++ << 8) + *alis.stack++;
     return val;
 }
-
-
 
 // =============================================================================
 // MARK: - VM API
@@ -123,6 +121,12 @@ void alis_init(sPlatform platform) {
     
     // init vars
     alis.varD6 = alis.varD7 = 0;
+    alis.bssChunk1 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
+    alis.bssChunk2 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
+    alis.bssChunk3 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
+    memset(alis.bssChunk1, 0, kBSSChunkLen * sizeof(u8));
+    memset(alis.bssChunk2, 0, kBSSChunkLen * sizeof(u8));
+    memset(alis.bssChunk3, 0, kBSSChunkLen * sizeof(u8));
     
     // init helpers
     if(alis.fp) {
@@ -130,8 +134,12 @@ void alis_init(sPlatform platform) {
         alis.fp = NULL;
     }
     
+    
     alis.stack_org = (u8 *)malloc(kMaxVirtualRAMSize * sizeof(u8));
     alis.stack = alis.stack_org;
+    
+    
+    
     
     alis.platform = platform;
     
@@ -147,6 +155,9 @@ void alis_deinit() {
         script_unload(alis.scripts[i]);
     }
     free(alis.stack_org);
+    free(alis.bssChunk1);
+    free(alis.bssChunk2);
+    free(alis.bssChunk3);
 }
 
 u8 alis_main() {

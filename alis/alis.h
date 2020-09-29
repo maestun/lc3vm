@@ -39,7 +39,7 @@ typedef struct {
     // platform
     sPlatform       platform;
     
-    // header loaded from main script
+    // TODO: vm header, loaded from main script ?
     u8              header[kVMHeaderLen];
     
     // true if vm is running
@@ -48,11 +48,8 @@ typedef struct {
     // virtual program counter
     u8 *            pc;
     
-    // pointer to script origin in virtual ram
+    // virtual program counter origin
     u8 *            pc_org;
-    
-    // return address
-    u8 *            pc_ret;
 
     // virtual stack (A4 ???)
     u8 *            stack;
@@ -63,13 +60,12 @@ typedef struct {
     u8              scriptID;
     
     // variables
-    s16     varD6;
-    s16     varD7;
-    u16     varD4; // address of return for ctl loop
+    s16             varD6;
+    s16             varD7;
     
-    u8      bssChunk1[kBSSChunkLen];
-    u8      bssChunk2[kBSSChunkLen];
-    u8      bssChunk3[kBSSChunkLen];
+    u8 *            bssChunk1;
+    u8 *            bssChunk2;
+    u8 *            bssChunk3;
     
     // helper: file pointer
     FILE *  fp;
@@ -78,7 +74,6 @@ typedef struct {
     
     // system stuff
     mouse_t mouse;
-    
     
     // unknown vars
     u32 DAT_000194fe;
@@ -102,6 +97,6 @@ void            alis_init(sPlatform platform);
 u8              alis_main(void);
 void            alis_deinit(void);
 void            alis_start_script(sAlisScript * script);
-
+void            alis_error(u8 errnum);
 
 #endif /* alis_vm_h */

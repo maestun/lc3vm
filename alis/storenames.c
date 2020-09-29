@@ -13,11 +13,11 @@ static void cnul() {
 }
 static void slocb() {
     u16 offset = read16();
-    writeStack8(offset, (u8)alis.varD7);
+    write8(offset, (u8)alis.varD7);
 }
 static void slocw() {
     u16 offset = read16();
-    writeStack16(offset, alis.varD7);
+    write16(offset, alis.varD7);
 }
 static void slocp() {
     // log_debug("STUBBED");
@@ -61,7 +61,7 @@ static void sloctc() {
     u16 offset = read16();
     debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
     alis.varD7 = pop16();
-    writeStack8(offset, alis.varD7);
+    write8(offset, alis.varD7);
 }
 static void slocti() {
     // log_debug("STUBBED");
@@ -79,7 +79,7 @@ static void sdirb() {
 //00017f84 1d 87 00 00     move.b     D7b,(0x0,A6,D0w*0x1)
 //00017f88 4e 75           rts
     u8 offset = read8();
-    writeStack8(offset, (u8)alis.varD7);
+    write8(offset, (u8)alis.varD7);
     // *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) = (u8)alis.varD7;
 }
 static void sdirw() {
@@ -95,7 +95,7 @@ static void sdirw() {
 //00017f8c 10 1b           move.b     (A3)+,D0b
 //00017f8e 3d 87 00 00     move.w     D7w,(0x0,A6,D0w*0x1)
     u8 offset = read8();
-    writeStack16(offset, (u16)alis.varD7);
+    write16(offset, (u16)alis.varD7);
     // *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) = (u16)alis.varD7;
 }
 static void sdirp() {

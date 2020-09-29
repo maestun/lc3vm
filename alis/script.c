@@ -312,16 +312,17 @@ sAlisScript * script_load(const char * script_path) {
         // init script
         script = (sAlisScript *)malloc(sizeof(sAlisScript));
         strcpy(script->name, strrchr(script_path, kPathSeparator) + 1);
-//        script->org = 0; // TODO: determine origin in virtual ram
+        
+        // script data
         script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess
         script->data = data;
         script->datalen = sz;
         script->headerlen = (main ? kMainScriptHeaderLen : kScriptHeaderLen);  // TODO: thats a guess
-//        script->code = script->data + headersz;
-//        script->codelen = sz - headersz;
-//        script->header = script->data;
-        script->vram_org = (u8 *)malloc(kScriptStackSize * sizeof(u8));
-        script->vstack_ptr = script->vram_org;
+
+        // virtual ram
+        script->vram_org = (u8 *)malloc(kScriptVRAMSize * sizeof(u8));
+        memset(script->vram_org, 0, kScriptVRAMSize * sizeof(u8));
+        script->vstack_offset = kScriptVRAMSize;
         
         // cleanup
         fclose(fp);

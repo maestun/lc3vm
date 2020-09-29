@@ -10,6 +10,17 @@
 #include "debug.h"
 #include "sys.h"
 
+
+#define     ALIS_BIT_0      (0)
+#define     ALIS_BIT_1      (1)
+#define     ALIS_BIT_2      (2)
+#define     ALIS_BIT_3      (3)
+#define     ALIS_BIT_4      (4)
+#define     ALIS_BIT_5      (5)
+#define     ALIS_BIT_6      (6)
+#define     ALIS_BIT_7      (7)
+
+
 u8 read8(void) ;
 u16 read16(void);
 u32 read24(void);
@@ -30,11 +41,11 @@ extern sAlisOpcode addnames[];
 
 extern void oeval(void);
 
-void writeStack8(u16 offset, u8 value);
-void writeStack16(u16 offset, u16 value);
+void write8(u16 offset, u8 value);
+void write16(u16 offset, u16 value);
 
-void addStack8(u16 offset, u8 value);
-void addStack16(u16 offset, u16 value);
+void add8(u16 offset, u8 value);
+void add16(u16 offset, u16 value);
 
 u16 pop16(void);
 u8 pop8(void);
