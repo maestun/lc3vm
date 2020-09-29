@@ -64,7 +64,7 @@ static void ctab() {
 // read x bytes
 static void cdim() {
 
-    u8 * stack_org = (u8 *)alis.scripts[alis.scriptID]->stack;
+    u8 * stack_org = (u8 *)alis.scripts[alis.scriptID]->vram_org;
     
     // read word param
     u16 offset = read16();
@@ -267,7 +267,7 @@ static void cdefsc() {
     /*
          movea.l        (ADDR_VSTACK).l,A0 ; correspond à a6 !!! / A0 vaut $224f0, contient $22690 soit vstack
      */
-    u8 * vstack_ptr = alis.scripts[alis.scriptID]->stack;
+    u8 * vstack_ptr = alis.scripts[alis.scriptID]->vram_org;
     /*
          bset.b         #$6,(A0,D0)
      */
@@ -1176,8 +1176,19 @@ static void cjmpind24() {
 // ============================================================================
 #pragma mark - Flow control opcodes
 // ============================================================================
+static void cret() {
+    // return from subroutine (cjsr)
+    alis.pc = alis.pc_ret;
+}
+
 static void cjsr(u32 offset) {
+    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
+    
     // save return offset
+    alis.pc_ret = alis.pc;
+    
+    // jump
+    alis.pc += offset;
 //    vm->virtual_return_offset -= 4;
 //    *(u32 *)(vm->virtual_ram + vm->d4) = *(u32 *)vm->script->ptr;
 //
@@ -1187,20 +1198,18 @@ static void cjsr(u32 offset) {
 
 static void cjsr8() {
     // read byte, extend sign
-//    u8 offset8 = vm_read_8();
-//    u16 offset16 = offset8 + (BIT_CHK(offset8, 7) ? 0xff00 : 0);
-//    cjsr(offset16);
+    u16 offset = extend_w(read8());
+    cjsr(offset);
 }
 
 static void cjsr16() {
-//    u16 offset = vm_read_16();
-//    cjsr(offset);
+    u16 offset = read16();
+    cjsr(offset);
 }
 
 static void cjsr24() {
-    // read 24 bits from script
-//    u32 offset = vm_read_24();
-//    cjsr(offset);
+    u32 offset = read24();
+    cjsr(offset);
 }
 
 static void cjmp8() {
@@ -1216,11 +1225,6 @@ static void cjmp16() {
 static void cjmp24() {
     u32 offset = read24();
     alis.pc += offset;
-}
-
-static void cret() {
-    // return from subroutine (cjsr)
-    
 }
 
 static void cbz8() {

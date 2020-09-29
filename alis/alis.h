@@ -15,6 +15,7 @@
 #define kVMHeaderLen            (16 * sizeof(u8))
 #define kMaxVirtualRAMSize      (1024 * 1024 * sizeof(u8))
 #define kMaxScripts             (UINT8_MAX)
+#define kBSSChunkLen            (256)
 
 // =============================================================================
 // MARK: - OPCODES
@@ -36,43 +37,39 @@ typedef struct {
 // =============================================================================
 typedef struct {
     // platform
-    sPlatform   platform;
+    sPlatform       platform;
     
     // header loaded from main script
-    u8          header[kVMHeaderLen];
+    u8              header[kVMHeaderLen];
     
     // true if vm is running
-    u8          running;
+    u8              running;
     
     // virtual program counter
-    u8 *        pc;
+    u8 *            pc;
+    
     // pointer to script origin in virtual ram
-    u8 *        pc_org;
+    u8 *            pc_org;
+    
+    // return address
+    u8 *            pc_ret;
+
+    // virtual stack (A4 ???)
+    u8 *            stack;
+    u8 *            stack_org;
     
     // loaded scripts
     sAlisScript *   scripts[kMaxScripts];
     u8              scriptID;
-    
-    // vm stack (A4 ???)
-    u8 *        vm_stack;
-    
-    
-    // virtual stack pointer
-//    u32 *   sp;
-//    // pointer to virtual stack origin in virtual ram (TODO: A6 ??)
-//    u32 *   sp_org;
-    
-    // scene pointer
-    // u8 *    scene_ptr; // A0
     
     // variables
     s16     varD6;
     s16     varD7;
     u16     varD4; // address of return for ctl loop
     
-    u8      bssChunk1[256];
-    u8      bssChunk2[256];
-    u8      bssChunk3[256];
+    u8      bssChunk1[kBSSChunkLen];
+    u8      bssChunk2[kBSSChunkLen];
+    u8      bssChunk3[kBSSChunkLen];
     
     // helper: file pointer
     FILE *  fp;
@@ -83,16 +80,16 @@ typedef struct {
     mouse_t mouse;
     
     
-    
-    
-    
-    
-    
-    
     // unknown vars
     u32 DAT_000194fe;
     
     
+    // A6 => contient adresse du début de la ram virtuelle (ou pile virtuelle ?)
+    //       qui a l'air de faire 65k (0xffff) au total.
+    // D4 => un offset qui dit où se trouve le pointeur de pile
+    //       dans la ram virtuelle
+    // par exemple pour main.ao a6 vaut $22690, et d4 vaut $ffff
+    // donc le virtual stack pointer pointe à l'adresse $3268f
     
 } sAlisVM;
 

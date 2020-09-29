@@ -39,7 +39,9 @@ _main_start:
 			cstore oimmb #$0b seval oimmb #$07 ofin sloctc #$3ce0
 	$2d591	07 00 00 db
 			cjsr24 #$db ; jump subroutine $2d670
-			; 00 02 39 32 00 09 A0 08 
+	$2d595	07 00 02 39 
+			cjsr #$239	; jump subroutine $
+			; 32 00 09 A0 08 
 			; FA 0A 00 00 CD 1E 72 08 
 			; 42 40 2E 08 42 40 0C 00 
 			; FF 9C 00 B8 00 0A 00 30 

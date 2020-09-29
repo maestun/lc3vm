@@ -36,7 +36,7 @@ void writeStack16(u16 offset, u16 value);
 void addStack8(u16 offset, u8 value);
 void addStack16(u16 offset, u16 value);
 
-u16 pop16();
-u8 pop8();
+u16 pop16(void);
+u8 pop8(void);
 
 #endif /* alis_private_h */

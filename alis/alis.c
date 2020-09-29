@@ -21,11 +21,8 @@ alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
         debug(EDebugFatal, "PC OVERFLOW !");
     }
     else {
-        for(int i = 0; i < identation; i++) {
-            debug(EDebugVerbose, "\t");
-        }
         // fetch code
-        long steem_pc = 0x2d290; // TODO: adresse de main.ao dans l'emulateur steeù, aide pour debug
+        long steem_pc = 0x2d290; // TODO: adresse de main.ao dans l'emulateur steem, aide pour debug
         debug(EDebugVerbose, "0x%06x: %s ", alis.pc - alis.pc_org + steem_pc, name);
         u8 code = *(alis.pc++);
         sAlisOpcode opcode = table[code];
@@ -86,28 +83,28 @@ uint16_t extend_w(uint8_t x) {
 }
 
 void writeStack8(u16 offset, u8 value) {
-    *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) = value;
+    *(u8 *)(alis.scripts[alis.scriptID]->vram_org + offset) = value;
 }
 
 void writeStack16(u16 offset, u16 value) {
-    *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) = value;
+    *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset) = value;
 }
 
 void addStack8(u16 offset, u8 value) {
-    *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) += value;
+    *(u8 *)(alis.scripts[alis.scriptID]->vram_org + offset) += value;
 }
 
 void addStack16(u16 offset, u16 value) {
-    *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) += value;
+    *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset) += value;
 }
 
 u8 pop8() {
-    u8 val = *alis.vm_stack++;
+    u8 val = *alis.stack++;
     return val;
 }
 
 u16 pop16() {
-    u16 val = (*alis.vm_stack++ << 8) + *alis.vm_stack++;
+    u16 val = (*alis.stack++ << 8) + *alis.stack++;
     return val;
 }
 
@@ -133,6 +130,9 @@ void alis_init(sPlatform platform) {
         alis.fp = NULL;
     }
     
+    alis.stack_org = (u8 *)malloc(kMaxVirtualRAMSize * sizeof(u8));
+    alis.stack = alis.stack_org;
+    
     alis.platform = platform;
     
     // TODO: scene ptr ??
@@ -146,6 +146,7 @@ void alis_deinit() {
     for(int i = 0; i < kMaxScripts; i++) {
         script_unload(alis.scripts[i]);
     }
+    free(alis.stack_org);
 }
 
 u8 alis_main() {
@@ -175,6 +176,6 @@ void alis_start_script(sAlisScript * script) {
     alis.scripts[script->ID] = script;
     
     // set pc to script origin in virtual ram
-    alis.pc = alis.pc_org = script->code; // TODO: determine org
+    alis.pc = alis.pc_org = script->data + script->headerlen; // TODO: determine org
     alis.running = 1;
 }

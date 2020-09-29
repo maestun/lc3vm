@@ -39,7 +39,7 @@ void olocb() {
 //000175ba 48 87           ext.w      D7w
 //000175bc 4e 75           rts
     u16 offset = read16();
-    u8 b = (u8)*(alis.scripts[alis.scriptID]->stack + offset);
+    u8 b = (u8)*(alis.scripts[alis.scriptID]->vram_org + offset);
     alis.varD7 = extend_w(b);
 }
 void olocw() {
@@ -50,7 +50,7 @@ void olocw() {
 //000175c4 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
 //000175c8 4e 75           rts
     u16 offset = read16();
-    u16 w = (u16)*(alis.scripts[alis.scriptID]->stack + offset);
+    u16 w = (u16)*(alis.scripts[alis.scriptID]->vram_org + offset);
     alis.varD7 = w;
 }
 void olocp() {
@@ -66,7 +66,7 @@ void olocp() {
 //000175dc 66 00 ff fc     bne.w      LAB_000175da
 //000175e0 4e 75           rts
     u16 offset = read16();
-    u8 * src_ptr = (alis.scripts[alis.scriptID]->stack + offset);
+    u8 * src_ptr = (alis.scripts[alis.scriptID]->vram_org + offset);
     u8 * dst_ptr = alis.bssChunk1;
     while(*src_ptr) {
         *dst_ptr++ = *src_ptr++;

@@ -35,7 +35,7 @@ static void slocp() {
 //00017f3a 66 00 ff fc     bne.w      LAB_00017f38
 //00017f3e 4e 75           rts
     u16 offset = read16();
-    u8 * ptr = alis.scripts[alis.scriptID]->stack + offset;
+    u8 * ptr = alis.scripts[alis.scriptID]->vram_org + offset;
     u16 i = 0;
     while(alis.bssChunk3[i]) {
         *ptr++ = alis.bssChunk3[i++];
@@ -59,6 +59,7 @@ static void sloctp() {
 }
 static void sloctc() {
     u16 offset = read16();
+    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
     alis.varD7 = pop16();
     writeStack8(offset, alis.varD7);
 }
@@ -160,7 +161,7 @@ static void seval() {
 //    00015d40 4e f0 00 00     jmp        (0x0,A0,D0w*0x1)
 
     // TODO: push D7 into virtual stack
-    alis.scripts[alis.scriptID]->stack;
+    alis.scripts[alis.scriptID]->vram_org;
     
     oeval();
     

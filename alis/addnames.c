@@ -53,7 +53,7 @@ static void adirb() {
 //00018218 df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
 //0001821c 4e 75           rts
     u8 offset = read8();
-    *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) += (u8)alis.varD7;
+    *(u8 *)(alis.scripts[alis.scriptID]->vram_org + offset) += (u8)alis.varD7;
 }
 static void adirw() {
 //    ADDNAME_ADIRW_0xa
@@ -62,7 +62,7 @@ static void adirw() {
 //00018222 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
 //00018226 4e 75           rts
     u8 offset = read8();
-    *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) += (u16)alis.varD7;
+    *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset) += (u16)alis.varD7;
 }
 static void adirp() {
     // log_debug("STUBBED");
