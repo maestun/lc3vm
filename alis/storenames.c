@@ -14,10 +14,12 @@ static void cnul() {
 static void slocb() {
     u16 offset = read16();
     write8(offset, (u8)alis.varD7);
+    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
 }
 static void slocw() {
     u16 offset = read16();
     write16(offset, alis.varD7);
+    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
 }
 static void slocp() {
     // log_debug("STUBBED");

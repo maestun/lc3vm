@@ -14,24 +14,6 @@ static void cstart(u32 offset) {
     // TODO: check OP_CSTART in asm source
 }
 
-static void readexec_addname_swap() {
-    u8 * tmp = alis.bssChunk1;
-    alis.bssChunk1 = alis.bssChunk3;
-    alis.bssChunk3 = tmp;
-    readexec_addname();
-}
-
-static void readexec_opername_saveD7() {
-    alis.varD6 = alis.varD7;
-    readexec_opername();
-}
-
-static void readexec_opername_swap() {
-    u8 * tmp = alis.bssChunk1;
-    alis.bssChunk1 = alis.bssChunk3;
-    alis.bssChunk3 = tmp;
-    readexec_opername();
-}
 
 // ============================================================================
 #pragma mark - TODO: opcodes

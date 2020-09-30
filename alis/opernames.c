@@ -39,7 +39,7 @@ void olocb() {
 //000175ba 48 87           ext.w      D7w
 //000175bc 4e 75           rts
     u16 offset = read16();
-    u8 b = (u8)*(alis.scripts[alis.scriptID]->vram_org + offset);
+    u8 b = *(alis.scripts[alis.scriptID]->vram_org + offset);
     alis.varD7 = extend_w(b);
 }
 void olocw() {
@@ -50,7 +50,7 @@ void olocw() {
 //000175c4 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
 //000175c8 4e 75           rts
     u16 offset = read16();
-    u16 w = (u16)*(alis.scripts[alis.scriptID]->vram_org + offset);
+    u16 w = *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset);
     alis.varD7 = w;
 }
 void olocp() {
@@ -73,7 +73,7 @@ void olocp() {
     }
 }
 void oloctp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "oloctp STUBBED\n");
 }
 void oloctc() {
 //    OPERNAME_OLOCTC_0x7
@@ -84,50 +84,91 @@ void oloctc() {
 //000175ec 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
 //000175f0 48 87           ext.w      D7w
 //000175f2 4e 75           rts
-    u16 offset = read16();
-
+    debug(EDebugInfo, "oloctc STUBBED\n");
 }
 void olocti() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "olocti STUBBED\n");
 }
 void odirb() {
-    // log_debug("STUBBED");
+//    OPERNAME_ODIRB_0x9
+//00017620 42 40           clr.w      D0w
+//00017622 10 1b           move.b     (A3)+,D0b
+//00017624 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
+//00017628 48 87           ext.w      D7w
+//0001762a 4e 75           rts
+    u8 offset = read8();
+    u16 val = extend_w(*(alis.scripts[alis.scriptID]->vram_org + offset));
+    alis.varD7 = val;
 }
 void odirw() {
-    // log_debug("STUBBED");
+//    OPERNAME_ODIRW_0xa
+//0001762c 42 40           clr.w      D0w
+//0001762e 10 1b           move.b     (A3)+,D0b
+//00017630 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
+//00017634 4e 75           rts
+    u8 offset = read8();
+    u16 val = *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset);
+    alis.varD7 = val;
 }
 void odirp() {
-    // log_debug("STUBBED");
+//    OPERNAME_ODIRP_0xb
+//00017636 42 40           clr.w      D0w
+//00017638 10 1b           move.b     (A3)+,D0b
+//0001763a 43 f6 00 00     lea        (0x0,A6,D0w*0x1),A1
+//0001763e 20 79 00        movea.l    (ADDR_BSS_256_CHUNK_1).l,A0
+//01 95 e2
+//    __loop_until_zero                               XREF[1]:     00017646(j)
+//00017644 10 d9           move.b     (A1)+,(A0)+
+//00017646 66 00 ff fc     bne.w      __loop_until_zero
+    u8 offset = read8();
+    u8 * a1 = alis.scripts[alis.scriptID]->vram_org + offset;
+    u8 * a0 = alis.bssChunk1;
+    while(*a1) {
+        *a0++ = *a1++;
+    }
 }
 void odirtp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "odirtp STUBBED\n");
 }
 void odirtc() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "odirtc STUBBED\n");
 }
 void odirti() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "odirti STUBBED\n");
 }
 void omainb() {
-    // log_debug("STUBBED");
+    odirb();
 }
 void omainw() {
-    // log_debug("STUBBED");
+    odirw();
 }
 void omainp() {
-    // log_debug("STUBBED");
+    odirp();
 }
 void omaintp() {
-    // log_debug("STUBBED");
+    odirtp();
 }
 void omaintc() {
-    // log_debug("STUBBED");
+    odirtc();
 }
 void omainti() {
-    // log_debug("STUBBED");
+    odirti();
 }
 void ohimb() {
-    // log_debug("STUBBED");
+//    OPERNAME_OHIMB_0x15
+//00017724 10 1b           move.b     (A3)+,D0b
+//00017726 e1 40           asl.w      #0x8,D0w
+//00017728 10 1b           move.b     (A3)+,D0b
+//0001772a 30 36 00 00     move.w     (0x0,A6,D0w*0x1),D0w
+//0001772e 20 79 00        movea.l    (ADDR_VIRTUAL_STACK_ORG).l,A0
+//01 95 44
+//00017734 22 70 00 00     movea.l    (0x0,A0,D0w*0x1),A1
+//00017738 10 1b           move.b     (A3)+,D0b
+//0001773a e1 40           asl.w      #0x8,D0w
+//0001773c 10 1b           move.b     (A3)+,D0b
+//0001773e 1e 31 00 00     move.b     (0x0,A1,D0w*0x1),D7b
+//00017742 48 87           ext.w      D7w
+//00017744 4e 75           rts
 }
 void ohimw() {
     // log_debug("STUBBED");
@@ -225,7 +266,9 @@ void omod() {
 //0001794c 2e 06           move.l     D6,D7
 //0001794e 48 47           swap       D7
 //00017950 4e 75           rts
-    debug(EDebugWarning, "%s: TODO", __FUNCTION__);
+    readexec_opername_saveD7();
+    alis.varD6 %= alis.varD7;
+    alis.varD7 = alis.varD6;
 }
 void odiv() {
 //00017952 61 00 fc 18     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
@@ -233,8 +276,7 @@ void odiv() {
 //00017958 8d c7           divs.w     D7w,D6
 //0001795a 3e 06           move.w     D6w,D7w
 //0001795c 4e 75           rts
-    alis.varD6 = alis.varD7;
-    readexec_opername();
+    readexec_opername_saveD7();
     alis.varD6 /= alis.varD7;
     alis.varD7 = alis.varD6;
 }
@@ -242,8 +284,7 @@ void omul() {
 //0001795e 61 00 fc 0c     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
 //00017962 cf c6           muls.w     D6w,D7
 //00017964 4e 75           rts
-    alis.varD6 = alis.varD7;
-    readexec_opername();
+    readexec_opername_saveD7();
     alis.varD7 *= alis.varD6;
 }
 void oneg() {
@@ -253,111 +294,138 @@ void oabs() {
     alis.varD7 = (alis.varD7 < 0) ? -alis.varD7 : alis.varD7;
 }
 void ornd() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ornd STUBBED\n");
 }
 void osgn() {
-    // log_debug("STUBBED");
+    s16 d7 = (s16)alis.varD7;
+    if(d7 > 0) {
+        alis.varD7 = 1;
+    }
+    else if(d7 < 0) {
+        alis.varD7 = 0xffff;
+    }
 }
 void onot() {
     alis.varD7 = ~alis.varD7;
 }
 void oinkey() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "oinkey STUBBED\n");
 }
 void okeyon() {
-    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+    debug(EDebugInfo, "okeyon STUBBED\n");
 }
 void ojoy() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ojoy STUBBED\n");
 }
 void oprnd() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "opnrd STUBBED\n");
 }
 void oscan() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "oscan STUBBED\n");
 }
 void oshiftkey() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "oshiftkey STUBBED\n");
 }
 void ofree() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ofree STUBBED\n");
 }
 void omodel() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "omodel STUBBED\n");
 }
 void ogetkey() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ogetkey STUBBED\n");
 }
 void oleft() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "oleft STUBBED\n");
 }
 void oright() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "oright STUBBED\n");
 }
 void omid() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "omid STUBBED\n");
 }
 void olen() {
-    // log_debug("STUBBED");
+    alis.varD7 = strlen((const char *)alis.bssChunk1);
 }
 void oasc() {
-    // log_debug("STUBBED");
+    alis.varD7 = 0;
+    alis.varD7 = alis.bssChunk1[0];
 }
 void ostr() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ostr STUBBED\n");
 }
 void osadd() {
-    // log_debug("STUBBED");
+    // TODO: strcat ??
+    debug(EDebugInfo, "osadd STUBBED\n");
 }
 void osegal() {
-    // log_debug("STUBBED");
+    // TODO: strcmp ??
+    debug(EDebugInfo, "osegal STUBBED\n");
 }
 void osdiff() {
-    // log_debug("STUBBED");
+    // TODO: !strcmp ??
+    debug(EDebugInfo, "osdiff STUBBED\n");
 }
 void osinfeg() {
-    // log_debug("STUBBED");
+    // TODO: string equ or < ??
+    debug(EDebugInfo, "osinfeg STUBBED\n");
 }
 void ossupeg() {
-    // log_debug("STUBBED");
+    // TODO: string equ or > ??
+    debug(EDebugInfo, "ossupeg STUBBED\n");
 }
 void osinf() {
-    // log_debug("STUBBED");
+    // TODO: string < ??
+    debug(EDebugInfo, "osinf STUBBED\n");
 }
 void ossup() {
-    // log_debug("STUBBED");
+    // TODO: string > ??
+    debug(EDebugInfo, "ossup STUBBED\n");
 }
 void ospushacc() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ospushacc STUBBED\n");
 }
 void ospile() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ospile STUBBED\n");
 }
 void oval() {
-    // log_debug("STUBBED");
+    // TODO: compute int value of chunk1 string -> d7 ??
+    debug(EDebugInfo, "oval STUBBED\n");
 }
 void oexistf() {
-    // log_debug("STUBBED");
+    alis.varD7 = 0;
+    alis.fp = sys_fopen((char *)alis.bssChunk1);
+    if(alis.fp) {
+        alis.varD7 = 0xff;
+        sys_fclose(alis.fp);
+    }
 }
 void ochr() {
-    // log_debug("STUBBED");
+    alis.bssChunk1[0] = (u8)alis.varD7;
 }
 void ochange() {
-    // log_debug("STUBBED");
+    // TODO: change le drive courant ??
+    debug(EDebugInfo, "ochange STUBBED\n");
 }
 void ocountry() {
-    // log_debug("STUBBED");
+//    OPERNAME_OCOUNTRY_0x51
+//00017d26 42 47           clr.w      D7w
+//00017d28 1e 39 00        move.b     (B_COUNTRY_CODE_??).l,D7b
+//01 95 09
+//00017d2e 4e 75           rts
+    debug(EDebugInfo, "ocountry STUBBED\n");
 }
 void omip() {
     alis.varD7 = 0x64;
 }
 void ojoykey() {
     // log_debug("STUBBED");
+    debug(EDebugInfo, "ojoykey STUBBED\n");
 }
 void oconfig() {
     alis.varD7 = 0;
 }
-static void cnul() {
+void cnul() {
 }
 
 // =============================================================================

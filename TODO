@@ -1,0 +1,10 @@
+cdefsc à implémenter:
+deviner ce qu'est
+* DAT_0001955e
+-> écrit 1 seule fois à $1868c, vaut (DAT_19556)+0x8000 => $303e0
+    -> DAT_19556 écrit une seule fois à $185d2 => $283e0
+    -> ça vient de DAT_1992e (à $185a4)
+* W_00019562
+  
+* FUN_00013d82
+* FUN_00013dda

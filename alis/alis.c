@@ -32,19 +32,39 @@ alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
 }
 
 alisRet readexec_opcode() {
-    readexec(opcodes, "opcode", 0);
+    debug(EDebugVerbose, "------\n");
+    return readexec(opcodes, "opcode", 0);
 }
 
 alisRet readexec_opername() {
-    readexec(opernames, "opername", 1);
+    return readexec(opernames, "opername", 1);
 }
 
 alisRet readexec_storename() {
-    readexec(storenames, "storename", 2);
+    return readexec(storenames, "storename", 2);
 }
 
 alisRet readexec_addname() {
-    readexec(addnames, "addname", 2);
+    return readexec(addnames, "addname", 2);
+}
+
+alisRet readexec_addname_swap() {
+    u8 * tmp = alis.bssChunk1;
+    alis.bssChunk1 = alis.bssChunk3;
+    alis.bssChunk3 = tmp;
+    return readexec_addname();
+}
+
+alisRet readexec_opername_saveD7() {
+    alis.varD6 = alis.varD7;
+    return readexec_opername();
+}
+
+alisRet readexec_opername_swap() {
+    u8 * tmp = alis.bssChunk1;
+    alis.bssChunk1 = alis.bssChunk3;
+    alis.bssChunk3 = tmp;
+    return readexec_opername();
 }
 
 u8 read8(void) {

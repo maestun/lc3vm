@@ -115,6 +115,7 @@
 		8B28A6802507C5A600E3F0FF /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		8B28A6822507C5AA00E3F0FF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8B28A6842507C9EC00E3F0FF /* imgui_memory_editor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_memory_editor.h; sourceTree = "<group>"; };
+		8B37A662252471D500B7FBDB /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; name = TODO; path = ../TODO; sourceTree = "<group>"; };
 		8B9C3F252508DE8C00C947F9 /* disasm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = disasm.h; sourceTree = "<group>"; };
 		8B9C3F262508DE8C00C947F9 /* disasm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = disasm.c; sourceTree = "<group>"; };
 		8B9C3F572508F37500C947F9 /* lc3vm-imgui */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "lc3vm-imgui"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +169,7 @@
 		8B28A60F25076CC800E3F0FF = {
 			isa = PBXGroup;
 			children = (
+				8B37A662252471D500B7FBDB /* TODO */,
 				8B9C400D250921E900C947F9 /* alis */,
 				8B28A6672507C4F800E3F0FF /* imgui */,
 				8B28A6532507C31D00E3F0FF /* lc3vm */,
