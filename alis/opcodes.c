@@ -379,10 +379,38 @@ static void cerasen() {
 
 static void cset() {
     // log_debug("STUBBED");
+//    OPCODE_CSET_0x4c
+//00014652 61 00 2f 1a     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
+//00014656 3d 47 00 00     move.w     D7w,(0x0,A6)
+//0001465a 61 00 2f 12     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
+//0001465e 3d 47 00 02     move.w     D7w,(0x2,A6)
+//00014662 61 00 2f 0a     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
+//00014666 3d 47 00 04     move.w     D7w,(0x4,A6)
+//0001466a 4e 75           rts
+    readexec_opername();
+    push16(0, alis.varD7);
+    readexec_opername();
+    push16(2, alis.varD7);
+    readexec_opername();
+    push16(4, alis.varD7);
 }
 
 static void cmov() {
     // log_debug("STUBBED");
+//    OPCODE_CMOV_0x4d
+//0001466c 61 00 2f 00     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
+//00014670 df 6e 00 00     add.w      D7w,(0x0,A6)
+//00014674 61 00 2e f8     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
+//00014678 df 6e 00 02     add.w      D7w,(0x2,A6)
+//0001467c 61 00 2e f0     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
+//00014680 df 6e 00 04     add.w      D7w,(0x4,A6)
+//00014684 4e 75           rts
+    readexec_opername();
+    *(u16 *)(alis.stack_org + 0) += alis.varD7;
+    readexec_opername();
+    *(u16 *)(alis.stack_org + 2) += alis.varD7;
+    readexec_opername();
+    *(u16 *)(alis.stack_org + 4) += alis.varD7;
 }
 
 static void copensc() {

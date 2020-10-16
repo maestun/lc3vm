@@ -128,6 +128,14 @@ u16 pop16() {
     return val;
 }
 
+void push8(u32 offset, u8 val) {
+    *(u8 *)(alis.stack_org + offset) = val;
+}
+
+void push16(u32 offset, u16 val) {
+    *(u16 *)(alis.stack_org + offset) = val;
+}
+
 // =============================================================================
 // MARK: - VM API
 // =============================================================================
@@ -140,6 +148,8 @@ void alis_init(sPlatform platform) {
 //    alis.pc_org = alis.memory;
     
     // init vars
+    alis.ram = (u8 *)malloc(kMaxVirtualRAMSize * sizeof(u8));
+    memset(alis.ram, 0, kMaxVirtualRAMSize * sizeof(u8));
     alis.varD6 = alis.varD7 = 0;
     alis.bssChunk1 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
     alis.bssChunk2 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
@@ -174,6 +184,7 @@ void alis_deinit() {
     for(int i = 0; i < kMaxScripts; i++) {
         script_unload(alis.scripts[i]);
     }
+    free(alis.ram);
     free(alis.stack_org);
     free(alis.bssChunk1);
     free(alis.bssChunk2);

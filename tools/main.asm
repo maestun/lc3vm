@@ -1,3 +1,4 @@
+; $2d279 -> $33568
 _main_header:
 	$2d278	00 00 17 00 00 16 00 00 4D C9 00 00 03 21 00 00 4E AE 00 20 42 72 00 20
 			data
@@ -108,6 +109,24 @@ _main_start:
 	$2d7d1	11 
 			cret
 
+			; ...
+			; logo tourne
+			; ...
+	$2d826	1f 38 74 42 00 0c 4c 00 00 3a
+			ceval oeval oshiftkey oand oimmb #$0c odiff oimmb #$00 ofin
+	$2d830	14 00 00 0f 
+			cbz24 #$0f
+			; ...
+	$2d844	42
+			cstop ; retour à script logo ??
 
-
-
+	$2d86b	$12 $ba
+			cbz8 #$ffba ; $2d826
+			; ...
+	$32047	1f 38 74 42 00 0c 4c 00 00 3a
+			ceval oeval oshiftkey oand oimmb #$0c odiff oimmb #$00 ofin
+	$32051	14 00 00 83
+			cbz24 #$83
+			; ...
+	$320d8	1f 38 6a 4a 00 1b 3a
+			ceval oeval oinkey 

@@ -17,6 +17,18 @@
 #define kMaxScripts             (UINT8_MAX)
 #define kBSSChunkLen            (256)
 
+
+// =============================================================================
+// MARK: - SPECIAL OFFSETS IN ALIS RAM (A6)
+// =============================================================================
+#define AO_CLINKING             (0xffd6)
+#define AO_SC_POSITION          (0xffea)
+#define AO_LOC_TP               (0xfffe)
+#define AO_LOC_TP               (0xffff)
+
+
+
+
 // =============================================================================
 // MARK: - OPCODES
 // =============================================================================
@@ -44,6 +56,9 @@ typedef struct {
     
     // true if vm is running
     u8              running;
+    
+    // host ram emulation
+    u8 *            ram;
     
     // virtual program counter
     u8 *            pc;

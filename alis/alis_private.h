@@ -50,6 +50,9 @@ void write16(u16 offset, u16 value);
 void add8(u16 offset, u8 value);
 void add16(u16 offset, u16 value);
 
+void push8(u16 offset, u8 value);
+void push16(u16 offset, u16 value);
+
 u16 pop16(void);
 u8 pop8(void);
 
