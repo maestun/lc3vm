@@ -11,7 +11,7 @@
 #define kMainScriptID           (0)
 #define kMainScriptHeaderLen    (24 * sizeof(u8))
 #define kScriptHeaderLen        (8 * sizeof(u8))
-#define kScriptVRAMSize         (0xffff * sizeof(u8)) // TODO: seems to be 65k ?
+#define kScriptRAMSize          (0xffff * sizeof(u8)) // TODO: seems to be 65k ?
 
 #define kDepackFolder           "depack"
 #define kDepackExtension        "bin"
@@ -41,8 +41,8 @@ typedef struct {
         the address of this pointer is (A6 + D4).
         
      
-     A6 = vram_org / virtual ram
-     |                           vstack_ptr
+     A6 = vram / virtual ram
+     |                           sp
      | <-- D4 = stack offset --> |
      v                           v
      _______________________ ... _____
@@ -51,8 +51,10 @@ typedef struct {
      <---------- 65k bytes ---------->
     */
     
-    u8 *    vram_org;       // pointer to virtual ram (A6)
-    u32     vstack_offset;  // offset to virtual stack (D4)
+    u8 *    ram;
+    //u8 *    vram_org;       // pointer to virtual ram origin (A6)
+    u8 *    sp;
+    // u32     vstack_offset;  // offset to virtual stack (D4)
    
 } sAlisScript;
 

@@ -21,7 +21,7 @@ static void alocb() {
 //00018198 10 1b           move.b     (A3)+,D0b
 //0001819a df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
 //0001819e 4e 75           rts
-    u16 offset = read16();
+    u16 offset = script_read16();
     add8(offset, (u8)alis.varD7);
 }
 static void alocw() {
@@ -31,7 +31,7 @@ static void alocw() {
 //000181a4 10 1b           move.b     (A3)+,D0b
 //000181a6 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
 //000181aa 4e 75           rts
-    u16 offset = read16();
+    u16 offset = script_read16();
     add16(offset, alis.varD7);
 }
 static void alocp() {
@@ -39,9 +39,9 @@ static void alocp() {
 //000181ac 10 1b           move.b     (A3)+,D0b
 //000181ae e1 40           asl.w      #0x8,D0w
 //000181b0 10 1b           move.b     (A3)+,D0b
-    u16 offset = read16();
+    u16 offset = script_read16();
 //000181b2 43 f6 00 00     lea        (0x0,A6,D0w*0x1),A1
-    u8 * a1 = alis.scripts[alis.scriptID]->vram_org + offset;
+    u8 * a1 = alis.scripts[alis.scriptID]->ram + offset;
 //000181b6 20 79 00        movea.l    (ADDR_BSS_256_CHUNK_3).l,A0
 //01 95 ea
     u8 * a0 = alis.bssChunk3;
@@ -76,7 +76,7 @@ static void adirb() {
 //00018216 10 1b           move.b     (A3)+,D0b
 //00018218 df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
 //0001821c 4e 75           rts
-    u8 offset = read8();
+    u8 offset = script_read8();
     add8(offset, (u8)alis.varD7);
 }
 static void adirw() {
@@ -85,7 +85,7 @@ static void adirw() {
 //00018220 10 1b           move.b     (A3)+,D0b
 //00018222 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
 //00018226 4e 75           rts
-    u8 offset = read8();
+    u8 offset = script_read8();
     add16(offset, alis.varD7);
 }
 static void adirp() {

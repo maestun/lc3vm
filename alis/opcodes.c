@@ -6,6 +6,7 @@
 
 #include "alis.h"
 #include "alis_private.h"
+#include "utils.h"
 
 // =============================================================================
 #pragma mark - Helpers
@@ -65,19 +66,19 @@ static void ctab() {
 // read x bytes
 static void cdim() {
 
-    u8 * stack_org = (u8 *)alis.scripts[alis.scriptID]->vram_org;
+    u8 * stack_org = (u8 *)alis.scripts[alis.scriptID]->ram;
     
     // read word param
-    u16 offset = read16();
-    u8 counter = read8();
-    u8 byte2 = read8();
+    u16 offset = script_read16();
+    u8 counter = script_read8();
+    u8 byte2 = script_read8();
     
     stack_org[--offset] = counter;
     stack_org[--offset] = byte2;
     
     // loop w/ counter, read words, store backwards
     while(counter--) {
-        u16 w = read16();
+        u16 w = script_read16();
         offset -= 2;
         stack_org[offset] = (w >> 8) & 0xff;
         stack_org[offset + 1] = w & 0xff;
@@ -95,7 +96,7 @@ static void cloop8() {
     readexec_addname_swap();
     if(alis.varD7/* TODO: check that condition code is not zero */) {
         alis.pc = pc_save;
-        alis.pc += extend_w(read8());
+        alis.pc += extend_w(script_read8());
     }
 }
 
@@ -106,7 +107,7 @@ static void cloop16() {
     readexec_addname_swap();
     if(alis.varD7/* TODO: check that condition code is not zero */) {
         alis.pc = pc_save;
-        alis.pc += read16();
+        alis.pc += script_read16();
     }
 }
 
@@ -117,7 +118,7 @@ static void cloop24() {
     readexec_addname_swap();
     if(alis.varD7/* TODO: check that condition code is not zero */) {
         alis.pc = pc_save;
-        alis.pc += read24();
+        alis.pc += script_read24();
     }
 }
 
@@ -182,7 +183,7 @@ static void ckill() {
 }
 
 static void cstop() {
-    // log_debug("STUBBED");
+    debug(EDebugVerbose, "cstop: STUBBED\n");
 }
 
 static void cstopret() {
@@ -195,7 +196,7 @@ static void cexit() {
 
 static void cload() {
     // get script ID
-    u16 id = read16();
+    u16 id = script_read16();
     
     // get file name
     char * name = (char *)alis.pc;
@@ -285,11 +286,11 @@ static void cdefsc() {
          asl.w          #$8,D0
          move.b         (A3)+,D0
     */
-    u16 offset = read16();
+    u16 offset = script_read16();
     /*
          movea.l        (ADDR_VSTACK).l,A0 ; correspond à a6 !!! / A0 vaut $224f0, contient $22690 soit vstack
      */
-    u8 * vstack_ptr = alis.scripts[alis.scriptID]->vram_org;
+    u8 * vstack_ptr = alis.scripts[alis.scriptID]->ram;
     /*
          bset.b         #$6,(A0,D0)
      */
@@ -297,7 +298,7 @@ static void cdefsc() {
     /*
          move.b         (A3)+,($1,A0,D0)
      */
-    *(vstack_ptr + offset + 1) = read8();
+    *(vstack_ptr + offset + 1) = script_read8();
     
     /*
          moveq          #$1f,D1
@@ -310,7 +311,7 @@ static void cdefsc() {
     u8 counter = 32;
     u8 * ptr = vstack_ptr + offset + 6;
     while(counter--) {
-        *ptr++ = read8();
+        *ptr++ = script_read8();
     }
  
     /*
@@ -388,11 +389,11 @@ static void cset() {
 //00014666 3d 47 00 04     move.w     D7w,(0x4,A6)
 //0001466a 4e 75           rts
     readexec_opername();
-    push16(0, alis.varD7);
+    write16(0, alis.varD7);
     readexec_opername();
-    push16(2, alis.varD7);
+    write16(2, alis.varD7);
     readexec_opername();
-    push16(4, alis.varD7);
+    write16(4, alis.varD7);
 }
 
 static void cmov() {
@@ -406,11 +407,11 @@ static void cmov() {
 //00014680 df 6e 00 04     add.w      D7w,(0x4,A6)
 //00014684 4e 75           rts
     readexec_opername();
-    *(u16 *)(alis.stack_org + 0) += alis.varD7;
+    add16(0, alis.varD7);
     readexec_opername();
-    *(u16 *)(alis.stack_org + 2) += alis.varD7;
+    add16(2, alis.varD7);
     readexec_opername();
-    *(u16 *)(alis.stack_org + 4) += alis.varD7;
+    add16(4, alis.varD7);
 }
 
 static void copensc() {
@@ -550,18 +551,28 @@ static void cinitab() {
 }
 
 static void cfopen() {
-    // log_debug("STUBBED");
+    u16 id = 0;
     if(*alis.pc == 0xff) {
-        
+        ++alis.pc;
+        readexec_opername_swap();
+        readexec_opername();
     }
     else {
-        u8 * name = alis.pc;
-        sys_fopen((char *)name);
+        char path[kPathMaxLen] = {0};
+        strcpy(path, alis.platform.path);
+        script_read_until_zero((u8 *)(path + strlen(alis.platform.path)));
+        id = script_read16();
+        alis.fp = sys_fopen((char *)path);
+        if(alis.fp == NULL) {
+            alis_error(ALIS_ERR_FOPEN, path);
+        }
     }
 }
 
 static void cfclose() {
-    sys_fclose(alis.fp);
+    if(sys_fclose(alis.fp) < 0) {
+        alis_error(ALIS_ERR_FCLOSE);
+    }
 }
 
 static void cfcreat() {
@@ -684,7 +695,18 @@ static void cvftstmov() {
 }
 
 static void cvmov() {
-    // log_debug("STUBBED");
+//    OPCODE_CVMOV_0x90
+//00014686 10 2e 00 09     move.b     (0x9,A6),D0b
+//0001468a 48 80           ext.w      D0w
+//0001468c d1 6e 00 00     add.w      D0w,(0x0,A6)
+//00014690 10 2e 00 0a     move.b     (0xa,A6),D0b
+//00014694 48 80           ext.w      D0w
+//00014696 d1 6e 00 02     add.w      D0w,(0x2,A6)
+//0001469a 10 2e 00 0b     move.b     (0xb,A6),D0b
+//0001469e 48 80           ext.w      D0w
+//000146a0 d1 6e 00 04     add.w      D0w,(0x4,A6)
+//000146a4 4e 75           rts
+
 }
 
 static void cdefworld() {
@@ -697,10 +719,10 @@ static void cdefworld() {
 //000173fa 1d 9b 00 00     move.b     (A3)+,(0x0,A6,D0w*0x1)
 //000173fe 51 c9 ff fa     dbf        D1w,LAB_000173fa
 //00017402 4e 75           rts
-    u16 offset = read16();
+    u16 offset = script_read16();
     u8 counter = 5;
     while(counter--) {
-        write8(offset, read8());
+        write8(offset, script_read8());
     }
 }
 
@@ -709,8 +731,8 @@ static void cworld() {
 //00017404 1d 5b ff de     move.b     (A3)+,(0xFFDE,A6)
 //00017408 1d 5b ff df     move.b     (A3)+,(0xFFDF,A6)
 //0001740c 4e 75           rts
-    write8(0xffde, read8());
-    write8(0xffdf, read8());
+    write8(0xffde, script_read8());
+    write8(0xffdf, script_read8());
 }
 
 static void cfindmat() {
@@ -1191,28 +1213,33 @@ static void cjmpind24() {
 static void cret() {
     // return from subroutine (cjsr)
     // retrieve return address offset from virtual stack
-    sAlisScript * script = alis.scripts[alis.scriptID];
-    u32 pc_offset = *(u32 *)(script->vram_org + script->vstack_offset);
-    alis.pc = alis.pc_org + pc_offset;
+//    sAlisScript * script = alis.scripts[alis.scriptID];
+//    u32 pc_offset = *(u32 *)(script->vram + script->vstack_offset);
+//    alis.pc = alis.pc_org + pc_offset;
+//
+//    script->vstack_offset += 4;
     
-    script->vstack_offset += 4;
+    // retrieve return address **OFFSET** from virtual stack
+    u32 pc_offset = pop32();
+    alis.pc = alis.pc_org + pc_offset;
 }
 
 static void cjsr(u32 offset) {
     debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
     
-    // save return OFFSET
+    // save return **OFFSET**, not ADDRESS
     // TODO: dans la vm originale on empile la 'vraie' adresse du PC en 32 bits
     // Là j'ai pas la place (on est en 64 bits), donc j'empile l'offset
     // TODO: peut-on stocker une adresse de retour *virtuelle* ?
     // Sinon ça oblige à créer une pile virtuelle d'adresses
     //   dont la taille est platform-dependent
-    sAlisScript * script = alis.scripts[alis.scriptID];
+//    sAlisScript * script = alis.scripts[alis.scriptID];
 
-    script->vstack_offset -= 4;
+//    script->vstack_offset -= 4;
     
     u32 pc_offset = (u32)(alis.pc - alis.pc_org);
-    *(u32 *)(script->vram_org + script->vstack_offset) = pc_offset;
+    push32(pc_offset);
+    //*(u32 *)(script->vram + script->vstack_offset) = pc_offset;
     
     // jump
     alis.pc += offset;
@@ -1220,111 +1247,111 @@ static void cjsr(u32 offset) {
 
 static void cjsr8() {
     // read byte, extend sign
-    u16 offset = extend_w(read8());
+    u16 offset = extend_w(script_read8());
     cjsr(offset);
 }
 
 static void cjsr16() {
-    u16 offset = read16();
+    u16 offset = script_read16();
     cjsr(offset);
 }
 
 static void cjsr24() {
-    u32 offset = read24();
+    u32 offset = script_read24();
     cjsr(offset);
 }
 
 static void cjmp8() {
-    u16 offset = extend_w(read8());
+    u16 offset = extend_w(script_read8());
     alis.pc += offset;
 }
 
 static void cjmp16() {
-    u16 offset = read16();
+    u16 offset = script_read16();
     alis.pc += offset;
 }
 
 static void cjmp24() {
-    u32 offset = read24();
+    u32 offset = script_read24();
     alis.pc += offset;
 }
 
 static void cbz8() {
-    u16 offset = read8();
+    u16 offset = script_read8();
     if(alis.varD7 == 0) {
-        offset = extend_w(read8());
+        offset = extend_w(script_read8());
         alis.pc += offset;
     }
 }
 
 static void cbz16() {
-    u16 offset = read16();
+    u16 offset = script_read16();
     if(alis.varD7 == 0) {
         alis.pc += offset;
     }
 }
 static void cbz24() {
-    u32 offset = read24();
+    u32 offset = script_read24();
     if(alis.varD7 == 0) {
         alis.pc += offset;
     }
 }
 
 static void cbnz8() {
-    u16 offset = read8();
+    u16 offset = script_read8();
     if(alis.varD7) {
-        offset = extend_w(read8());
+        offset = extend_w(script_read8());
         alis.pc += offset;
     }
 }
 
 static void cbnz16() {
-    u16 offset = read16();
+    u16 offset = script_read16();
     if(alis.varD7) {
         alis.pc += offset;
     }
 }
 
 static void cbnz24() {
-    u32 offset = read24();
+    u32 offset = script_read24();
     if(alis.varD7) {
         alis.pc += offset;
     }
 }
 static void cbeq8() {
-    u16 offset = read8();
+    u16 offset = script_read8();
     if(alis.varD7 == alis.varD6) {
-        offset = extend_w(read8());
+        offset = extend_w(script_read8());
         alis.pc += offset;
     }
 }
 static void cbeq16() {
-    u16 offset = read16();
+    u16 offset = script_read16();
     if(alis.varD7 == alis.varD6) {
         alis.pc += offset;
     }
 }
 static void cbeq24() {
-    u32 offset = read24();
+    u32 offset = script_read24();
     if(alis.varD7 == alis.varD6) {
         alis.pc += offset;
     }
 }
 static void cbne8() {
-    u16 offset = read8();
+    u16 offset = script_read8();
     if(alis.varD7 != alis.varD6) {
-        offset = extend_w(read8());
+        offset = extend_w(script_read8());
         alis.pc += offset;
     }
 }
 static void cbne16() {
-    u16 offset = read16();
+    u16 offset = script_read16();
     if(alis.varD7 != alis.varD6) {
         alis.pc += offset;
     }
 }
 static void cbne24() {
-    u32 offset = read24();
+    u32 offset = script_read24();
     if(alis.varD7 != alis.varD6) {
         alis.pc += offset;
     }

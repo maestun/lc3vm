@@ -12,14 +12,14 @@
 static void cnul() {
 }
 static void slocb() {
-    u16 offset = read16();
+    u16 offset = script_read16();
     write8(offset, (u8)alis.varD7);
-    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
+    debug(EDebugVerbose, "\toffset is 0x%04x\n", offset);
 }
 static void slocw() {
-    u16 offset = read16();
+    u16 offset = script_read16();
     write16(offset, alis.varD7);
-    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
+    debug(EDebugVerbose, "\toffset is 0x%04x\n", offset);
 }
 static void slocp() {
     // log_debug("STUBBED");
@@ -36,8 +36,8 @@ static void slocp() {
 //00017f38 12 d8           move.b     (A0)+,(A1)+
 //00017f3a 66 00 ff fc     bne.w      LAB_00017f38
 //00017f3e 4e 75           rts
-    u16 offset = read16();
-    u8 * ptr = alis.scripts[alis.scriptID]->vram_org + offset;
+    u16 offset = script_read16();
+    u8 * ptr = alis.scripts[alis.scriptID]->ram + offset;
     u16 i = 0;
     while(alis.bssChunk3[i]) {
         *ptr++ = alis.bssChunk3[i++];
@@ -60,10 +60,10 @@ static void sloctp() {
 //00017f7e 4e 75           rts
 }
 static void sloctc() {
-    u16 offset = read16();
-    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
-    alis.varD7 = pop16();
-    write8(offset, alis.varD7);
+//    u16 offset = script_read16();
+//    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
+//    alis.varD7 = pop16();
+//    write8(offset, alis.varD7);
 }
 static void slocti() {
     // log_debug("STUBBED");
@@ -80,7 +80,7 @@ static void sdirb() {
 //00017f82 10 1b           move.b     (A3)+,D0b
 //00017f84 1d 87 00 00     move.b     D7b,(0x0,A6,D0w*0x1)
 //00017f88 4e 75           rts
-    u8 offset = read8();
+    u8 offset = script_read8();
     write8(offset, (u8)alis.varD7);
     // *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) = (u8)alis.varD7;
 }
@@ -96,7 +96,7 @@ static void sdirw() {
 //00017f8a 42 40           clr.w      D0w
 //00017f8c 10 1b           move.b     (A3)+,D0b
 //00017f8e 3d 87 00 00     move.w     D7w,(0x0,A6,D0w*0x1)
-    u8 offset = read8();
+    u8 offset = script_read8();
     write16(offset, (u16)alis.varD7);
     // *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) = (u16)alis.varD7;
 }
@@ -162,8 +162,8 @@ static void seval() {
 //    00015d3c 30 30 00 00     move.w     (0x0,A0,D0w*offset JTAB_STORENAME),D0w
 //    00015d40 4e f0 00 00     jmp        (0x0,A0,D0w*0x1)
 
-    // TODO: push D7 into virtual stack
-    alis.scripts[alis.scriptID]->vram_org;
+    // TODO: push D7 into virtual stack ??
+    alis.scripts[alis.scriptID]->ram;
     
     oeval();
     

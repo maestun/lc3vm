@@ -319,19 +319,23 @@ sAlisScript * script_load(const char * script_path) {
         script->datalen = sz;
         script->headerlen = (main ? kMainScriptHeaderLen : kScriptHeaderLen);  // TODO: thats a guess
 
-        // virtual ram
-        script->vram_org = (u8 *)malloc(kScriptVRAMSize * sizeof(u8));
-        memset(script->vram_org, 0, kScriptVRAMSize * sizeof(u8));
-        script->vstack_offset = kScriptVRAMSize;
+        // alloc / init virtual ram
+        script->ram = (u8 *)malloc(kScriptRAMSize * sizeof(u8));
+        memset(script->ram, 0, kScriptRAMSize * sizeof(u8));
+        script->sp = script->ram + kScriptRAMSize;
         
         // cleanup
         fclose(fp);
+        
+        debug(EDebugVerbose,
+              "Script loaded (ID = 0x%02x)\n", script->ID);
+
     }
     return script;
 }
 
 void script_unload(sAlisScript * script) {
-    free(script->vram_org);
+    free(script->ram);
     free(script->data);
     free(script);
 }

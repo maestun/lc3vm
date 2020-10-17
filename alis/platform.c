@@ -74,11 +74,15 @@ sPlatform guess_platform(const char * path) {
         // this might be a script file path
         FILE * fp = fopen(path, "r");
         if(fp != NULL) {
+            fclose(fp);
             sPlatform pf = get_platform(path);
             if(pf.kind != EPlatformUnknown) {
                 platform = pf;
+                strcpy(platform.main, path);
+                char * ptr = strrchr(path, kPathSeparator);
+                *++ptr = '\0';
+                strcpy(platform.path, path);
             }
-            fclose(fp);
         }
         else {
             printf("ERROR: %s is not a valid script path.", path);

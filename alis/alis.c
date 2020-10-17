@@ -16,7 +16,7 @@ sAlisVM alis;
 // MARK: - Private
 // =============================================================================
 alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
-    if(alis.pc - alis.pc_org == kMaxVirtualRAMSize) {
+    if(alis.pc - alis.pc_org == kVirtualRAMSize) {
         // pc overflow !
         debug(EDebugFatal, "PC OVERFLOW !");
     }
@@ -67,74 +67,116 @@ alisRet readexec_opername_swap() {
     return readexec_opername();
 }
 
-u8 read8(void) {
+
+// =============================================================================
+// MARK: - Script
+// =============================================================================
+u8 script_read8(void) {
     return *alis.pc++;
 }
 
-u16 read16(void) {
+u16 script_read16(void) {
     return (*alis.pc++ << 8) + *alis.pc++;
 }
 
-u32 read24(void) {
+u32 script_read24(void) {
     return (*alis.pc++ << 16) + (*alis.pc++ << 8) + *alis.pc++;
 }
 
-void readBytes(u32 len, u8 * dest) {
+void script_read_bytes(u32 len, u8 * dest) {
     while(len--) {
         *dest++ = *alis.pc++;
     }
 }
 
-void readToZero(u8 * dest) {
-    while(*alis.pc++) {
-        *dest++ = *alis.pc;
+void script_read_until_zero(u8 * dest) {
+    while(*alis.pc) {
+        *dest++ = *alis.pc++;
     }
 }
 
-uint16_t sign_extend(uint16_t x, int bit_count) {
-    if ((x >> (bit_count - 1)) & 1) {
-        x |= (0xFFFF << bit_count);
-    }
-    return x;
+
+// =============================================================================
+// MARK: - Virtual RAM
+// =============================================================================
+u8 read8(u16 offset) {
+    return *(u8 *)(alis.scripts[alis.scriptID]->ram + offset);
 }
 
-uint16_t extend_w(uint8_t x) {
-    return sign_extend(x, 8);
+u16 read16(u16 offset) {
+    return *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
 }
 
 void write8(u16 offset, u8 value) {
-    *(u8 *)(alis.scripts[alis.scriptID]->vram_org + offset) = value;
+    *(u8 *)(alis.scripts[alis.scriptID]->ram + offset) = value;
 }
 
 void write16(u16 offset, u16 value) {
-    *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset) = value;
+    *(u16 *)(alis.scripts[alis.scriptID]->ram + offset) = value;
 }
 
 void add8(u16 offset, u8 value) {
-    *(u8 *)(alis.scripts[alis.scriptID]->vram_org + offset) += value;
+    *(u8 *)(alis.scripts[alis.scriptID]->ram + offset) += value;
 }
 
 void add16(u16 offset, u16 value) {
-    *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset) += value;
+    *(u16 *)(alis.scripts[alis.scriptID]->ram + offset) += value;
+}
+
+void push8(u8 value) {
+    alis.scripts[alis.scriptID]->sp -= sizeof(u8);
+    *(u8 *)(alis.scripts[alis.scriptID]->sp) = value;
+}
+
+void push16(u16 value) {
+    alis.scripts[alis.scriptID]->sp -= sizeof(u16);
+    *(u16 *)(alis.scripts[alis.scriptID]->sp) = value;
+}
+
+void push32(u32 value) {
+    alis.scripts[alis.scriptID]->sp -= sizeof(u32);
+    *(u32 *)(alis.scripts[alis.scriptID]->sp) = value;
 }
 
 u8 pop8() {
-    u8 val = *alis.stack++;
-    return val;
+    u8 ret = *(u8 *)(alis.scripts[alis.scriptID]->sp);
+    alis.scripts[alis.scriptID]->sp += sizeof(u8);
+    return ret;
 }
 
 u16 pop16() {
-    u16 val = (*alis.stack++ << 8) + *alis.stack++;
-    return val;
+    u16 ret = *(u16 *)(alis.scripts[alis.scriptID]->sp);
+    alis.scripts[alis.scriptID]->sp += sizeof(u16);
+    return ret;
 }
 
-void push8(u32 offset, u8 val) {
-    *(u8 *)(alis.stack_org + offset) = val;
+u32 pop32() {
+    u32 ret = *(u32 *)(alis.scripts[alis.scriptID]->sp);
+    alis.scripts[alis.scriptID]->sp += sizeof(u32);
+    return ret;
 }
 
-void push16(u32 offset, u16 val) {
-    *(u16 *)(alis.stack_org + offset) = val;
-}
+
+// =============================================================================
+// MARK: - Push and Pop data in virtual RAM using virtual stack pointer
+// =============================================================================
+//u8 pop8() {
+//    u8 val = *alis.stack++;
+//    return val;
+//}
+//
+//u16 pop16() {
+//    u16 val = (*alis.stack++ << 8) + *alis.stack++;
+//    return val;
+//}
+//
+//void push8(u32 offset, u8 val) {
+//    *(u8 *)(alis.stack_org + offset) = val;
+//}
+//
+//void push16(u32 offset, u16 val) {
+//    *(u16 *)(alis.stack_org + offset) = val;
+//}
 
 // =============================================================================
 // MARK: - VM API
@@ -148,8 +190,8 @@ void alis_init(sPlatform platform) {
 //    alis.pc_org = alis.memory;
     
     // init vars
-    alis.ram = (u8 *)malloc(kMaxVirtualRAMSize * sizeof(u8));
-    memset(alis.ram, 0, kMaxVirtualRAMSize * sizeof(u8));
+    alis.ram = (u8 *)malloc(kHostRAMSize * sizeof(u8));
+    memset(alis.ram, 0, kHostRAMSize * sizeof(u8));
     alis.varD6 = alis.varD7 = 0;
     alis.bssChunk1 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
     alis.bssChunk2 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
@@ -165,11 +207,8 @@ void alis_init(sPlatform platform) {
     }
     
     
-    alis.stack_org = (u8 *)malloc(kMaxVirtualRAMSize * sizeof(u8));
-    alis.stack = alis.stack_org;
-    
-    
-    
+//    alis.stack_org = (u8 *)malloc(kMaxVirtualRAMSize * sizeof(u8));
+//    alis.stack = alis.stack_org;
     
     alis.platform = platform;
     
@@ -185,7 +224,7 @@ void alis_deinit() {
         script_unload(alis.scripts[i]);
     }
     free(alis.ram);
-    free(alis.stack_org);
+//    free(alis.stack_org);
     free(alis.bssChunk1);
     free(alis.bssChunk2);
     free(alis.bssChunk3);
@@ -214,10 +253,27 @@ void alis_start_script(sAlisScript * script) {
 //    memcpy(alis.memory + script->org,
 //           script->code,
 //           script->codelen * sizeof(u8));
-    
-    alis.scripts[script->ID] = script;
+    alis.scriptID = script->ID;
+    alis.scripts[alis.scriptID] = script;
     
     // set pc to script origin in virtual ram
     alis.pc = alis.pc_org = script->data + script->headerlen; // TODO: determine org
     alis.running = 1;
 }
+
+void alis_error(u8 errnum, ...) {
+    sAlisError err = errors[errnum];
+    debug(EDebugError, err.descfmt, errnum);
+    exit(-1);
+}
+
+sAlisError errors[] = {
+    { ALIS_ERR_FOPEN,   "fopen", "Failed to open file %s\n" },
+    { ALIS_ERR_FWRITE,  "fwrite", "Failed to write to file %s\n" },
+    { ALIS_ERR_FCREATE, "fcreate", "" },
+    { ALIS_ERR_FDELETE, "fdelete", "" },
+    { ALIS_ERR_CDEFSC,  "cdefsc", "" },
+    { ALIS_ERR_FREAD,   "fread", "" },
+    { ALIS_ERR_FCLOSE,  "fclose", "" },
+    { ALIS_ERR_FSEEK,   "fseek", "" }
+};

@@ -79,6 +79,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0932D81B253996D000E215B3 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = ../README; sourceTree = "<group>"; };
 		0981CBCD250B46970097F862 /* storenames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = storenames.c; sourceTree = "<group>"; };
 		0981CBCE250B46970097F862 /* addnames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = addnames.c; sourceTree = "<group>"; };
 		0981CBCF250B46970097F862 /* escnames.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = escnames.c; sourceTree = "<group>"; };
@@ -169,6 +170,7 @@
 		8B28A60F25076CC800E3F0FF = {
 			isa = PBXGroup;
 			children = (
+				0932D81B253996D000E215B3 /* README */,
 				8B37A662252471D500B7FBDB /* TODO */,
 				8B9C400D250921E900C947F9 /* alis */,
 				8B28A6672507C4F800E3F0FF /* imgui */,
@@ -357,7 +359,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8B28A61325076CC800E3F0FF /* Build configuration list for PBXProject "lc3vm" */;
+			buildConfigurationList = 8B28A61325076CC800E3F0FF /* Build configuration list for PBXProject "alis" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -599,7 +601,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8B28A61325076CC800E3F0FF /* Build configuration list for PBXProject "lc3vm" */ = {
+		8B28A61325076CC800E3F0FF /* Build configuration list for PBXProject "alis" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8B28A61D25076CC800E3F0FF /* Debug */,

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8B9C4019250A2A5B00C947F9"
-               BuildableName = "alis"
-               BlueprintName = "alis"
-               ReferencedContainer = "container:lc3vm.xcodeproj">
+               BlueprintIdentifier = "8B28A61725076CC800E3F0FF"
+               BuildableName = "lc3vm"
+               BlueprintName = "lc3vm"
+               ReferencedContainer = "container:alis.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,15 +45,15 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8B9C4019250A2A5B00C947F9"
-            BuildableName = "alis"
-            BlueprintName = "alis"
-            ReferencedContainer = "container:lc3vm.xcodeproj">
+            BlueprintIdentifier = "8B28A61725076CC800E3F0FF"
+            BuildableName = "lc3vm"
+            BlueprintName = "lc3vm"
+            ReferencedContainer = "container:alis.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "../data/ishar/atari"
+            argument = "--test ../scripts/rogue.obj ../scripts/2048.obj"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -68,10 +68,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8B9C4019250A2A5B00C947F9"
-            BuildableName = "alis"
-            BlueprintName = "alis"
-            ReferencedContainer = "container:lc3vm.xcodeproj">
+            BlueprintIdentifier = "8B28A61725076CC800E3F0FF"
+            BuildableName = "lc3vm"
+            BlueprintName = "lc3vm"
+            ReferencedContainer = "container:alis.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
