@@ -111,8 +111,8 @@
             filePath = "../alis/storenames.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "sdirb()"
             landmarkType = "9">
          </BreakpointContent>
@@ -127,8 +127,8 @@
             filePath = "../alis/storenames.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "sdirw()"
             landmarkType = "9">
          </BreakpointContent>

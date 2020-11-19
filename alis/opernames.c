@@ -329,6 +329,38 @@ void oshiftkey() {
 }
 void ofree() {
     debug(EDebugInfo, "ofree STUBBED\n");
+    if(alis.varD7 == 0) {
+//00017a98 2e 39 00        move.l     (ADDR_PHYSBASE_MINUS_1024).l,D7
+//00 ac 64
+//00017a9e 9e b9 00        sub.l      (DAT_00019538).l,D7
+//01 95 38
+//00017aa4 8e fc 03 e8     divu.w     #1000,D7
+//00017aa8 4e 75           rts
+    }
+    else if(alis.varD7 == 1) {
+        
+    }
+    else if(alis.varD7 == 2) {
+        
+    }
+    else if(alis.varD7 == 3) {
+        
+    }
+    else if(alis.varD7 == 4) {
+        
+    }
+    else if(alis.varD7 < 'A') {
+        alis.varD7 = 0xffff;
+    }
+    else if(alis.varD7 < 'H') {
+        
+    }
+    else if(alis.varD7 < 'a') {
+        alis.varD7 = 0xffff;
+    }
+    else if(alis.varD7 <= 'h') {
+        
+    }
 }
 void omodel() {
     debug(EDebugInfo, "omodel STUBBED\n");

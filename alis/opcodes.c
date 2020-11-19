@@ -66,22 +66,22 @@ static void ctab() {
 // read x bytes
 static void cdim() {
 
-    u8 * stack_org = (u8 *)alis.scripts[alis.scriptID]->ram;
+    u8 * ram = (u8 *)alis.scripts[alis.scriptID]->ram;
     
     // read word param
     u16 offset = script_read16();
     u8 counter = script_read8();
     u8 byte2 = script_read8();
     
-    stack_org[--offset] = counter;
-    stack_org[--offset] = byte2;
+    ram[--offset] = counter;
+    ram[--offset] = byte2;
     
     // loop w/ counter, read words, store backwards
     while(counter--) {
         u16 w = script_read16();
         offset -= 2;
-        stack_org[offset] = (w >> 8) & 0xff;
-        stack_org[offset + 1] = w & 0xff;
+        ram[offset] = (w >> 8) & 0xff;
+        ram[offset + 1] = w & 0xff;
     }
 }
 
@@ -290,15 +290,15 @@ static void cdefsc() {
     /*
          movea.l        (ADDR_VSTACK).l,A0 ; correspond à a6 !!! / A0 vaut $224f0, contient $22690 soit vstack
      */
-    u8 * vstack_ptr = alis.scripts[alis.scriptID]->ram;
+    u8 * ram = alis.scripts[alis.scriptID]->ram;
     /*
          bset.b         #$6,(A0,D0)
      */
-    *(vstack_ptr + offset) &= ALIS_BIT_6;
+    *(ram + offset) &= ALIS_BIT_6;
     /*
          move.b         (A3)+,($1,A0,D0)
      */
-    *(vstack_ptr + offset + 1) = script_read8();
+    *(ram + offset + 1) = script_read8();
     
     /*
          moveq          #$1f,D1
@@ -309,7 +309,7 @@ static void cdefsc() {
          dbf            D1,__loop32
     */
     u8 counter = 32;
-    u8 * ptr = vstack_ptr + offset + 6;
+    u8 * ptr = ram + offset + 6;
     while(counter--) {
         *ptr++ = script_read8();
     }
