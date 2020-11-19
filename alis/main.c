@@ -7,8 +7,8 @@
 #include "alis.h"
 
 void usage() {
-    printf("%s v%s\nUsage:\n\t%s <data_path>\n",
-           kProgName, kProgVersion, kProgName);
+    printf("%s v%s\nUsage:\n\t%s <data_path>\n\n\t%s <script_path>\n",
+           kProgName, kProgVersion, kProgName, kProgName);
 }
 
 int main(int argc, const char* argv[]) {

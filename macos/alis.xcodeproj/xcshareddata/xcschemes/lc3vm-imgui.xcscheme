@@ -17,7 +17,7 @@
                BlueprintIdentifier = "8B9C3F402508F37500C947F9"
                BuildableName = "lc3vm-imgui"
                BlueprintName = "lc3vm-imgui"
-               ReferencedContainer = "container:lc3vm.xcodeproj">
+               ReferencedContainer = "container:alis.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "8B9C3F402508F37500C947F9"
             BuildableName = "lc3vm-imgui"
             BlueprintName = "lc3vm-imgui"
-            ReferencedContainer = "container:lc3vm.xcodeproj">
+            ReferencedContainer = "container:alis.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -65,7 +65,7 @@
             BlueprintIdentifier = "8B9C3F402508F37500C947F9"
             BuildableName = "lc3vm-imgui"
             BlueprintName = "lc3vm-imgui"
-            ReferencedContainer = "container:lc3vm.xcodeproj">
+            ReferencedContainer = "container:alis.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

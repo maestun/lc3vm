@@ -8,6 +8,7 @@
 
 #include "alis.h"
 #include "alis_private.h"
+#include "utils.h"
 
 static int oeval_end = 0;
 
@@ -16,19 +17,19 @@ static int oeval_end = 0;
 // =============================================================================
 void oimmb() {
     // reads a byte, extends into D7
-    u8 b = read8();
+    u8 b = script_read8();
     u16 w = extend_w(b);
     alis.varD7 = w;
-    debug(EDebugVerbose, "\tvarD7 <- 0x%04x\n", alis.varD7);
+    debug(EDebugVerbose, "\tvarD7 <- 0x%04x\n", (u16)alis.varD7);
 }
 void oimmw() {
     // reads a word into D7
-    alis.varD7 = read16();
-    debug(EDebugVerbose, "\tvarD7 <- 0x%04x\n", alis.varD7);
+    alis.varD7 = script_read16();
+    debug(EDebugVerbose, "\tvarD7 <- 0x%04x\n", (u16)alis.varD7);
 }
 void oimmp() {
     // reads null-terminated data into bssChunk1
-    readToZero(alis.bssChunk1);
+    script_read_until_zero(alis.bssChunk1);
 }
 void olocb() {
 //    OPERNAME_OLOCB_0x3
@@ -38,8 +39,8 @@ void olocb() {
 //000175b6 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
 //000175ba 48 87           ext.w      D7w
 //000175bc 4e 75           rts
-    u16 offset = read16();
-    u8 b = *(alis.scripts[alis.scriptID]->vram_org + offset);
+    u16 offset = script_read16();
+    u8 b = *(alis.scripts[alis.scriptID]->ram + offset);
     alis.varD7 = extend_w(b);
 }
 void olocw() {
@@ -49,8 +50,8 @@ void olocw() {
 //000175c2 10 1b           move.b     (A3)+,D0b
 //000175c4 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
 //000175c8 4e 75           rts
-    u16 offset = read16();
-    u16 w = *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset);
+    u16 offset = script_read16();
+    u16 w = *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
     alis.varD7 = w;
 }
 void olocp() {
@@ -65,8 +66,8 @@ void olocp() {
 //000175da 10 d9           move.b     (A1)+,(A0)+
 //000175dc 66 00 ff fc     bne.w      LAB_000175da
 //000175e0 4e 75           rts
-    u16 offset = read16();
-    u8 * src_ptr = (alis.scripts[alis.scriptID]->vram_org + offset);
+    u16 offset = script_read16();
+    u8 * src_ptr = (alis.scripts[alis.scriptID]->ram + offset);
     u8 * dst_ptr = alis.bssChunk1;
     while(*src_ptr) {
         *dst_ptr++ = *src_ptr++;
@@ -96,8 +97,8 @@ void odirb() {
 //00017624 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
 //00017628 48 87           ext.w      D7w
 //0001762a 4e 75           rts
-    u8 offset = read8();
-    u16 val = extend_w(*(alis.scripts[alis.scriptID]->vram_org + offset));
+    u8 offset = script_read8();
+    u16 val = extend_w(*(alis.scripts[alis.scriptID]->ram + offset));
     alis.varD7 = val;
 }
 void odirw() {
@@ -106,8 +107,8 @@ void odirw() {
 //0001762e 10 1b           move.b     (A3)+,D0b
 //00017630 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
 //00017634 4e 75           rts
-    u8 offset = read8();
-    u16 val = *(u16 *)(alis.scripts[alis.scriptID]->vram_org + offset);
+    u8 offset = script_read8();
+    u16 val = *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
     alis.varD7 = val;
 }
 void odirp() {
@@ -120,8 +121,8 @@ void odirp() {
 //    __loop_until_zero                               XREF[1]:     00017646(j)
 //00017644 10 d9           move.b     (A1)+,(A0)+
 //00017646 66 00 ff fc     bne.w      __loop_until_zero
-    u8 offset = read8();
-    u8 * a1 = alis.scripts[alis.scriptID]->vram_org + offset;
+    u8 offset = script_read8();
+    u8 * a1 = alis.scripts[alis.scriptID]->ram + offset;
     u8 * a0 = alis.bssChunk1;
     while(*a1) {
         *a0++ = *a1++;
@@ -328,6 +329,38 @@ void oshiftkey() {
 }
 void ofree() {
     debug(EDebugInfo, "ofree STUBBED\n");
+    if(alis.varD7 == 0) {
+//00017a98 2e 39 00        move.l     (ADDR_PHYSBASE_MINUS_1024).l,D7
+//00 ac 64
+//00017a9e 9e b9 00        sub.l      (DAT_00019538).l,D7
+//01 95 38
+//00017aa4 8e fc 03 e8     divu.w     #1000,D7
+//00017aa8 4e 75           rts
+    }
+    else if(alis.varD7 == 1) {
+        
+    }
+    else if(alis.varD7 == 2) {
+        
+    }
+    else if(alis.varD7 == 3) {
+        
+    }
+    else if(alis.varD7 == 4) {
+        
+    }
+    else if(alis.varD7 < 'A') {
+        alis.varD7 = 0xffff;
+    }
+    else if(alis.varD7 < 'H') {
+        
+    }
+    else if(alis.varD7 < 'a') {
+        alis.varD7 = 0xffff;
+    }
+    else if(alis.varD7 <= 'h') {
+        
+    }
 }
 void omodel() {
     debug(EDebugInfo, "omodel STUBBED\n");

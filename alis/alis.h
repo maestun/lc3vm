@@ -13,9 +13,31 @@
 #include "sys.h"
 
 #define kVMHeaderLen            (16 * sizeof(u8))
-#define kMaxVirtualRAMSize      (1024 * 1024 * sizeof(u8))
-#define kMaxScripts             (UINT8_MAX)
+#define kHostRAMSize            (1024 * 1024 * sizeof(u8))
+#define kVirtualRAMSize         (0xffff * sizeof(u8))
+#define kMaxScripts             (256)
 #define kBSSChunkLen            (256)
+
+
+
+// =============================================================================
+// MARK: - ERROR CODES
+// =============================================================================
+#define ALIS_ERR_FOPEN          (0x01)
+#define ALIS_ERR_FWRITE         (0x07)
+#define ALIS_ERR_FCREATE        (0x08)
+#define ALIS_ERR_FDELETE        (0x09)
+#define ALIS_ERR_CDEFSC         (0x0a)
+#define ALIS_ERR_FREAD          (0x0d)
+#define ALIS_ERR_FCLOSE         (0x0e)
+#define ALIS_ERR_FSEEK          (0x00)
+
+
+typedef struct {
+    u8      errnum;
+    char    name[kNameMaxLen];
+    char    descfmt[kDescMaxLen];
+} sAlisError;
 
 
 // =============================================================================
@@ -24,7 +46,7 @@
 #define AO_CLINKING             (0xffd6)
 #define AO_SC_POSITION          (0xffea)
 #define AO_LOC_TP               (0xfffe)
-#define AO_LOC_TP               (0xffff)
+
 
 
 
@@ -63,12 +85,15 @@ typedef struct {
     // virtual program counter
     u8 *            pc;
     
+    // virtual stack pointer
+//    u8 *            sp;
+    
     // virtual program counter origin
     u8 *            pc_org;
 
-    // virtual stack (A4 ???)
-    u8 *            stack;
-    u8 *            stack_org;
+//    // virtual stack (A4 ???)
+//    u8 *            stack;
+//    u8 *            stack_org;
     
     // loaded scripts
     sAlisScript *   scripts[kMaxScripts];
@@ -112,6 +137,6 @@ void            alis_init(sPlatform platform);
 u8              alis_main(void);
 void            alis_deinit(void);
 void            alis_start_script(sAlisScript * script);
-void            alis_error(u8 errnum);
+void            alis_error(u8 errnum, ...);
 
 #endif /* alis_vm_h */

@@ -1,0 +1,26 @@
+ALIS VM
+-------
+
+./alis
+VM source code
+
+./data
+Data files to run with VM
+
+./ghidra
+Ghidra projets for reversing
+
+./imgui
+Dear ImGui source code
+
+./lc3vm
+Sample project, deprecated
+
+./macOS
+Platform dependencies
+
+./scripts
+Used for sample project, deprecated
+
+./tools
+Other tools for reversing

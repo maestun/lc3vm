@@ -8,6 +8,18 @@
 
 #include "utils.h"
 
+
+uint16_t sign_extend(uint16_t x, int bit_count) {
+    if ((x >> (bit_count - 1)) & 1) {
+        x |= (0xFFFF << bit_count);
+    }
+    return x;
+}
+
+uint16_t extend_w(uint8_t x) {
+    return sign_extend(x, 8);
+}
+
 uint32_t reverse_bytes_32(uint32_t value) {
     return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 | (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
 }
