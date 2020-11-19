@@ -22,17 +22,18 @@ alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
     }
     else {
         // fetch code
-        long steem_pc = 0x2d290; // TODO: adresse de main.ao dans l'emulateur steem, aide pour debug
-        debug(EDebugVerbose, "0x%06x: %s ", alis.pc - alis.pc_org + steem_pc, name);
         u8 code = *(alis.pc++);
         sAlisOpcode opcode = table[code];
-        debug(EDebugVerbose, "%s (0x%02x)\n", opcode.name, code);
+        debug(EDebugVerbose, " %s", opcode.name);
         return opcode.fptr();
     }
 }
 
 alisRet readexec_opcode() {
-    debug(EDebugVerbose, "------\n");
+    //debug(EDebugVerbose, "------\n");
+    debug(EDebugVerbose, "\n");
+    long steem_pc = 0x2d290; // TODO: adresse de main.ao dans l'emulateur steem, aide pour debug
+    debug(EDebugVerbose, "0x%06x:", alis.pc - alis.pc_org + steem_pc);
     return readexec(opcodes, "opcode", 0);
 }
 
@@ -72,15 +73,34 @@ alisRet readexec_opername_swap() {
 // MARK: - Script
 // =============================================================================
 u8 script_read8(void) {
-    return *alis.pc++;
+    u8 ret = *alis.pc++;
+    debug(EDebugVerbose, " 0x%02x", ret);
+    return ret;
 }
 
 u16 script_read16(void) {
-    return (*alis.pc++ << 8) + *alis.pc++;
+    u16 ret = (*alis.pc++ << 8) + *alis.pc++;
+    if (ret > 0xff) {
+        debug(EDebugVerbose, " 0x%04x", ret);
+    }
+    else  {
+        debug(EDebugVerbose, " 0x%02x", ret);
+    }
+    return ret;
 }
 
 u32 script_read24(void) {
-    return (*alis.pc++ << 16) + (*alis.pc++ << 8) + *alis.pc++;
+    u32 ret = (*alis.pc++ << 16) + (*alis.pc++ << 8) + *alis.pc++;
+    if (ret > 0xffff) {
+        debug(EDebugVerbose, " 0x%06x", ret);
+    }
+    else if (ret > 0xff) {
+        debug(EDebugVerbose, " 0x%04x", ret);
+    }
+    else  {
+        debug(EDebugVerbose, " 0x%02x", ret);
+    }
+    return ret;
 }
 
 void script_read_bytes(u32 len, u8 * dest) {
@@ -112,6 +132,7 @@ void write8(u16 offset, u8 value) {
 }
 
 void write16(u16 offset, u16 value) {
+    value = 0xcafe;
     *(u16 *)(alis.scripts[alis.scriptID]->ram + offset) = value;
 }
 
@@ -182,16 +203,12 @@ u32 pop32() {
 // MARK: - VM API
 // =============================================================================
 void alis_init(sPlatform platform) {
-    // clear virtual memory
-    // memset(alis.memory, 0, sizeof(alis.memory));
     
-    // init pointers
-//    alis.memory_org = alis.memory;
-//    alis.pc_org = alis.memory;
+    // init virtual ram
+//    alis.ram = (u8 *)malloc(kVirtualRAMSize * sizeof(u8));
+//    memset(alis.ram, 0, kVirtualRAMSize * sizeof(u8));
     
-    // init vars
-    alis.ram = (u8 *)malloc(kHostRAMSize * sizeof(u8));
-    memset(alis.ram, 0, kHostRAMSize * sizeof(u8));
+    // init virtual registers
     alis.varD6 = alis.varD7 = 0;
     alis.bssChunk1 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
     alis.bssChunk2 = (u8 *)malloc(kBSSChunkLen * sizeof(u8));
@@ -200,15 +217,15 @@ void alis_init(sPlatform platform) {
     memset(alis.bssChunk2, 0, kBSSChunkLen * sizeof(u8));
     memset(alis.bssChunk3, 0, kBSSChunkLen * sizeof(u8));
     
+    // init virtual accumulator
+    alis.acc_org = (s16 *)malloc(kVirtualRAMSize);
+    alis.acc = alis.acc_org + kVirtualRAMSize;
+    
     // init helpers
     if(alis.fp) {
         fclose(alis.fp);
         alis.fp = NULL;
     }
-    
-    
-//    alis.stack_org = (u8 *)malloc(kMaxVirtualRAMSize * sizeof(u8));
-//    alis.stack = alis.stack_org;
     
     alis.platform = platform;
     
@@ -223,11 +240,12 @@ void alis_deinit() {
     for(int i = 0; i < kMaxScripts; i++) {
         script_unload(alis.scripts[i]);
     }
-    free(alis.ram);
-//    free(alis.stack_org);
     free(alis.bssChunk1);
     free(alis.bssChunk2);
     free(alis.bssChunk3);
+    
+//    free(alis.ram);
+    free(alis.acc_org);
 }
 
 u8 alis_main() {
@@ -266,6 +284,50 @@ void alis_error(u8 errnum, ...) {
     debug(EDebugError, err.descfmt, errnum);
     exit(-1);
 }
+
+
+void alis_debug() {
+    printf("ALIS: %s (0x%02x)\n", alis.scripts[alis.scriptID]->name, alis.scriptID);
+    printf("R6=0x%04x\n", alis.varD6);
+    printf("R7=0x%04x\n", alis.varD7);
+    printf("PC  OFFSET=0x%04x (byte=0x%02x) (word=0x%04x)\n",
+           (u16)(alis.pc - alis.pc_org),
+           (u8)(*alis.pc),
+           (u16)(*alis.pc));
+    printf("ACC OFFSET=0x%04x (byte=0x%02x) (word=0x%04x)\n",
+           (u16)(alis.acc - alis.acc_org),
+           (u8)(*alis.acc),
+           (u16)(*alis.acc));
+    printf("BSS1=%s\n", alis.bssChunk1);
+    printf("BSS2=%s\n", alis.bssChunk2);
+    printf("BSS3=%s\n", alis.bssChunk3);
+    // printf("RAM OFFSET=0x%04x\n", (u16)(alis.acc - alis.acc_org));
+}
+
+
+void alis_debug_ram() {
+    u8 width = 16;
+    printf("ALIS VRAM:\n");
+    
+    printf("       ");
+    for(u8 j = 0; j < width; j++) {
+        printf("  %x", j);
+    }
+    printf("\n");
+    
+    for(u32 i = 0; i < kVirtualRAMSize; i += width) {
+        printf("0x%04x: ", i);
+        for(u8 j = 0; j < width; j++) {
+            printf("%02x ", alis.scripts[alis.scriptID]->ram[(i * width) + j]);
+        }
+        printf("\n");
+    }
+}
+
+
+void alis_debug_acc() {
+}
+
 
 sAlisError errors[] = {
     { ALIS_ERR_FOPEN,   "fopen", "Failed to open file %s\n" },

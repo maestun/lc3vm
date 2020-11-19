@@ -26,18 +26,25 @@ _main_start:
 			; ...
 	$2d54b	1e 00 0c 38 00 01 3a 0e 3c e0
 			cstore oimmb #$0c seval oimmb #$01 ofin sloctc #$3ce0
+			; ram[ #$3ce0 + #$01] <- #$0c 
 	$2d555	1e 00 08 38 00 02 3a 0e 3c e0
 			cstore oimmb #$08 seval oimmb #$02 ofin sloctc #$3ce0
+			; ram[ #$3ce0 + #$02] <- #$0c8
 	$2d55f	1e 00 0c 38 00 03 3a 0e 3c e0
 			cstore oimmb #$0c seval oimmb #$03 ofin sloctc #$3ce0
+			; ram[ #$3ce0 + #$03] <- #$0c 
 	$2d569	1e 00 0e 38 00 04 3a 0e 3c e0
 			cstore oimmb #$0e seval oimmb #$04 ofin sloctc #$3ce0
+			; ram[ #$3ce0 + #$04] <- #$0e
 	$2d573	1e 00 0a 38 00 05 3a 0e 3c e0
 			cstore oimmb #$0a seval oimmb #$05 ofin sloctc #$3ce0
+			; ram[ #$3ce0 + #$05] <- #$0a
 	$2d57d	1e 00 0f 38 00 06 3a 0e 3c e0
 			cstore oimmb #$0f seval oimmb #$06 ofin sloctc #$3ce0
+			; ram[ #$3ce0 + #$06] <- #$0f 
 	$2d587	1e 00 0b 38 00 07 3a 0e 3c e0
 			cstore oimmb #$0b seval oimmb #$07 ofin sloctc #$3ce0
+			; ram[ #$3ce0 + #$07] <- #$0b
 	$2d591	07 00 00 db
 			cjsr24 #$db ; jump subroutine $2d670
 	$2d595	07 00 02 39 

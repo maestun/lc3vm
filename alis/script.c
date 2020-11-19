@@ -339,4 +339,3 @@ void script_unload(sAlisScript * script) {
     free(script->data);
     free(script);
 }
-

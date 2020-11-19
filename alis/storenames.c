@@ -10,53 +10,26 @@
 #include "alis_private.h"
 #include "utils.h"
 
-
-static void loctc_common(u16 offset) {
-//    **************************************************************
-//    *                          FUNCTION                          *
-//    **************************************************************
-//    undefined FUN_LOCTC_COMMON()
-//00017818 12 36 00 ff     move.b     (-1,A6,D0w*0x1),D1b
-//0001781c 48 81           ext.w      D1w
-    u8 * ram = alis.scripts[alis.scriptID]->ram;
-    u16 w = extend_w(ram[offset - 1]);
-//0001781e 41 f6 00 fe     lea        (-2,A6,D0w*0x1),A0
-    u8 * addr = (ram + offset - 2);
-//00017822 d0 47           add.w      D7w,D0w
-    offset += alis.varD7;
-//00017824 51 c9 00 04     dbf        D1w,LAB_0001782a
-//00017828 4e 75           rts
-    
-    while(w--) {
-        //0001782a 34 1c           move.w     (A4)+,D2w
-        //0001782c c5 e0           muls.w     -(A0),D2
-        //0001782e d0 42           add.w      D2w,D0w
-    }
-    
-//    LAB_0001782a                                    XREF[2]:     00017824(j), 00017830(j)
-//0001782a 34 1c           move.w     (A4)+,D2w
-//0001782c c5 e0           muls.w     -(A0),D2
-//0001782e d0 42           add.w      D2w,D0w
-//00017830 51 c9 ff f8     dbf        D1w,LAB_0001782a
-//00017834 4e 75           rts
-//01 94 94
-//    -- Flow Override: CALL_RETURN (CALL_TERMINATOR)
-
-}
-
+// ============================================================================
+#pragma mark - Store Routines
+// ============================================================================
 
 static void cnul() {
 }
+
+// read offset word from script, then copy byte from r7 into ram[offset]
 static void slocb() {
     u16 offset = script_read16();
     write8(offset, (u8)alis.varD7);
-    debug(EDebugVerbose, "\toffset is 0x%04x\n", offset);
 }
+
+// read offset word from script, then copy word from r7 into ram[offset]
 static void slocw() {
     u16 offset = script_read16();
     write16(offset, alis.varD7);
-    debug(EDebugVerbose, "\toffset is 0x%04x\n", offset);
 }
+
+// read offset word from script, then copy string from bssChunk3 into ram[offset]
 static void slocp() {
     u16 offset = script_read16();
     u8 * ptr = alis.scripts[alis.scriptID]->ram + offset;
@@ -65,41 +38,30 @@ static void slocp() {
         *ptr++ = alis.bssChunk3[i++];
     }
 }
-static void sloctp() {
-//    undefined STORENAME_SLOCTP_0x6()
-//undefined         D0b:1          <RETURN>
-//    STORENAME_SLOCTP_0x6
-//00017f64 10 1b           move.b     (A3)+,D0b
-//00017f66 e1 40           asl.w      #0x8,D0w
-//00017f68 10 1b           move.b     (A3)+,D0b
-//00017f6a 61 00 f9 08     bsr.w      FUN_00017874                                     undefined FUN_00017874()
-//00017f6e 43 f6 00 00     lea        (0x0,A6,D0w*0x1),A1
-//00017f72 20 79 00        movea.l    (ADDR_BSS_256_CHUNK_3).l,A0
-//01 95 ea
-//    LAB_00017f78                                    XREF[1]:     00017f7a(j)
-//00017f78 12 d8           move.b     (A0)+,(A1)+
-//00017f7a 66 00 ff fc     bne.w      LAB_00017f78
-//00017f7e 4e 75           rts
-}
-static void sloctc() {
-//    STORENAME_SLOCTC_0x7
-//00017f40 10 1b           move.b     (A3)+,D0b
-//00017f42 e1 40           asl.w      #0x8,D0w
-//00017f44 10 1b           move.b     (A3)+,D0b
-    u8 * ram = alis.scripts[alis.scriptID]->ram;
-    u16 offset = script_read16();
-//00017f46 61 00 f8 d0     bsr.w      FUN_LOCTC_COMMON                                 undefined FUN_LOCTC_COMMON()
-    loctc_common(offset);
-//00017f4a 3e 1c           move.w     (A4)+,D7w
-    // TODO: A4==???
-//00017f4c 1d 87 00 00     move.b     D7b,(0x0,A6,D0w*0x1)
-    *(u8 *)(ram + offset) = (u8)alis.varD7;
-//00017f50 4e 75           rts
 
+// Store at LOCation with offseT: Pointer
+static void sloctp() {
+    u16 offset = loctp_common(script_read16());
+    u8 * ptr = alis.bssChunk3;
+    while (*ptr) {
+        write8(offset++, *ptr++);
+    }
 }
+
+// Store at LOCation with offseT: Char
+static void sloctc() {
+    u16 offset = loctc_common(script_read16());
+    alis.varD7 = *(alis.acc++);
+    write8(offset, alis.varD7);
+}
+
+// Store at LOCation with offseT: Int
 static void slocti() {
-    // log_debug("STUBBED");
+    u16 offset = locti_common(script_read16());
+    alis.varD7 = *(alis.acc++);
+    write16(offset, alis.varD7);
 }
+
 static void sdirb() {
 //    **************************************************************
 //    * - Reads a byte offset from script                          *
@@ -116,6 +78,7 @@ static void sdirb() {
     write8(offset, (u8)alis.varD7);
     // *(u8 *)(alis.scripts[alis.scriptID]->stack + offset) = (u8)alis.varD7;
 }
+
 static void sdirw() {
    
 //    **************************************************************
@@ -132,57 +95,75 @@ static void sdirw() {
     write16(offset, (u16)alis.varD7);
     // *(u16 *)(alis.scripts[alis.scriptID]->stack + offset) = (u16)alis.varD7;
 }
+
 static void sdirp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "sdirp STUBBED\n");
 }
+
 static void sdirtp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "sdirtp STUBBED\n");
 }
+
 static void sdirtc() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "sdirtc STUBBED\n");
 }
+
 static void sdirti() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "sdirti STUBBED\n");
 }
+
 static void smainb() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "smainb STUBBED\n");
 }
+
 static void smainw() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "smainw STUBBED\n");
 }
+
 static void smainp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "smainp STUBBED\n");
 }
+
 static void smaintp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "smaintp STUBBED\n");
 }
+
 static void smaintc() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "smaintc STUBBED\n");
 }
+
 static void smainti() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "smainti STUBBED\n");
 }
+
 static void shimb() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "shimb STUBBED\n");
 }
+
 static void shimw() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "shimw STUBBED\n");
 }
+
 static void shimp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "shimp STUBBED\n");
 }
+
 static void shimtp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "shimtp STUBBED\n");
 }
+
 static void shimtc() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "shimtc STUBBED\n");
 }
+
 static void shimti() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "shimti STUBBED\n");
 }
+
 static void spile() {
-    // log_debug("STUBBED");
+    *(--alis.acc) = alis.varD7;
 }
+
 static void seval() {
 //    00015d2c 39 07           move.w     D7w,-(A4)
 //    00015d2e 61 00 fd 86     bsr.w      FUN_READEXEC_OPNAME                              undefined FUN_READEXEC_OPNAME()
@@ -194,19 +175,16 @@ static void seval() {
 //    00015d3c 30 30 00 00     move.w     (0x0,A0,D0w*offset JTAB_STORENAME),D0w
 //    00015d40 4e f0 00 00     jmp        (0x0,A0,D0w*0x1)
 
-    // TODO: push D7 into virtual stack ??
-    alis.scripts[alis.scriptID]->ram;
     
+    // save r7 to virtual accumulator
+    *(--alis.acc) = alis.varD7;
     oeval();
-    
     readexec_storename();
 }
-static void ofin() {
-    // log_debug("STUBBED");
-}
+
 
 // ============================================================================
-#pragma mark - Storenames pointer table
+#pragma mark - Store pointer table
 // In the disasm, the table JTAB_STOREADD_NAMES is at address $10f92 -> $10fce.
 // So it contains 0x3c / 60 bytes, or 30 words, it matches the storeadd count.
 // So the routine FUN_READEXEC_OPERNAME() gets a BYTE code from script pc,
@@ -220,17 +198,17 @@ sAlisOpcode storenames[] = {
     {},
     DECL_OPCODE(0x04, cnul, "TODO add desc"),
     {},
-    DECL_OPCODE(0x06, slocb, "TODO add desc"),
+    DECL_OPCODE(0x06, slocb, "store byte from r7 at virtual ram location"),
     {},
     DECL_OPCODE(0x08, slocw, "TODO add desc"),
     {},
     DECL_OPCODE(0x0a, slocp, "TODO add desc"),
     {},
-    DECL_OPCODE(0x0c, sloctp, "TODO add desc"),
+    DECL_OPCODE(0x0c, sloctp, "copy bss3 at virtual ram location with offset"),
     {},
-    DECL_OPCODE(0x0e, sloctc, "TODO add desc"),
+    DECL_OPCODE(0x0e, sloctc, "pop byte from accumulator, store at virtual ram location with offset"),
     {},
-    DECL_OPCODE(0x10, slocti, "TODO add desc"),
+    DECL_OPCODE(0x10, slocti, "pop word from accumulator, store at virtual ram location with offset"),
     {},
     DECL_OPCODE(0x12, sdirb, "TODO add desc"),
     {},
@@ -268,9 +246,9 @@ sAlisOpcode storenames[] = {
     {},
     DECL_OPCODE(0x34, shimti, "TODO add desc"),
     {},
-    DECL_OPCODE(0x36, spile, "TODO add desc"),
+    DECL_OPCODE(0x36, spile, "pops word from virtual accumulator into r7"),
     {},
-    DECL_OPCODE(0x38, seval, "TODO add desc"),
+    DECL_OPCODE(0x38, seval, "starts eval loop"),
     {},
-    DECL_OPCODE(0x3a, ofin, "TODO add desc"),
+    DECL_OPCODE(0x3a, ofin, "ends eval loop (calls opername/ofin)"),
 };

@@ -79,36 +79,27 @@ typedef struct {
     // true if vm is running
     u8              running;
     
-    // host ram emulation
-    u8 *            ram;
-    
     // virtual program counter
     u8 *            pc;
-    
-    // virtual stack pointer
-//    u8 *            sp;
-    
-    // virtual program counter origin
     u8 *            pc_org;
 
-//    // virtual stack (A4 ???)
-//    u8 *            stack;
-//    u8 *            stack_org;
-    
+    // virtual 16-bit accumulator (A4)
+    s16 *           acc;
+    s16 *           acc_org;
+        
     // loaded scripts
     sAlisScript *   scripts[kMaxScripts];
     u8              scriptID;
     
-    // variables
+    // virtual registers
     s16             varD6;
     s16             varD7;
     
+    // virtual array registers
     u8 *            bssChunk1;
     u8 *            bssChunk2;
     u8 *            bssChunk3;
     
-    // helper: file pointer
-    FILE *  fp;
     // helper: executed instructions count
     u32     icount;
     
@@ -126,6 +117,12 @@ typedef struct {
     // par exemple pour main.ao a6 vaut $22690, et d4 vaut $ffff
     // donc le virtual stack pointer pointe à l'adresse $3268f
     
+    
+    // helpers
+    u8          oeval_loop;
+    
+    // system helpers
+    FILE *      fp;
 } sAlisVM;
 
 extern sAlisVM alis;
@@ -138,5 +135,9 @@ u8              alis_main(void);
 void            alis_deinit(void);
 void            alis_start_script(sAlisScript * script);
 void            alis_error(u8 errnum, ...);
+void            alis_debug(void);
+void            alis_debug_ram(void);
 
 #endif /* alis_vm_h */
+
+

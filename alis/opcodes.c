@@ -17,13 +17,16 @@ static void cstart(u32 offset) {
 
 
 // ============================================================================
-#pragma mark - TODO: opcodes
+#pragma mark - Opcodes
 // ============================================================================
 static void cstore() {
-    // example: in main.ao script
-    // $2d670     1e 00 00 06 42 6d
-    // cstore oimmb #$0 slocb #$426d
     readexec_opername_saveD7();
+    
+    // swap chunk 1 / 3
+    u8 * tmp = alis.bssChunk1;
+    alis.bssChunk1 = alis.bssChunk3;
+    alis.bssChunk3 = tmp;
+    
     readexec_storename();
 }
 
@@ -43,23 +46,23 @@ static void csub() {
 }
 
 static void cvprint() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cvprint STUBBED\n");
 }
 
 static void csprinti() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csprinti STUBBED\n");
 }
 
 static void csprinta() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csprinta STUBBED\n");
 }
 
 static void clocate() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "clocate STUBBED\n");
 }
 
 static void ctab() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctab STUBBED\n");
 }
 
 // ???
@@ -86,7 +89,7 @@ static void cdim() {
 }
 
 static void crandom() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "crandom STUBBED\n");
 }
 
 static void cloop8() {
@@ -123,75 +126,75 @@ static void cloop24() {
 }
 
 static void cswitch1() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cswitch1 STUBBED\n");
 }
 
 static void cswitch2() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cswitch2 STUBBED\n");
 }
 
 static void cleave() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cleave STUBBED\n");
 }
 
 static void cprotect() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cprotect STUBBED\n");
 }
 
 static void casleep() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "casleep STUBBED\n");
 }
 
 static void cscmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscmov STUBBED\n");
 }
 
 static void cscset() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscset STUBBED\n");
 }
 
 static void cclipping() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cclipping STUBBED\n");
 }
 
 static void cswitching() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cswitching STUBBED\n");
 }
 
 static void cwlive() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cwlive STUBBED\n");
 }
 
 static void cunload() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cunload STUBBED\n");
 }
 
 static void cwakeup() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cwakeup STUBBED\n");
 }
 
 static void csleep() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csleep STUBBED\n");
 }
 
 static void clive() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "clive STUBBED\n");
 }
 
 static void ckill() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ckill STUBBED\n");
 }
 
 static void cstop() {
-    debug(EDebugVerbose, "cstop: STUBBED\n");
+    debug(EDebugInfo, "cstop: STUBBED\n");
 }
 
 static void cstopret() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cstopret STUBBED\n");
 }
 
 static void cexit() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cexit STUBBED\n");
 }
 
 static void cload() {
@@ -356,26 +359,27 @@ static void cdefsc() {
      forever:
          bra forever
      */
+    debug(EDebugInfo, "cdefsc STUBBED\n");
 }
 
 static void cscreen() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscreen STUBBED\n");
 }
 
 static void cput() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cput STUBBED\n");
 }
 
 static void cputnat() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cputnat STUBBED\n");
 }
 
 static void cerase() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cerase STUBBED\n");
 }
 
 static void cerasen() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cerasen STUBBED\n");
 }
 
 static void cset() {
@@ -415,139 +419,139 @@ static void cmov() {
 }
 
 static void copensc() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "copensc STUBBED\n");
 }
 
 static void cclosesc() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cclosesc STUBBED\n");
 }
 
 static void cerasall() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cerasall STUBBED\n");
 }
 
 static void cforme() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cforme STUBBED\n");
 }
 
 static void cdelforme() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdelforme STUBBED\n");
 }
 
 static void ctstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctstmov STUBBED\n");
 }
 
 static void ctstset() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctstset STUBBED\n");
 }
 
 static void cftstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cftstmov STUBBED\n");
 }
 
 static void cftstset() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cftstset STUBBED\n");
 }
 
 static void csuccent() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csuccent STUBBED\n");
 }
 
 static void cpredent() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cpredent STUBBED\n");
 }
 
 static void cnearent() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cnearent STUBBED\n");
 }
 
 static void cneartyp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cneartyp STUBBED\n");
 }
 
 static void cnearmat() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cnearmat STUBBED\n");
 }
 
 static void cviewent() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cviewent STUBBED\n");
 }
 
 static void cviewtyp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cviewtyp STUBBED\n");
 }
 
 static void cviewmat() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cviewmat STUBBED\n");
 }
 
 static void corient() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "corient STUBBED\n");
 }
 
 static void crstent() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "crstent STUBBED\n");
 }
 
 static void csend() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csend STUBBED\n");
 }
 
 static void cscanon() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscanon STUBBED\n");
 }
 
 static void cscanoff() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscanoff STUBBED\n");
 }
 
 static void cinteron() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cinteron STUBBED\n");
 }
 
 static void cinteroff() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cinteroff STUBBED\n");
 }
 
 static void cscanclr() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscanclr STUBBED\n");
 }
 
 static void callentity() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "callentity STUBBED\n");
 }
 
 static void cpalette() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cpalette STUBBED\n");
 }
 
 static void cdefcolor() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdefcolor STUBBED\n");
 }
 
 static void ctiming() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctiming STUBBED\n");
 }
 
 static void czap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "czap STUBBED\n");
 }
 
 static void cexplode() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cexplode STUBBED\n");
 }
 
 static void cding() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cding STUBBED\n");
 }
 
 static void cnoise() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cnoise STUBBED\n");
 }
 
 static void cinitab() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cinitab STUBBED\n");
 }
 
 static void cfopen() {
@@ -576,67 +580,67 @@ static void cfclose() {
 }
 
 static void cfcreat() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfcreat STUBBED\n");
 }
 
 static void cfdel() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfdel STUBBED\n");
 }
 
 static void cfreadv() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfreadv STUBBED\n");
 }
 
 static void cfwritev() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfwritev STUBBED\n");
 }
 
 static void cfwritei() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfwritei STUBBED\n");
 }
 
 static void cfreadb() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfreadb STUBBED\n");
 }
 
 static void cfwriteb() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfwriteb STUBBED\n");
 }
 
 static void cplot() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cplot STUBBED\n");
 }
 
 static void cdraw() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdraw STUBBED\n");
 }
 
 static void cbox() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cbox STUBBED\n");
 }
 
 static void cboxf() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cboxf STUBBED\n");
 }
 
 static void cink() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cinf STUBBED\n");
 }
 
 static void cpset() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cpset STUBBED\n");
 }
 
 static void cpmove() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cpmove STUBBED\n");
 }
 
 static void cpmode() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cpmode STUBBED\n");
 }
 
 static void cpicture() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cpicture STUBBED\n");
 }
 
 static void cxyscroll() {
@@ -650,11 +654,11 @@ static void clinking() {
 }
 
 static void cmouson() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmouson STUBBED\n");
 }
 
 static void cmousoff() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmousoff STUBBED\n");
 }
 
 static void cmouse() {
@@ -663,35 +667,35 @@ static void cmouse() {
 }
 
 static void cdefmouse() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdefmouse STUBBED\n");
 }
 
 static void csetmouse() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csetmouse STUBBED\n");
 }
 
 static void cdefvect() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdefvect STUBBED\n");
 }
 
 static void csetvect() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csetvect STUBBED\n");
 }
 
 static void capproach() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "capproach STUBBED\n");
 }
 
 static void cescape() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cescape STUBBED\n");
 }
 
 static void cvtstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cvtstmov STUBBED\n");
 }
 
 static void cvftstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cvftstmov STUBBED\n");
 }
 
 static void cvmov() {
@@ -706,7 +710,7 @@ static void cvmov() {
 //0001469e 48 80           ext.w      D0w
 //000146a0 d1 6e 00 04     add.w      D0w,(0x4,A6)
 //000146a4 4e 75           rts
-
+    debug(EDebugInfo, "cvmov STUBBED\n");
 }
 
 static void cdefworld() {
@@ -724,6 +728,7 @@ static void cdefworld() {
     while(counter--) {
         write8(offset, script_read8());
     }
+    debug(EDebugInfo, "cdefworld STUBBED\n");
 }
 
 static void cworld() {
@@ -736,427 +741,427 @@ static void cworld() {
 }
 
 static void cfindmat() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfindmat STUBBED\n");
 }
 
 static void cfindtyp() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfindtyp STUBBED\n");
 }
 
 static void cmusic() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmusic STUBBED\n");
 }
 
 static void cdelmusic() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdelmusic STUBBED\n");
 }
 
 static void ccadence() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ccadence STUBBED\n");
 }
 
 static void csetvolum() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csetvolum STUBBED\n");
 }
 
 static void cxinv() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cxinv STUBBED\n");
 }
 
 static void cxinvon() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cxinvon STUBBED\n");
 }
 
 static void cxinvoff() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cxinvoff STUBBED\n");
 }
 
 static void clistent() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "clistent STUBBED\n");
 }
 
 static void csound() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csound STUBBED\n");
 }
 
 static void cmsound() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmsound STUBBED\n");
 }
 
 static void credon() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "credon STUBBED\n");
 }
 
 static void credoff() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "credoff STUBBED\n");
 }
 
 static void cdelsound() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdelsound STUBBED\n");
 }
 
 static void cwmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cwmov STUBBED\n");
 }
 
 static void cwtstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctstmov STUBBED\n");
 }
 
 static void cwftstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cwftstmov STUBBED\n");
 }
 
 static void ctstform() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctstform STUBBED\n");
 }
 
 static void cxput() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cxput STUBBED\n");
 }
 
 static void cxputat() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cxputat STUBBED\n");
 }
 
 static void cmput() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmput STUBBED\n");
 }
 
 static void cmputat() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmputat STUBBED\n");
 }
 
 static void cmxput() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmxput STUBBED\n");
 }
 
 static void cmxputat() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmxputat STUBBED\n");
 }
 
 static void cmmusic() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmmusic STUBBED\n");
 }
 
 static void cmforme() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmforme STUBBED\n");
 }
 
 static void csettime() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csettime STUBBED\n");
 }
 
 static void cgettime() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cgettime STUBBED\n");
 }
 
 static void cvinput() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cvinput STUBBED\n");
 }
 
 static void csinput() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csinput STUBBED\n");
 }
 
 static void crunfilm() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "crunfilm STUBBED\n");
 }
 
 static void cvpicprint() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cvpicprint STUBBED\n");
 }
 
 static void cspicprint() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cspicprint STUBBED\n");
 }
 
 static void cvputprint() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cvputprint STUBBED\n");
 }
 
 static void csputprint() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csputprint STUBBED\n");
 }
 
 static void cfont() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfont STUBBED\n");
 }
 
 static void cpaper() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cpaper STUBBED\n");
 }
 
 static void ctoblack() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctoblack STUBBED\n");
 }
 
 static void cmovcolor() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmovcolor STUBBED\n");
 }
 
 static void ctopalet() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctopalet STUBBED\n");
 }
 
 static void cnumput() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cnumput STUBBED\n");
 }
 
 static void cscheart() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscheart STUBBED\n");
 }
 
 static void cscpos() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscpos STUBBED\n");
 }
 
 static void cscsize() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscsize STUBBED\n");
 }
 
 static void cschoriz() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cschoriz STUBBED\n");
 }
 
 static void cscvertic() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscvertic STUBBED\n");
 }
 
 static void cscreduce() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscreduce STUBBED\n");
 }
 
 static void cscscale() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscscale STUBBED\n");
 }
 
 static void creducing() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "creducing STUBBED\n");
 }
 
 static void cscmap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscmap STUBBED\n");
 }
 
 static void cscdump() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscdump STUBBED\n");
 }
 
 static void cfindcla() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfindcla STUBBED\n");
 }
 
 static void cnearcla() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cnearcla STUBBED\n");
 }
 
 static void cviewcla() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cviewcla STUBBED\n");
 }
 
 static void cinstru() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cinstru STUBBED\n");
 }
 
 static void cminstru() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cminstru STUBBED\n");
 }
 
 static void cordspr() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cordspr STUBBED\n");
 }
 
 static void calign() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "calign STUBBED\n");
 }
 
 static void cbackstar() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cbackstar STUBBED\n");
 }
 
 static void cstarring() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cstarring STUBBED\n");
 }
 
 static void cengine() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cengine STUBBED\n");
 }
 
 static void cautobase() {
-    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+    debug(EDebugInfo, "cautobase STUBBED\n");
 }
 
 static void cquality() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cquality STUBBED\n");
 }
 
 static void chsprite() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "chsprite STUBBED\n");
 }
 
 static void cselpalet() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cselpalet STUBBED\n");
 }
 
 static void clinepalet() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "clinepalet STUBBED\n");
 }
 
 static void cautomode() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cautomode STUBBED\n");
 }
 
 static void cautofile() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cautofile STUBBED\n");
 }
 
 static void ccancel() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ccancel STUBBED\n");
 }
 
 static void ccancall() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ccancall STUBBED\n");
 }
 
 static void ccancen() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ccancen STUBBED\n");
 }
 
 static void cblast() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cblast STUBBED\n");
 }
 
 static void cscback() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscback STUBBED\n");
 }
 
 static void cscrolpage() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscrolpage STUBBED\n");
 }
 
 static void cmatent() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cmatent STUBBED\n");
 }
 
 static void cshrink() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cshrink STUBBED\n");
 }
 
 static void cdefmap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdefmap STUBBED\n");
 }
 
 static void csetmap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csetmap STUBBED\n");
 }
 
 static void cputmap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cputmap STUBBED\n");
 }
 
 static void csavepal() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csavepal STUBBED\n");
 }
 
 static void csczoom() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "csczoom STUBBED\n");
 }
 
 static void ctexmap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ctexmap STUBBED\n");
 }
 
 static void calloctab() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "calloctab STUBBED\n");
 }
 
 static void cfreetab() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfreetab STUBBED\n");
 }
 
 static void cscantab() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscantab STUBBED\n");
 }
 
 static void cneartab() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cneartab STUBBED\n");
 }
 
 static void cscsun() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscsun STUBBED\n");
 }
 
 static void cdarkpal() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cdarkpal STUBBED\n");
 }
 
 static void cscdark() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscdark STUBBED\n");
 }
 
 static void caset() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "caset STUBBED\n");
 }
 
 static void camov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "camov STUBBED\n");
 }
 
 static void cscaset() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscaset STUBBED\n");
 }
 
 static void cscamov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscamov STUBBED\n");
 }
 
 static void cscfollow() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscfollow STUBBED\n");
 }
 
 static void cscview() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscview STUBBED\n");
 }
 
 static void cfilm() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cfilm STUBBED\n");
 }
 
 static void cwalkmap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cwalkmap STUBBED\n");
 }
 
 static void catstmap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "catstmap STUBBED\n");
 }
 
 static void cavtstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cavtstmov STUBBED\n");
 }
 
 static void cavmov() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cavmov STUBBED\n");
 }
 
 static void caim() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "caim STUBBED\n");
 }
 
 static void cpointpix() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cpointpix STUBBED\n");
 }
 
 static void cchartmap() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cchartmap STUBBED\n");
 }
 
 static void cscsky() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "cscsky STUBBED\n");
 }
 
 static void czoom() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "czoom STUBBED\n");
 }
 
 
@@ -1225,8 +1230,7 @@ static void cret() {
 }
 
 static void cjsr(u32 offset) {
-    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
-    
+
     // save return **OFFSET**, not ADDRESS
     // TODO: dans la vm originale on empile la 'vraie' adresse du PC en 32 bits
     // Là j'ai pas la place (on est en 64 bits), donc j'empile l'offset
