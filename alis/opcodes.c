@@ -46,23 +46,23 @@ static void csub() {
 }
 
 static void cvprint() {
-    debug(EDebugInfo, "cvprint STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csprinti() {
-    debug(EDebugInfo, "csprinti STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csprinta() {
-    debug(EDebugInfo, "csprinta STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void clocate() {
-    debug(EDebugInfo, "clocate STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctab() {
-    debug(EDebugInfo, "ctab STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 // ???
@@ -89,7 +89,7 @@ static void cdim() {
 }
 
 static void crandom() {
-    debug(EDebugInfo, "crandom STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cloop8() {
@@ -126,75 +126,75 @@ static void cloop24() {
 }
 
 static void cswitch1() {
-    debug(EDebugInfo, "cswitch1 STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cswitch2() {
-    debug(EDebugInfo, "cswitch2 STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cleave() {
-    debug(EDebugInfo, "cleave STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cprotect() {
-    debug(EDebugInfo, "cprotect STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void casleep() {
-    debug(EDebugInfo, "casleep STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscmov() {
-    debug(EDebugInfo, "cscmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscset() {
-    debug(EDebugInfo, "cscset STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cclipping() {
-    debug(EDebugInfo, "cclipping STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cswitching() {
-    debug(EDebugInfo, "cswitching STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwlive() {
-    debug(EDebugInfo, "cwlive STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cunload() {
-    debug(EDebugInfo, "cunload STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwakeup() {
-    debug(EDebugInfo, "cwakeup STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csleep() {
-    debug(EDebugInfo, "csleep STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void clive() {
-    debug(EDebugInfo, "clive STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ckill() {
-    debug(EDebugInfo, "ckill STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cstop() {
-    debug(EDebugInfo, "cstop: STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cstopret() {
-    debug(EDebugInfo, "cstopret STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cexit() {
-    debug(EDebugInfo, "cexit STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cload() {
@@ -282,6 +282,7 @@ void FUN_00013dda() {
 
 // reads 35 bytes
 static void cdefsc() {
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
     /*
      ; code address: $139ca
      opcode_cdefsc:
@@ -359,27 +360,26 @@ static void cdefsc() {
      forever:
          bra forever
      */
-    debug(EDebugInfo, "cdefsc STUBBED\n");
 }
 
 static void cscreen() {
-    debug(EDebugInfo, "cscreen STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cput() {
-    debug(EDebugInfo, "cput STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cputnat() {
-    debug(EDebugInfo, "cputnat STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cerase() {
-    debug(EDebugInfo, "cerase STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cerasen() {
-    debug(EDebugInfo, "cerasen STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cset() {
@@ -419,139 +419,139 @@ static void cmov() {
 }
 
 static void copensc() {
-    debug(EDebugInfo, "copensc STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cclosesc() {
-    debug(EDebugInfo, "cclosesc STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cerasall() {
-    debug(EDebugInfo, "cerasall STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cforme() {
-    debug(EDebugInfo, "cforme STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdelforme() {
-    debug(EDebugInfo, "cdelforme STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctstmov() {
-    debug(EDebugInfo, "ctstmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctstset() {
-    debug(EDebugInfo, "ctstset STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cftstmov() {
-    debug(EDebugInfo, "cftstmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cftstset() {
-    debug(EDebugInfo, "cftstset STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csuccent() {
-    debug(EDebugInfo, "csuccent STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpredent() {
-    debug(EDebugInfo, "cpredent STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnearent() {
-    debug(EDebugInfo, "cnearent STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cneartyp() {
-    debug(EDebugInfo, "cneartyp STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnearmat() {
-    debug(EDebugInfo, "cnearmat STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cviewent() {
-    debug(EDebugInfo, "cviewent STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cviewtyp() {
-    debug(EDebugInfo, "cviewtyp STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cviewmat() {
-    debug(EDebugInfo, "cviewmat STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void corient() {
-    debug(EDebugInfo, "corient STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void crstent() {
-    debug(EDebugInfo, "crstent STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csend() {
-    debug(EDebugInfo, "csend STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscanon() {
-    debug(EDebugInfo, "cscanon STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscanoff() {
-    debug(EDebugInfo, "cscanoff STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cinteron() {
-    debug(EDebugInfo, "cinteron STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cinteroff() {
-    debug(EDebugInfo, "cinteroff STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscanclr() {
-    debug(EDebugInfo, "cscanclr STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void callentity() {
-    debug(EDebugInfo, "callentity STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpalette() {
-    debug(EDebugInfo, "cpalette STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdefcolor() {
-    debug(EDebugInfo, "cdefcolor STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctiming() {
-    debug(EDebugInfo, "ctiming STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void czap() {
-    debug(EDebugInfo, "czap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cexplode() {
-    debug(EDebugInfo, "cexplode STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cding() {
-    debug(EDebugInfo, "cding STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnoise() {
-    debug(EDebugInfo, "cnoise STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cinitab() {
-    debug(EDebugInfo, "cinitab STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfopen() {
@@ -580,67 +580,67 @@ static void cfclose() {
 }
 
 static void cfcreat() {
-    debug(EDebugInfo, "cfcreat STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfdel() {
-    debug(EDebugInfo, "cfdel STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfreadv() {
-    debug(EDebugInfo, "cfreadv STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfwritev() {
-    debug(EDebugInfo, "cfwritev STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfwritei() {
-    debug(EDebugInfo, "cfwritei STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfreadb() {
-    debug(EDebugInfo, "cfreadb STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfwriteb() {
-    debug(EDebugInfo, "cfwriteb STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cplot() {
-    debug(EDebugInfo, "cplot STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdraw() {
-    debug(EDebugInfo, "cdraw STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cbox() {
-    debug(EDebugInfo, "cbox STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cboxf() {
-    debug(EDebugInfo, "cboxf STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cink() {
-    debug(EDebugInfo, "cinf STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpset() {
-    debug(EDebugInfo, "cpset STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpmove() {
-    debug(EDebugInfo, "cpmove STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpmode() {
-    debug(EDebugInfo, "cpmode STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpicture() {
-    debug(EDebugInfo, "cpicture STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxyscroll() {
@@ -654,11 +654,11 @@ static void clinking() {
 }
 
 static void cmouson() {
-    debug(EDebugInfo, "cmouson STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmousoff() {
-    debug(EDebugInfo, "cmousoff STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmouse() {
@@ -667,35 +667,35 @@ static void cmouse() {
 }
 
 static void cdefmouse() {
-    debug(EDebugInfo, "cdefmouse STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csetmouse() {
-    debug(EDebugInfo, "csetmouse STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdefvect() {
-    debug(EDebugInfo, "cdefvect STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csetvect() {
-    debug(EDebugInfo, "csetvect STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void capproach() {
-    debug(EDebugInfo, "capproach STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cescape() {
-    debug(EDebugInfo, "cescape STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvtstmov() {
-    debug(EDebugInfo, "cvtstmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvftstmov() {
-    debug(EDebugInfo, "cvftstmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvmov() {
@@ -710,7 +710,7 @@ static void cvmov() {
 //0001469e 48 80           ext.w      D0w
 //000146a0 d1 6e 00 04     add.w      D0w,(0x4,A6)
 //000146a4 4e 75           rts
-    debug(EDebugInfo, "cvmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdefworld() {
@@ -728,7 +728,7 @@ static void cdefworld() {
     while(counter--) {
         write8(offset, script_read8());
     }
-    debug(EDebugInfo, "cdefworld STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cworld() {
@@ -741,427 +741,427 @@ static void cworld() {
 }
 
 static void cfindmat() {
-    debug(EDebugInfo, "cfindmat STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfindtyp() {
-    debug(EDebugInfo, "cfindtyp STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmusic() {
-    debug(EDebugInfo, "cmusic STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdelmusic() {
-    debug(EDebugInfo, "cdelmusic STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ccadence() {
-    debug(EDebugInfo, "ccadence STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csetvolum() {
-    debug(EDebugInfo, "csetvolum STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxinv() {
-    debug(EDebugInfo, "cxinv STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxinvon() {
-    debug(EDebugInfo, "cxinvon STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxinvoff() {
-    debug(EDebugInfo, "cxinvoff STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void clistent() {
-    debug(EDebugInfo, "clistent STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csound() {
-    debug(EDebugInfo, "csound STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmsound() {
-    debug(EDebugInfo, "cmsound STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void credon() {
-    debug(EDebugInfo, "credon STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void credoff() {
-    debug(EDebugInfo, "credoff STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdelsound() {
-    debug(EDebugInfo, "cdelsound STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwmov() {
-    debug(EDebugInfo, "cwmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwtstmov() {
-    debug(EDebugInfo, "ctstmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwftstmov() {
-    debug(EDebugInfo, "cwftstmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctstform() {
-    debug(EDebugInfo, "ctstform STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxput() {
-    debug(EDebugInfo, "cxput STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxputat() {
-    debug(EDebugInfo, "cxputat STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmput() {
-    debug(EDebugInfo, "cmput STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmputat() {
-    debug(EDebugInfo, "cmputat STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmxput() {
-    debug(EDebugInfo, "cmxput STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmxputat() {
-    debug(EDebugInfo, "cmxputat STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmmusic() {
-    debug(EDebugInfo, "cmmusic STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmforme() {
-    debug(EDebugInfo, "cmforme STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csettime() {
-    debug(EDebugInfo, "csettime STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cgettime() {
-    debug(EDebugInfo, "cgettime STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvinput() {
-    debug(EDebugInfo, "cvinput STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csinput() {
-    debug(EDebugInfo, "csinput STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void crunfilm() {
-    debug(EDebugInfo, "crunfilm STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvpicprint() {
-    debug(EDebugInfo, "cvpicprint STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cspicprint() {
-    debug(EDebugInfo, "cspicprint STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvputprint() {
-    debug(EDebugInfo, "cvputprint STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csputprint() {
-    debug(EDebugInfo, "csputprint STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfont() {
-    debug(EDebugInfo, "cfont STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpaper() {
-    debug(EDebugInfo, "cpaper STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctoblack() {
-    debug(EDebugInfo, "ctoblack STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmovcolor() {
-    debug(EDebugInfo, "cmovcolor STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctopalet() {
-    debug(EDebugInfo, "ctopalet STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnumput() {
-    debug(EDebugInfo, "cnumput STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscheart() {
-    debug(EDebugInfo, "cscheart STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscpos() {
-    debug(EDebugInfo, "cscpos STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscsize() {
-    debug(EDebugInfo, "cscsize STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cschoriz() {
-    debug(EDebugInfo, "cschoriz STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscvertic() {
-    debug(EDebugInfo, "cscvertic STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscreduce() {
-    debug(EDebugInfo, "cscreduce STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscscale() {
-    debug(EDebugInfo, "cscscale STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void creducing() {
-    debug(EDebugInfo, "creducing STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscmap() {
-    debug(EDebugInfo, "cscmap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscdump() {
-    debug(EDebugInfo, "cscdump STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfindcla() {
-    debug(EDebugInfo, "cfindcla STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnearcla() {
-    debug(EDebugInfo, "cnearcla STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cviewcla() {
-    debug(EDebugInfo, "cviewcla STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cinstru() {
-    debug(EDebugInfo, "cinstru STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cminstru() {
-    debug(EDebugInfo, "cminstru STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cordspr() {
-    debug(EDebugInfo, "cordspr STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void calign() {
-    debug(EDebugInfo, "calign STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cbackstar() {
-    debug(EDebugInfo, "cbackstar STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cstarring() {
-    debug(EDebugInfo, "cstarring STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cengine() {
-    debug(EDebugInfo, "cengine STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cautobase() {
-    debug(EDebugInfo, "cautobase STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cquality() {
-    debug(EDebugInfo, "cquality STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void chsprite() {
-    debug(EDebugInfo, "chsprite STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cselpalet() {
-    debug(EDebugInfo, "cselpalet STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void clinepalet() {
-    debug(EDebugInfo, "clinepalet STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cautomode() {
-    debug(EDebugInfo, "cautomode STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cautofile() {
-    debug(EDebugInfo, "cautofile STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ccancel() {
-    debug(EDebugInfo, "ccancel STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ccancall() {
-    debug(EDebugInfo, "ccancall STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ccancen() {
-    debug(EDebugInfo, "ccancen STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cblast() {
-    debug(EDebugInfo, "cblast STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscback() {
-    debug(EDebugInfo, "cscback STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscrolpage() {
-    debug(EDebugInfo, "cscrolpage STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmatent() {
-    debug(EDebugInfo, "cmatent STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cshrink() {
-    debug(EDebugInfo, "cshrink STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdefmap() {
-    debug(EDebugInfo, "cdefmap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csetmap() {
-    debug(EDebugInfo, "csetmap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cputmap() {
-    debug(EDebugInfo, "cputmap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csavepal() {
-    debug(EDebugInfo, "csavepal STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csczoom() {
-    debug(EDebugInfo, "csczoom STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctexmap() {
-    debug(EDebugInfo, "ctexmap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void calloctab() {
-    debug(EDebugInfo, "calloctab STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfreetab() {
-    debug(EDebugInfo, "cfreetab STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscantab() {
-    debug(EDebugInfo, "cscantab STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cneartab() {
-    debug(EDebugInfo, "cneartab STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscsun() {
-    debug(EDebugInfo, "cscsun STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdarkpal() {
-    debug(EDebugInfo, "cdarkpal STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscdark() {
-    debug(EDebugInfo, "cscdark STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void caset() {
-    debug(EDebugInfo, "caset STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void camov() {
-    debug(EDebugInfo, "camov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscaset() {
-    debug(EDebugInfo, "cscaset STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscamov() {
-    debug(EDebugInfo, "cscamov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscfollow() {
-    debug(EDebugInfo, "cscfollow STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscview() {
-    debug(EDebugInfo, "cscview STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfilm() {
-    debug(EDebugInfo, "cfilm STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwalkmap() {
-    debug(EDebugInfo, "cwalkmap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void catstmap() {
-    debug(EDebugInfo, "catstmap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cavtstmov() {
-    debug(EDebugInfo, "cavtstmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cavmov() {
-    debug(EDebugInfo, "cavmov STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void caim() {
-    debug(EDebugInfo, "caim STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpointpix() {
-    debug(EDebugInfo, "cpointpix STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cchartmap() {
-    debug(EDebugInfo, "cchartmap STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscsky() {
-    debug(EDebugInfo, "cscsky STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void czoom() {
-    debug(EDebugInfo, "czoom STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 

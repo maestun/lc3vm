@@ -29,7 +29,7 @@ _main_start:
 			; ram[ #$3ce0 + #$01] <- #$0c 
 	$2d555	1e 00 08 38 00 02 3a 0e 3c e0
 			cstore oimmb #$08 seval oimmb #$02 ofin sloctc #$3ce0
-			; ram[ #$3ce0 + #$02] <- #$0c8
+			; ram[ #$3ce0 + #$02] <- #$08
 	$2d55f	1e 00 0c 38 00 03 3a 0e 3c e0
 			cstore oimmb #$0c seval oimmb #$03 ofin sloctc #$3ce0
 			; ram[ #$3ce0 + #$03] <- #$0c 
@@ -48,7 +48,7 @@ _main_start:
 	$2d591	07 00 00 db
 			cjsr24 #$db ; jump subroutine $2d670
 	$2d595	07 00 02 39 
-			cjsr #$239	; jump subroutine $
+			cjsr #$239	; jump subroutine $2d7d2
 			; 32 00 09 A0 08 
 			; FA 0A 00 00 CD 1E 72 08 
 			; 42 40 2E 08 42 40 0C 00 
@@ -102,7 +102,7 @@ _main_start:
 	$2d6b2 	1e 00 01 06 42 36
 			cstore oimmb #$01 slocb #$4236
 	$2d6b8	0a 00 00 bf
-			cjmp24 #$bf ; jump at $2d
+			cjmp24 #$bf ; jump at $2d77b
 			; ...
 	$2d77b	1f 38 00 00 76 54 02 02 d0 3a
 			ceval oeval oimmb #$00 ofree osup oimmw #$02d0 ofin

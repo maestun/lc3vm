@@ -318,7 +318,7 @@ void alis_debug_ram() {
     for(u32 i = 0; i < kVirtualRAMSize; i += width) {
         printf("0x%04x: ", i);
         for(u8 j = 0; j < width; j++) {
-            printf("%02x ", alis.scripts[alis.scriptID]->ram[(i * width) + j]);
+            printf("%02x ", alis.scripts[alis.scriptID]->ram[i + j]);
         }
         printf("\n");
     }

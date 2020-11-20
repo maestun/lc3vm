@@ -58,6 +58,7 @@ void oimmp() {
     script_read_until_zero(alis.bssChunk1);
 }
 
+// read word offset, copy byte from ram[offset] into r7
 void olocb() {
 //    OPERNAME_OLOCB_0x3
 //000175b0 10 1b           move.b     (A3)+,D0b
@@ -71,6 +72,7 @@ void olocb() {
     alis.varD7 = extend_w(b);
 }
 
+// read word offset, copy word from ram[offset] into r7
 void olocw() {
 //    OPERNAME_OLOCW_0x4
 //000175be 10 1b           move.b     (A3)+,D0b
@@ -296,31 +298,43 @@ void oeqv() {
 
 // r6 == r7
 void oegal() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 == alis.varD7) ? 0xff : 0x0;
 }
 
 // r6 != r7
 void odiff() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 != alis.varD7) ? 0xff : 0x0;
 }
 
 // r6 <= r7
 void oinfeg() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 <= alis.varD7) ? 0xff : 0x0;
 }
 
 // r6 >= r7
 void osupeg() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 >= alis.varD7) ? 0xff : 0x0;
 }
 
 // r6 < r7
 void oinf() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 < alis.varD7) ? 0xff : 0x0;
 }
 
 // r6 > r7
 void osup() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 > alis.varD7) ? 0xff : 0x0;
 }
 
