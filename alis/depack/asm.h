@@ -75,10 +75,5 @@ void SWAP(uint8_t reg[4]);
 
 void dreg(void);
 
-#define BIT_CLR(v, b)       (v &= ~(1UL << b))
-#define BIT_SET(v, b)       (v |= (1UL << b))
-#define BIT_TOG(v, b)       (v ^= (1UL << b))
-#define BIT_CHK(v, b)       ((v >> b) & 1U)
-
 
 #endif /* asm_h */

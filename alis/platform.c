@@ -6,7 +6,7 @@
 #include "platform.h"
 #include "utils.h"
 
-sPlatform platforms[] = {
+static sPlatform platforms[] = {
     { EPlatformAtari,       "Atari ST/STe", "ao", 320, 200, 5, "" },
     { EPlatformFalcon,      "Atari Falcon", "fo", 320, 200, 8, "" },
     { EPlatformAmiga,       "Amiga",        "co", 320, 200, 5, "" },

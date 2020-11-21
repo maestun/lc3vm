@@ -15,24 +15,14 @@
 static void cnul() {
 }
 static void alocb() {
-//    ADDNAME_ALOCB_0x3
-//00018194 10 1b           move.b     (A3)+,D0b
-//00018196 e1 40           asl.w      #0x8,D0w
-//00018198 10 1b           move.b     (A3)+,D0b
-//0001819a df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
-//0001819e 4e 75           rts
     u16 offset = script_read16();
-    add8(offset, (u8)alis.varD7);
+    vram_add8(offset, (u8)alis.varD7);
+    alis.ccr.zero = (vram_read8(offset) == 0);
 }
 static void alocw() {
-//    ADDNAME_ALOCW_0x4
-//000181a0 10 1b           move.b     (A3)+,D0b
-//000181a2 e1 40           asl.w      #0x8,D0w
-//000181a4 10 1b           move.b     (A3)+,D0b
-//000181a6 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
-//000181aa 4e 75           rts
     u16 offset = script_read16();
-    add16(offset, alis.varD7);
+    vram_add16(offset, alis.varD7);
+    alis.ccr.zero = (vram_read8(offset) == 0);
 }
 static void alocp() {
 //    ADDNAME_ALOCP_0x5
@@ -71,38 +61,16 @@ static void alocti() {
     debug(EDebugInfo, "alocti STUBBED\n");
 }
 static void adirb() {
-//    ADDNAME_ADIRB_0x9
-//00018214 42 40           clr.w      D0w
-//00018216 10 1b           move.b     (A3)+,D0b
-//00018218 df 36 00 00     add.b      D7b,(0x0,A6,D0w*0x1)
-//0001821c 4e 75           rts
     u8 offset = script_read8();
-    add8(offset, (u8)alis.varD7);
+    vram_add8(offset, (u8)alis.varD7);
+    alis.ccr.zero = (vram_read8(offset) == 0);
 }
 static void adirw() {
-//    ADDNAME_ADIRW_0xa
-//0001821e 42 40           clr.w      D0w
-//00018220 10 1b           move.b     (A3)+,D0b
-//00018222 df 76 00 00     add.w      D7w,(0x0,A6,D0w*0x1)
-//00018226 4e 75           rts
     u8 offset = script_read8();
-    add16(offset, alis.varD7);
+    vram_add16(offset, alis.varD7);
+    alis.ccr.zero = (vram_read8(offset) == 0);
 }
 static void adirp() {
-//    ADDNAME_ADIRP_0xb
-//00018228 42 40           clr.w      D0w
-//0001822a 10 1b           move.b     (A3)+,D0b
-//0001822c 43 f6 00 00     lea        (0x0,A6,D0w*0x1),A1
-//00018230 20 79 00        movea.l    (ADDR_BSS_256_CHUNK_3).l,A0
-//01 95 ea
-//    LAB_00018236                                    XREF[1]:     00018238(j)
-//00018236 4a 19           tst.b      (A1)+
-//00018238 66 00 ff fc     bne.w      LAB_00018236
-//0001823c 53 89           subq.l     #0x1,A1
-//    LAB_0001823e                                    XREF[1]:     00018240(j)
-//0001823e 12 d8           move.b     (A0)+,(A1)+
-//00018240 66 00 ff fc     bne.w      LAB_0001823e
-//00018244 4e 75           rts
 
 }
 static void adirtp() {

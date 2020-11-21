@@ -7,13 +7,11 @@
 #include "alis.h"
 #include "alis_private.h"
 #include "utils.h"
+#include "vram.h"
 
-// =============================================================================
-#pragma mark - Helpers
-// =============================================================================
-static void cstart(u32 offset) {
-    // TODO: check OP_CSTART in asm source
-}
+
+#define BIT_SCAN        (0)
+#define BIT_INTER       (1)
 
 
 // ============================================================================
@@ -89,40 +87,36 @@ static void cdim() {
 }
 
 static void crandom() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    readexec_opername();
+    alis._random_number = alis.varD7;
+    if(alis._random_number == 0) {
+        alis._random_number = sys_random();
+        // test key/joy input, if zero, random is set to $64 ???
+    }
+}
+
+
+// cloopX(jmp_offset, addname(ram_offset))
+// decrement value in RAM[offset2]
+// if obtained value is zero, then jump with jmp_offset
+static void cloop(u32 offset) {
+    alis.varD7 = -1;
+    readexec_addname_swap();
+    if(alis.ccr.zero) {
+        alis.pc += offset;
+    }
 }
 
 static void cloop8() {
-    u8 * pc_save = alis.pc;
-    alis.pc += 1;
-    alis.varD7 = 0xff;
-    readexec_addname_swap();
-    if(alis.varD7/* TODO: check that condition code is not zero */) {
-        alis.pc = pc_save;
-        alis.pc += extend_w(script_read8());
-    }
+    cloop(script_read8ext16());
 }
 
 static void cloop16() {
-    u8 * pc_save = alis.pc;
-    alis.pc += 2;
-    alis.varD7 = 0xff;
-    readexec_addname_swap();
-    if(alis.varD7/* TODO: check that condition code is not zero */) {
-        alis.pc = pc_save;
-        alis.pc += script_read16();
-    }
+    cloop(script_read16());
 }
 
 static void cloop24() {
-    u8 * pc_save = alis.pc;
-    alis.pc += 3;
-    alis.varD7 = 0xff;
-    readexec_addname_swap();
-    if(alis.varD7/* TODO: check that condition code is not zero */) {
-        alis.pc = pc_save;
-        alis.pc += script_read24();
-    }
+    cloop(script_read24());
 }
 
 static void cswitch1() {
@@ -135,6 +129,31 @@ static void cswitch2() {
 
 static void cleave() {
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+//    **************************************************************
+//    *                          FUNCTION                          *
+//    **************************************************************
+//    undefined OPCODE_CLEAVE_0x33()
+//undefined         D0b:1          <RETURN>
+//    OPCODE_CLEAVE_0x33
+//00013206 4a 39 00        tst.b      (B_CSTOPRET).l
+//01 95 a3
+//0001320c 66 00 00 1c     bne.w      LAB_0001322a
+//00013210 32 2e ff f4     move.w     (-0xc,A6),D1w
+//00013214 67 00 00 34     beq.w      OPCODE_CRET_0x11
+//00013218 42 6e ff f4     clr.w      (-0xc,A6)
+//0001321c 2d 76 10        move.l     (0x0,A6,D1w*0x1),(-0x8,A6)
+//00 ff f8
+//00013222 58 41           addq.w     #0x4,D1w
+//00013224 3d 41 ff f6     move.w     D1w,(-0xa,A6)
+//00013228 4e 75           rts
+//    LAB_0001322a                                    XREF[1]:     0001320c(j)
+//0001322a 38 2e ff f4     move.w     (-0xc,A6),D4w
+//0001322e 67 00 00 1a     beq.w      OPCODE_CRET_0x11
+//00013232 42 6e ff f4     clr.w      (-0xc,A6)
+//00013236 26 76 40 00     movea.l    (0x0,A6,D4w*0x1),A3
+//0001323a 58 44           addq.w     #0x4,D4w
+//0001323c 4e 75           rts
+
 }
 
 static void cprotect() {
@@ -179,6 +198,16 @@ static void csleep() {
 
 static void clive() {
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis._DAT_000195fa = 0;
+    alis._DAT_000195fc = 0;
+    alis._DAT_000195fe = 0;
+    
+    u16 d2 = script_read16();
+    
+    u8 * tmp = alis.bssChunk1;
+    alis.bssChunk1 = alis.bssChunk3;
+    alis.bssChunk3 = tmp;
+    readexec_storename();
 }
 
 static void ckill() {
@@ -200,15 +229,23 @@ static void cexit() {
 static void cload() {
     // get script ID
     u16 id = script_read16();
-    
-    // get file name
-    char * name = (char *)alis.pc;
-    size_t len = strlen(name);
-    
-    // load script into vm
-    sAlisScript * script = script_load(name);
-    alis.scripts[id] = script;
-    alis.pc += len;
+    if(id == 0) {
+        // main script !
+        readexec_opername_swap();
+        
+        // TODO: init some stuff ?
+        
+        // reset vm ?
+    }
+    else {
+        // not main script, depack and load into vm
+        u8 name[kNameMaxLen] = {0};
+        script_read_until_zero(name);
+        char * fpath = get_full_path((char *)name, alis.platform.path);
+        sAlisScript * script = script_load(fpath);
+        free(fpath);
+        alis.scripts[id] = script;
+    }
 }
 
 
@@ -363,6 +400,10 @@ static void cdefsc() {
 }
 
 static void cscreen() {
+    u16 pos = script_read16();
+    if (pos != alis._a6_minus_16) {
+        alis._a6_minus_16 = pos;
+    }
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
@@ -393,11 +434,11 @@ static void cset() {
 //00014666 3d 47 00 04     move.w     D7w,(0x4,A6)
 //0001466a 4e 75           rts
     readexec_opername();
-    write16(0, alis.varD7);
+    vram_write16(0, alis.varD7);
     readexec_opername();
-    write16(2, alis.varD7);
+    vram_write16(2, alis.varD7);
     readexec_opername();
-    write16(4, alis.varD7);
+    vram_write16(4, alis.varD7);
 }
 
 static void cmov() {
@@ -411,14 +452,33 @@ static void cmov() {
 //00014680 df 6e 00 04     add.w      D7w,(0x4,A6)
 //00014684 4e 75           rts
     readexec_opername();
-    add16(0, alis.varD7);
+    vram_add16(0, alis.varD7);
     readexec_opername();
-    add16(2, alis.varD7);
+    vram_add16(2, alis.varD7);
     readexec_opername();
-    add16(4, alis.varD7);
+    vram_add16(4, alis.varD7);
 }
 
 static void copensc() {
+//    **************************************************************
+//    *                          FUNCTION                          *
+//    **************************************************************
+//    undefined OPCODE_COPENSC_0x4e()
+//undefined         D0b:1          <RETURN>
+//    OPCODE_COPENSC_0x4e
+//00013d4c 10 1b           move.b     (A3)+,D0b
+//00013d4e e1 40           asl.w      #0x8,D0w
+//00013d50 10 1b           move.b     (A3)+,D0b
+//00013d52 20 79 00        movea.l    (ADDR_VSTACK).l,A0
+//01 95 7c
+//00013d58 08 b0 00        bclr.b     0x6,(0x0,A0,D0w*0x1)
+//06 00 00
+//00013d5e 08 f0 00        bset.b     0x7,(0x0,A0,D0w*0x1)
+//07 00 00
+//00013d64 61 00 00 42     bsr.w      FUN_00013da8                                     undefined FUN_00013da8()
+//00013d68 61 00 00 18     bsr.w      FUN_00013d82                                     undefined FUN_00013d82()
+//00013d6c 4e 75           rts
+    u16 id = script_read16();
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
@@ -498,24 +558,25 @@ static void csend() {
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
-static void cscanon() {
+static void cscanclr() {
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+}
+
+static void cscanon() {
+    alis.status.scan = 0;
 }
 
 static void cscanoff() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis.status.scan = 1;
+    cscanclr();
 }
 
 static void cinteron() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis.status.inter = 0;
 }
 
 static void cinteroff() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
-}
-
-static void cscanclr() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis.status.inter = 1;
 }
 
 static void callentity() {
@@ -531,7 +592,8 @@ static void cdefcolor() {
 }
 
 static void ctiming() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    readexec_opername();
+    alis._ctiming = (u8)(alis.varD7 & 0xff);
 }
 
 static void czap() {
@@ -650,7 +712,7 @@ static void cxyscroll() {
 
 static void clinking() {
     readexec_opername();
-    write16(0xffd6, alis.varD7);
+    vram_write16(0xffd6, alis.varD7);
 }
 
 static void cmouson() {
@@ -726,7 +788,7 @@ static void cdefworld() {
     u16 offset = script_read16();
     u8 counter = 5;
     while(counter--) {
-        write8(offset, script_read8());
+        vram_write8(offset, script_read8());
     }
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
@@ -736,8 +798,8 @@ static void cworld() {
 //00017404 1d 5b ff de     move.b     (A3)+,(0xFFDE,A6)
 //00017408 1d 5b ff df     move.b     (A3)+,(0xFFDF,A6)
 //0001740c 4e 75           rts
-    write8(0xffde, script_read8());
-    write8(0xffdf, script_read8());
+    vram_write8(0xffde, script_read8());
+    vram_write8(0xffdf, script_read8());
 }
 
 static void cfindmat() {
@@ -1166,7 +1228,7 @@ static void czoom() {
 
 
 // ============================================================================
-#pragma mark - Empty opcodes
+#pragma mark - Unimplemented opcodes
 // ============================================================================
 static void cnul()      {
     debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
@@ -1213,7 +1275,7 @@ static void cjmpind24() {
 
 
 // ============================================================================
-#pragma mark - Flow control opcodes
+#pragma mark - Flow control - Subroutines
 // ============================================================================
 static void cret() {
     // return from subroutine (cjsr)
@@ -1251,7 +1313,7 @@ static void cjsr(u32 offset) {
 
 static void cjsr8() {
     // read byte, extend sign
-    u16 offset = extend_w(script_read8());
+    u16 offset = script_read8ext16();
     cjsr(offset);
 }
 
@@ -1265,123 +1327,152 @@ static void cjsr24() {
     cjsr(offset);
 }
 
-static void cjmp8() {
-    u16 offset = extend_w(script_read8());
+
+// ============================================================================
+#pragma mark - Flow control - Jump
+// ============================================================================
+static void cjmp(u32 offset) {
     alis.pc += offset;
+}
+
+static void cjmp8() {
+    cjmp(script_read8ext16());
 }
 
 static void cjmp16() {
-    u16 offset = script_read16();
-    alis.pc += offset;
+    cjmp(script_read16());
 }
 
 static void cjmp24() {
-    u32 offset = script_read24();
-    alis.pc += offset;
+    cjmp(script_read24());
+}
+
+
+// ============================================================================
+#pragma mark - Flow control - Branch if zero
+// ============================================================================
+static void cbz(u32 offset) {
+    if(alis.varD7 == 0) {
+        alis.pc += offset;
+    }
 }
 
 static void cbz8() {
-    u16 offset = script_read8();
-    if(alis.varD7 == 0) {
-        offset = extend_w(script_read8());
-        alis.pc += offset;
-    }
+    cbz(script_read8ext16());
 }
 
 static void cbz16() {
-    u16 offset = script_read16();
-    if(alis.varD7 == 0) {
-        alis.pc += offset;
-    }
+    cbz(script_read16());
 }
 static void cbz24() {
-    u32 offset = script_read24();
-    if(alis.varD7 == 0) {
+    cbz(script_read24());
+}
+
+
+// ============================================================================
+#pragma mark - Flow control - Branch if non-zero
+// ============================================================================
+static void cbnz(u32 offset) {
+    if(alis.varD7 != 0) {
         alis.pc += offset;
     }
 }
-
 static void cbnz8() {
-    u16 offset = script_read8();
-    if(alis.varD7) {
-        offset = extend_w(script_read8());
-        alis.pc += offset;
-    }
+    cbnz(script_read8ext16());
 }
 
 static void cbnz16() {
-    u16 offset = script_read16();
-    if(alis.varD7) {
-        alis.pc += offset;
-    }
+    cbnz(script_read16());
 }
 
 static void cbnz24() {
-    u32 offset = script_read24();
-    if(alis.varD7) {
+    cbnz(script_read24());
+}
+
+
+// ============================================================================
+#pragma mark - Flow control - Branch if equal
+// ============================================================================
+static void cbeq(u32 offset) {
+    if(alis.varD7 == alis.varD6) {
         alis.pc += offset;
     }
 }
 static void cbeq8() {
-    u16 offset = script_read8();
-    if(alis.varD7 == alis.varD6) {
-        offset = extend_w(script_read8());
-        alis.pc += offset;
-    }
+    cbeq(script_read8ext16());
 }
 static void cbeq16() {
-    u16 offset = script_read16();
-    if(alis.varD7 == alis.varD6) {
-        alis.pc += offset;
-    }
+    cbeq(script_read16());
 }
 static void cbeq24() {
-    u32 offset = script_read24();
-    if(alis.varD7 == alis.varD6) {
+    cbeq(script_read24());
+}
+
+
+// ============================================================================
+#pragma mark - Flow control - Branch if not equal
+// ============================================================================
+static void cbne(u32 offset) {
+    if(alis.varD7 != alis.varD6) {
         alis.pc += offset;
     }
 }
 static void cbne8() {
-    u16 offset = script_read8();
-    if(alis.varD7 != alis.varD6) {
-        offset = extend_w(script_read8());
-        alis.pc += offset;
-    }
+    cbne(script_read8ext16());
 }
 static void cbne16() {
-    u16 offset = script_read16();
-    if(alis.varD7 != alis.varD6) {
-        alis.pc += offset;
-    }
+    cbne(script_read16());
 }
 static void cbne24() {
-    u32 offset = script_read24();
-    if(alis.varD7 != alis.varD6) {
-        alis.pc += offset;
-    }
+    cbne(script_read24());
 }
 
+
+// ============================================================================
+#pragma mark - Flow control - Start
+// ============================================================================
+static void cstart(u32 offset) {
+//    OPCODE_CSTART_COMMON                            XREF[2]:     00013182(j), 00013202(j)
+//0001318e 4a 39 00        tst.b      (B_CSTOPRET).l
+//01 95 a3
+//00013194 66 00 00 42     bne.w      LAB_000131d8
+//00013198 4a 6e ff f4     tst.w      (-0xc,A6)
+//0001319c 66 00 00 20     bne.w      LAB_000131be
+//000131a0 32 2e ff f6     move.w     (-0xa,A6),D1w
+//000131a4 59 41           subq.w     #0x4,D1w
+//000131a6 3d 41 ff f4     move.w     D1w,(-0xc,A6)
+//000131aa 3d 41 ff f6     move.w     D1w,(-0xa,A6)
+//000131ae 2d ae ff        move.l     (-0x8,A6),(0x0,A6,D1w*0x1)
+//f8 10 00
+//000131b4 d0 8b           add.l      A3,D0
+//000131b6 2d 40 ff f8     move.l     D0,(-0x8,A6)
+//000131ba 60 00 00 0e     bra.w      LAB_000131ca
+//    LAB_000131be                                    XREF[1]:     0001319c(j)
+//000131be 3d 6e ff        move.w     (-0xc,A6),(-0xa,A6)
+//f4 ff f6
+//000131c4 d0 8b           add.l      A3,D0
+//000131c6 2d 40 ff f8     move.l     D0,(-0x8,A6)
+//    LAB_000131ca                                    XREF[1]:     000131ba(j)
+//000131ca 1d 7c 00        move.b     #0x1,(-0x4,A6)
+//01 ff fc
+//000131d0 1d 7c 00        move.b     #0x1,(0xFFFF,A6)
+//01 ff ff
+//000131d6 4e 75           rts
+
+    debug(EDebugWarning, "%s STUBBED", __FUNCTION__);
+}
 static void cstart8() {
     // read byte, extend sign to word, then to long
-//    u16 offset16 = vm_read_8_ext();
-//    u32 offset32 = offset16 + (BIT_CHK(offset16, 7) ? 0xffff0000 : 0); // EXT.L
-//    cstart(offset32);
+    cstart(script_read8ext32());
 }
 
 static void cstart16() {
-//    u16 offset16 = vm_read_16();
-//    cstart(offset16);
+    cstart(script_read16ext32());
 }
 
 static void cstart24() {
-//    u32 offset32 = vm_read_24();
-//    cstart(offset32);
+    cstart(script_read24());
 }
-
-
-// ============================================================================
-#pragma mark - Other opcodes
-// ============================================================================
 
 
 // ============================================================================

@@ -12,6 +12,7 @@
 #include "script.h"
 #include "sys.h"
 
+
 #define kVMHeaderLen            (16 * sizeof(u8))
 #define kHostRAMSize            (1024 * 1024 * sizeof(u8))
 #define kVirtualRAMSize         (0xffff * sizeof(u8))
@@ -48,9 +49,6 @@ typedef struct {
 #define AO_LOC_TP               (0xfffe)
 
 
-
-
-
 // =============================================================================
 // MARK: - OPCODES
 // =============================================================================
@@ -75,6 +73,9 @@ typedef struct {
     
     // TODO: vm header, loaded from main script ?
     u8              header[kVMHeaderLen];
+    
+    // true if disasm only
+    u8              disasm;
     
     // true if vm is running
     u8              running;
@@ -109,6 +110,17 @@ typedef struct {
     // unknown vars
     u32 DAT_000194fe;
     
+    struct {
+        u8 zero: 1;
+        u8 neg: 1;
+    } ccr;
+    
+    
+    struct {
+        u8 scan: 1;
+        u8 inter: 1;
+    }  status;
+    
     
     // A6 => contient adresse du début de la ram virtuelle (ou pile virtuelle ?)
     //       qui a l'air de faire 65k (0xffff) au total.
@@ -123,6 +135,17 @@ typedef struct {
     
     // system helpers
     FILE *      fp;
+    
+    
+    // unknown variables
+    u8          _ctiming;
+    u16         _a6_minus_16;
+    u16         _random_number;
+    
+    u16         _DAT_000195fa;
+    u16         _DAT_000195fc;
+    u16         _DAT_000195fe;
+        
 } sAlisVM;
 
 extern sAlisVM alis;
@@ -137,6 +160,7 @@ void            alis_start_script(sAlisScript * script);
 void            alis_error(u8 errnum, ...);
 void            alis_debug(void);
 void            alis_debug_ram(void);
+void            alis_debug_addr(u16 addr);
 
 #endif /* alis_vm_h */
 

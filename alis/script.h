@@ -19,9 +19,14 @@
 // =============================================================================
 // MARK: - SCRIPT
 // =============================================================================
+
 typedef struct {
     u16     ID;
     char    name[kPathMaxLen];
+    
+    // for debug: addr of script in steem
+    u32     org;
+    
     // script data
     u8 *    data;
     u32     datalen;

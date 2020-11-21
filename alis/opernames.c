@@ -105,7 +105,7 @@ void olocp() {
     }
 }
 void oloctp() {
-    debug(EDebugInfo, "oloctp STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oloctc() {
@@ -120,11 +120,11 @@ void oloctc() {
     
     u16 offset = script_read16();
     u16 ret = loctc_common(offset);
-    alis.varD7 =  read8(ret);
+    alis.varD7 =  vram_read8(ret);
 }
 
 void olocti() {
-    debug(EDebugInfo, "olocti STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void odirb() {
@@ -169,39 +169,39 @@ void odirp() {
 }
 
 void odirtp() {
-    debug(EDebugInfo, "odirtp STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void odirtc() {
-    debug(EDebugInfo, "odirtc STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void odirti() {
-    debug(EDebugInfo, "odirti STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void omainb() {
-    debug(EDebugInfo, "omainb STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void omainw() {
-    debug(EDebugInfo, "omainw STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void omainp() {
-    debug(EDebugInfo, "omainp STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void omaintp() {
-    debug(EDebugInfo, "omaintp STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void omaintc() {
-    debug(EDebugInfo, "omaintc STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void omainti() {
-    debug(EDebugInfo, "omainti STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ohimb() {
@@ -219,27 +219,27 @@ void ohimb() {
 //0001773e 1e 31 00 00     move.b     (0x0,A1,D0w*0x1),D7b
 //00017742 48 87           ext.w      D7w
 //00017744 4e 75           rts
-    debug(EDebugInfo, "ohimb STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ohimw() {
-    debug(EDebugInfo, "ohimw STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ohimp() {
-    debug(EDebugInfo, "ohimp STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ohimtp() {
-    debug(EDebugInfo, "ohimtp STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ohimtc() {
-    debug(EDebugInfo, "ohimtc STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ohimti() {
-    debug(EDebugInfo, "ohimti STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 // pop from accumulator into r6
@@ -392,18 +392,18 @@ void omul() {
     alis.varD7 *= alis.varD6;
 }
 
-// r7 = -r7
+
 void oneg() {
-    alis.varD7 = -alis.varD7;
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
-// r7 = abs(r7)
+
 void oabs() {
-    alis.varD7 = (alis.varD7 < 0) ? -alis.varD7 : alis.varD7;
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ornd() {
-    debug(EDebugInfo, "ornd STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 // r7 <- (r7 < 0) ? 0xfff : 1
@@ -417,33 +417,32 @@ void osgn() {
     }
 }
 
-// r7 = ~r7
 void onot() {
-    alis.varD7 = ~alis.varD7;
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oinkey() {
-    debug(EDebugInfo, "oinkey STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void okeyon() {
-    debug(EDebugInfo, "okeyon STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ojoy() {
-    debug(EDebugInfo, "ojoy STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oprnd() {
-    debug(EDebugInfo, "opnrd STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oscan() {
-    debug(EDebugInfo, "oscan STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oshiftkey() {
-    debug(EDebugInfo, "oshiftkey STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ofree() {
@@ -456,19 +455,19 @@ void omodel() {
 }
 
 void ogetkey() {
-    debug(EDebugInfo, "ogetkey STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oleft() {
-    debug(EDebugInfo, "oleft STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oright() {
-    debug(EDebugInfo, "oright STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void omid() {
-    debug(EDebugInfo, "omid STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 // r7 <- len(str1)
@@ -482,59 +481,61 @@ void oasc() {
 }
 
 void ostr() {
-    debug(EDebugInfo, "ostr STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void osadd() {
     // TODO: strcat ??
-    debug(EDebugInfo, "osadd STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void osegal() {
     // TODO: strcmp ??
-    debug(EDebugInfo, "osegal STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void osdiff() {
     // TODO: !strcmp ??
-    debug(EDebugInfo, "osdiff STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void osinfeg() {
     // TODO: string equ or < ??
-    debug(EDebugInfo, "osinfeg STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ossupeg() {
     // TODO: string equ or > ??
-    debug(EDebugInfo, "ossupeg STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void osinf() {
     // TODO: string < ??
-    debug(EDebugInfo, "osinf STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ossup() {
     // TODO: string > ??
-    debug(EDebugInfo, "ossup STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ospushacc() {
-    debug(EDebugInfo, "ospushacc STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ospile() {
-    debug(EDebugInfo, "ospile STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oval() {
     // TODO: compute int value of chunk1 string -> d7 ??
-    debug(EDebugInfo, "oval STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oexistf() {
-    alis.varD7 = sys_fexists((char *)alis.bssChunk1) ? 0xff : 0x0;
+    char * fpath = get_full_path((char *)alis.bssChunk1, alis.platform.path);
+    alis.varD7 = sys_fexists(fpath) ? 0xffff : 0x0;
+    free(fpath);
 }
 
 void ochr() {
@@ -543,7 +544,7 @@ void ochr() {
 
 void ochange() {
     // TODO: change le drive courant ??
-    debug(EDebugInfo, "ochange STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void ocountry() {
@@ -552,7 +553,7 @@ void ocountry() {
 //00017d28 1e 39 00        move.b     (B_COUNTRY_CODE_??).l,D7b
 //01 95 09
 //00017d2e 4e 75           rts
-    debug(EDebugInfo, "ocountry STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void omip() {
@@ -560,7 +561,7 @@ void omip() {
 }
 
 void ojoykey() {
-    debug(EDebugInfo, "ojoykey STUBBED\n");
+    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
 }
 
 void oconfig() {

@@ -35,12 +35,17 @@
 #  define kPathSeparator    '/'
 #endif
 
-typedef uint8_t     u8;
-typedef uint16_t    u16;
-typedef uint32_t    u32;
-typedef int8_t      s8;
-typedef int16_t     s16;
-typedef int32_t     s32;
+typedef uint8_t             u8;
+typedef uint16_t            u16;
+typedef uint32_t            u32;
+typedef int8_t              s8;
+typedef int16_t             s16;
+typedef int32_t             s32;
+
+#define BIT_CLR(v, b)       (v &= ~(1UL << b))
+#define BIT_SET(v, b)       (v |= (1UL << b))
+#define BIT_TOG(v, b)       (v ^= (1UL << b))
+#define BIT_CHK(v, b)       ((v >> b) & 1U)
 
 typedef enum {
     EDebugFatal = 0,
@@ -49,6 +54,5 @@ typedef enum {
     EDebugInfo,
     EDebugVerbose,
 } EDebugLevel;
-
 
 #endif /* config_h */

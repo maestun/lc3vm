@@ -26,8 +26,8 @@ int main(int argc, const char* argv[]) {
         }
         else {
             debug(EDebugFatal,
-                       "Platform '%s' is not supported.\n",
-                       pl.desc);
+                  "Platform '%s' is not supported.\n",
+                  pl.desc);
         }
     }
     return 0;

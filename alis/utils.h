@@ -11,10 +11,12 @@
 
 #include "config.h"
 
+char *      get_full_path(char * file_name, char * path);
 long        get_file_size(char * file_name);
 char *      strlower(char * str);
 char *      strupper(char * str);
-uint32_t    reverse_bytes_32(uint32_t value);
-uint16_t    extend_w(uint8_t x);
+u32         reverse_bytes_32(u32 value);
+u16         extend_w(u8 value);
+u32         extend_l(u16 value);
 
 #endif /* utils_h */
