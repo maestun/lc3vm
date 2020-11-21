@@ -17,13 +17,16 @@ static void cstart(u32 offset) {
 
 
 // ============================================================================
-#pragma mark - TODO: opcodes
+#pragma mark - Opcodes
 // ============================================================================
 static void cstore() {
-    // example: in main.ao script
-    // $2d670     1e 00 00 06 42 6d
-    // cstore oimmb #$0 slocb #$426d
     readexec_opername_saveD7();
+    
+    // swap chunk 1 / 3
+    u8 * tmp = alis.bssChunk1;
+    alis.bssChunk1 = alis.bssChunk3;
+    alis.bssChunk3 = tmp;
+    
     readexec_storename();
 }
 
@@ -43,23 +46,23 @@ static void csub() {
 }
 
 static void cvprint() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csprinti() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csprinta() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void clocate() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctab() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 // ???
@@ -86,7 +89,7 @@ static void cdim() {
 }
 
 static void crandom() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cloop8() {
@@ -123,75 +126,75 @@ static void cloop24() {
 }
 
 static void cswitch1() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cswitch2() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cleave() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cprotect() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void casleep() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscset() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cclipping() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cswitching() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwlive() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cunload() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwakeup() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csleep() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void clive() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ckill() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cstop() {
-    debug(EDebugVerbose, "cstop: STUBBED\n");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cstopret() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cexit() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cload() {
@@ -279,6 +282,7 @@ void FUN_00013dda() {
 
 // reads 35 bytes
 static void cdefsc() {
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
     /*
      ; code address: $139ca
      opcode_cdefsc:
@@ -359,23 +363,23 @@ static void cdefsc() {
 }
 
 static void cscreen() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cput() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cputnat() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cerase() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cerasen() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cset() {
@@ -415,139 +419,139 @@ static void cmov() {
 }
 
 static void copensc() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cclosesc() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cerasall() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cforme() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdelforme() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctstset() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cftstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cftstset() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csuccent() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpredent() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnearent() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cneartyp() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnearmat() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cviewent() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cviewtyp() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cviewmat() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void corient() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void crstent() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csend() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscanon() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscanoff() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cinteron() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cinteroff() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscanclr() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void callentity() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpalette() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdefcolor() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctiming() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void czap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cexplode() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cding() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnoise() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cinitab() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfopen() {
@@ -576,67 +580,67 @@ static void cfclose() {
 }
 
 static void cfcreat() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfdel() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfreadv() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfwritev() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfwritei() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfreadb() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfwriteb() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cplot() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdraw() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cbox() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cboxf() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cink() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpset() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpmove() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpmode() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpicture() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxyscroll() {
@@ -650,11 +654,11 @@ static void clinking() {
 }
 
 static void cmouson() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmousoff() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmouse() {
@@ -663,35 +667,35 @@ static void cmouse() {
 }
 
 static void cdefmouse() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csetmouse() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdefvect() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csetvect() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void capproach() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cescape() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvtstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvftstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvmov() {
@@ -706,7 +710,7 @@ static void cvmov() {
 //0001469e 48 80           ext.w      D0w
 //000146a0 d1 6e 00 04     add.w      D0w,(0x4,A6)
 //000146a4 4e 75           rts
-
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdefworld() {
@@ -724,6 +728,7 @@ static void cdefworld() {
     while(counter--) {
         write8(offset, script_read8());
     }
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cworld() {
@@ -736,427 +741,427 @@ static void cworld() {
 }
 
 static void cfindmat() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfindtyp() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmusic() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdelmusic() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ccadence() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csetvolum() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxinv() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxinvon() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxinvoff() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void clistent() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csound() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmsound() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void credon() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void credoff() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdelsound() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwtstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwftstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctstform() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxput() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cxputat() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmput() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmputat() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmxput() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmxputat() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmmusic() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmforme() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csettime() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cgettime() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvinput() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csinput() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void crunfilm() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvpicprint() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cspicprint() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cvputprint() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csputprint() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfont() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpaper() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctoblack() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmovcolor() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctopalet() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnumput() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscheart() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscpos() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscsize() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cschoriz() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscvertic() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscreduce() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscscale() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void creducing() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscmap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscdump() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfindcla() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cnearcla() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cviewcla() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cinstru() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cminstru() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cordspr() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void calign() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cbackstar() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cstarring() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cengine() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cautobase() {
-    debug(EDebugVerbose, "%s: N/I", __FUNCTION__);
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cquality() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void chsprite() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cselpalet() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void clinepalet() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cautomode() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cautofile() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ccancel() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ccancall() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ccancen() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cblast() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscback() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscrolpage() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cmatent() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cshrink() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdefmap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csetmap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cputmap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csavepal() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void csczoom() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void ctexmap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void calloctab() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfreetab() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscantab() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cneartab() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscsun() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cdarkpal() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscdark() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void caset() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void camov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscaset() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscamov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscfollow() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscview() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cfilm() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cwalkmap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void catstmap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cavtstmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cavmov() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void caim() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cpointpix() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cchartmap() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cscsky() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void czoom() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 
@@ -1225,8 +1230,7 @@ static void cret() {
 }
 
 static void cjsr(u32 offset) {
-    debug(EDebugVerbose, "\toffset <- 0x%04x\n", offset);
-    
+
     // save return **OFFSET**, not ADDRESS
     // TODO: dans la vm originale on empile la 'vraie' adresse du PC en 32 bits
     // Là j'ai pas la place (on est en 64 bits), donc j'empile l'offset

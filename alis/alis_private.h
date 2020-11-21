@@ -44,24 +44,29 @@ extern sAlisOpcode  addnames[];
 extern sAlisError   errors[];
 
 extern void oeval(void);
+extern void ofin(void);
 
 // handle data from virtual ram
 u8      read8(u16 offset);
 u16     read16(u16 offset);
 u32     read32(u16 offset);
 
-void write8(u16 offset, u8 value);
-void write16(u16 offset, u16 value);
+void    write8(u16 offset, u8 value);
+void    write16(u16 offset, u16 value);
 
-void add8(u16 offset, u8 value);
-void add16(u16 offset, u16 value);
+void    add8(u16 offset, u8 value);
+void    add16(u16 offset, u16 value);
 
-void push8(u8 value);
-void push16(u16 value);
-void push32(u32 value);
+void    push8(u8 value);
+void    push16(u16 value);
+void    push32(u32 value);
 
 u16     pop16(void);
 u8      pop8(void);
 u32     pop32(void);
+
+u16     loctc_common(u16 offset);
+u16     locti_common(u16 offset);
+u16     loctp_common(u16 offset);
 
 #endif /* alis_private_h */

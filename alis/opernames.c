@@ -10,27 +10,55 @@
 #include "alis_private.h"
 #include "utils.h"
 
-static int oeval_end = 0;
+u16 loctp_common(u16 offset) {
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    return offset;
+}
+
+u16 locti_common(u16 offset) {
+    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    return offset;
+}
+
+u16 loctc_common(u16 offset) {
+    u8 d1b = alis.scripts[alis.scriptID]->ram[offset - 1];
+    u16 d1w = extend_w(d1b);
+    u16 a0 = offset - 2;
+    offset += alis.varD7;
+    while(d1w--) {
+
+        // TODO:
+        
+    }
+    debug(EDebugWarning, "\n%s INCOMPLETE\n", __FUNCTION__);
+    return offset;
+}
+
 
 // =============================================================================
 #pragma mark - TODO: opernames
 // =============================================================================
+
 void oimmb() {
     // reads a byte, extends into D7
     u8 b = script_read8();
     u16 w = extend_w(b);
     alis.varD7 = w;
-    debug(EDebugVerbose, "\tvarD7 <- 0x%04x\n", (u16)alis.varD7);
+    // debug(EDebugVerbose, " 0x%04x", (u16)alis.varD7);
 }
+
 void oimmw() {
     // reads a word into D7
     alis.varD7 = script_read16();
-    debug(EDebugVerbose, "\tvarD7 <- 0x%04x\n", (u16)alis.varD7);
+    //debug(EDebugVerbose, " 0x%04x", (u16)alis.varD7);
 }
+
 void oimmp() {
     // reads null-terminated data into bssChunk1
     script_read_until_zero(alis.bssChunk1);
 }
+
+// read word offset, copy byte from ram[offset] into r7
 void olocb() {
 //    OPERNAME_OLOCB_0x3
 //000175b0 10 1b           move.b     (A3)+,D0b
@@ -43,6 +71,8 @@ void olocb() {
     u8 b = *(alis.scripts[alis.scriptID]->ram + offset);
     alis.varD7 = extend_w(b);
 }
+
+// read word offset, copy word from ram[offset] into r7
 void olocw() {
 //    OPERNAME_OLOCW_0x4
 //000175be 10 1b           move.b     (A3)+,D0b
@@ -54,6 +84,7 @@ void olocw() {
     u16 w = *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
     alis.varD7 = w;
 }
+
 void olocp() {
 //    OPERNAME_OLOCP_0x5
 //000175ca 10 1b           move.b     (A3)+,D0b
@@ -76,20 +107,26 @@ void olocp() {
 void oloctp() {
     debug(EDebugInfo, "oloctp STUBBED\n");
 }
+
 void oloctc() {
 //    OPERNAME_OLOCTC_0x7
 //000175e2 10 1b           move.b     (A3)+,D0b
 //000175e4 e1 40           asl.w      #0x8,D0w
 //000175e6 10 1b           move.b     (A3)+,D0b
-//000175e8 61 00 02 2e     bsr.w      FUN_00017818                                     undefined FUN_00017818()
+//000175e8 61 00 02 2e     bsr.w      FUN_LOCTC_COMMON                                     undefined FUN_00017818()
 //000175ec 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
 //000175f0 48 87           ext.w      D7w
 //000175f2 4e 75           rts
-    debug(EDebugInfo, "oloctc STUBBED\n");
+    
+    u16 offset = script_read16();
+    u16 ret = loctc_common(offset);
+    alis.varD7 =  read8(ret);
 }
+
 void olocti() {
     debug(EDebugInfo, "olocti STUBBED\n");
 }
+
 void odirb() {
 //    OPERNAME_ODIRB_0x9
 //00017620 42 40           clr.w      D0w
@@ -101,6 +138,7 @@ void odirb() {
     u16 val = extend_w(*(alis.scripts[alis.scriptID]->ram + offset));
     alis.varD7 = val;
 }
+
 void odirw() {
 //    OPERNAME_ODIRW_0xa
 //0001762c 42 40           clr.w      D0w
@@ -111,6 +149,7 @@ void odirw() {
     u16 val = *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
     alis.varD7 = val;
 }
+
 void odirp() {
 //    OPERNAME_ODIRP_0xb
 //00017636 42 40           clr.w      D0w
@@ -128,33 +167,43 @@ void odirp() {
         *a0++ = *a1++;
     }
 }
+
 void odirtp() {
     debug(EDebugInfo, "odirtp STUBBED\n");
 }
+
 void odirtc() {
     debug(EDebugInfo, "odirtc STUBBED\n");
 }
+
 void odirti() {
     debug(EDebugInfo, "odirti STUBBED\n");
 }
+
 void omainb() {
-    odirb();
+    debug(EDebugInfo, "omainb STUBBED\n");
 }
+
 void omainw() {
-    odirw();
+    debug(EDebugInfo, "omainw STUBBED\n");
 }
+
 void omainp() {
-    odirp();
+    debug(EDebugInfo, "omainp STUBBED\n");
 }
+
 void omaintp() {
-    odirtp();
+    debug(EDebugInfo, "omaintp STUBBED\n");
 }
+
 void omaintc() {
-    odirtc();
+    debug(EDebugInfo, "omaintc STUBBED\n");
 }
+
 void omainti() {
-    odirti();
+    debug(EDebugInfo, "omainti STUBBED\n");
 }
+
 void ohimb() {
 //    OPERNAME_OHIMB_0x15
 //00017724 10 1b           move.b     (A3)+,D0b
@@ -170,96 +219,146 @@ void ohimb() {
 //0001773e 1e 31 00 00     move.b     (0x0,A1,D0w*0x1),D7b
 //00017742 48 87           ext.w      D7w
 //00017744 4e 75           rts
-}
-void ohimw() {
-    // log_debug("STUBBED");
-}
-void ohimp() {
-    // log_debug("STUBBED");
-}
-void ohimtp() {
-    // log_debug("STUBBED");
-}
-void ohimtc() {
-    // log_debug("STUBBED");
-}
-void ohimti() {
-    // log_debug("STUBBED");
-}
-void opile() {
-    // log_debug("STUBBED");
+    debug(EDebugInfo, "ohimb STUBBED\n");
 }
 
+void ohimw() {
+    debug(EDebugInfo, "ohimw STUBBED\n");
+}
+
+void ohimp() {
+    debug(EDebugInfo, "ohimp STUBBED\n");
+}
+
+void ohimtp() {
+    debug(EDebugInfo, "ohimtp STUBBED\n");
+}
+
+void ohimtc() {
+    debug(EDebugInfo, "ohimtc STUBBED\n");
+}
+
+void ohimti() {
+    debug(EDebugInfo, "ohimti STUBBED\n");
+}
+
+// pop from accumulator into r6
+void opile() {
+    // save r6 into r7
+    alis.varD7 = alis.varD6;
+    alis.varD6 = *(alis.acc++);
+}
+
+// start eval loop, will stop after ofin() is called
 void oeval() {
-    // exec opernames until ofin() is called
-    oeval_end = 0;
-    while(!oeval_end) {
+    alis.oeval_loop = 1;
+    while(alis.oeval_loop) {
         readexec_opername();
     }
 }
+
+// stop eval loop
 void ofin() {
-    oeval_end = 1;
+    alis.oeval_loop = 0;
 }
+
+// push value from r7 register to accumulator
 void opushacc() {
-    // log_debug("STUBBED");
+    *(--alis.acc) = alis.varD7;
 }
+
+// r7 = variable AND r7
 void oand() {
     alis.varD6 = alis.varD7;
     readexec_opername();
     alis.varD7 &= alis.varD6;
 }
+
+// r7 = variable OR r7
 void oor() {
     alis.varD6 = alis.varD7;
     readexec_opername();
     alis.varD7 |= alis.varD6;
 }
+
+// r7 = variable XOR r7
 void oxor() {
     alis.varD6 = alis.varD7;
     readexec_opername();
     alis.varD7 ^= alis.varD6;
 }
+
+// r7 = variable EQV r7
 void oeqv() {
     alis.varD6 = alis.varD7;
     readexec_opername();
     alis.varD7 ^= alis.varD6;
     alis.varD7 = ~alis.varD7;
 }
+
+// r6 == r7
 void oegal() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 == alis.varD7) ? 0xff : 0x0;
 }
+
+// r6 != r7
 void odiff() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 != alis.varD7) ? 0xff : 0x0;
 }
+
+// r6 <= r7
 void oinfeg() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 <= alis.varD7) ? 0xff : 0x0;
 }
+
+// r6 >= r7
 void osupeg() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 >= alis.varD7) ? 0xff : 0x0;
 }
+
+// r6 < r7
 void oinf() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 < alis.varD7) ? 0xff : 0x0;
 }
+
+// r6 > r7
 void osup() {
+    alis.varD6 = alis.varD7;
+    readexec_opername();
     alis.varD7 = (alis.varD6 > alis.varD7) ? 0xff : 0x0;
 }
+
+// r7 += variable
 void oadd() {
 //00017932 61 00 fc 38     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
 //00017936 de 46           add.w      D6w,D7w
 //00017938 4e 75           rts
-    alis.varD6 = alis.varD7;
-    readexec_opername();
+    readexec_opername_saveD7();
     alis.varD7 += alis.varD6;
 }
+
+// r7 -= variable
 void osub() {
 //0001793a 61 00 fc 30     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
 //0001793e 9c 47           sub.w      D7w,D6w
 //00017940 3e 06           move.w     D6w,D7w
 //00017942 4e 75           rts
-    alis.varD6 = alis.varD7;
-    readexec_opername();
+    readexec_opername_saveD7();
     alis.varD6 -= alis.varD7;
     alis.varD7 = alis.varD6;
 }
+
+// r7 %= variable
 void omod() {
 //00017944 61 00 fc 26     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
 //00017948 48 c6           ext.l      D6
@@ -271,6 +370,8 @@ void omod() {
     alis.varD6 %= alis.varD7;
     alis.varD7 = alis.varD6;
 }
+
+// r7 /= variable
 void odiv() {
 //00017952 61 00 fc 18     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
 //00017956 48 c6           ext.l      D6
@@ -281,6 +382,8 @@ void odiv() {
     alis.varD6 /= alis.varD7;
     alis.varD7 = alis.varD6;
 }
+
+// r7 *= variable
 void omul() {
 //0001795e 61 00 fc 0c     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
 //00017962 cf c6           muls.w     D6w,D7
@@ -288,15 +391,22 @@ void omul() {
     readexec_opername_saveD7();
     alis.varD7 *= alis.varD6;
 }
+
+// r7 = -r7
 void oneg() {
     alis.varD7 = -alis.varD7;
 }
+
+// r7 = abs(r7)
 void oabs() {
     alis.varD7 = (alis.varD7 < 0) ? -alis.varD7 : alis.varD7;
 }
+
 void ornd() {
     debug(EDebugInfo, "ornd STUBBED\n");
 }
+
+// r7 <- (r7 < 0) ? 0xfff : 1
 void osgn() {
     s16 d7 = (s16)alis.varD7;
     if(d7 > 0) {
@@ -306,140 +416,136 @@ void osgn() {
         alis.varD7 = 0xffff;
     }
 }
+
+// r7 = ~r7
 void onot() {
     alis.varD7 = ~alis.varD7;
 }
+
 void oinkey() {
     debug(EDebugInfo, "oinkey STUBBED\n");
 }
+
 void okeyon() {
     debug(EDebugInfo, "okeyon STUBBED\n");
 }
+
 void ojoy() {
     debug(EDebugInfo, "ojoy STUBBED\n");
 }
+
 void oprnd() {
     debug(EDebugInfo, "opnrd STUBBED\n");
 }
+
 void oscan() {
     debug(EDebugInfo, "oscan STUBBED\n");
 }
+
 void oshiftkey() {
     debug(EDebugInfo, "oshiftkey STUBBED\n");
 }
+
 void ofree() {
-    debug(EDebugInfo, "ofree STUBBED\n");
-    if(alis.varD7 == 0) {
-//00017a98 2e 39 00        move.l     (ADDR_PHYSBASE_MINUS_1024).l,D7
-//00 ac 64
-//00017a9e 9e b9 00        sub.l      (DAT_00019538).l,D7
-//01 95 38
-//00017aa4 8e fc 03 e8     divu.w     #1000,D7
-//00017aa8 4e 75           rts
-    }
-    else if(alis.varD7 == 1) {
-        
-    }
-    else if(alis.varD7 == 2) {
-        
-    }
-    else if(alis.varD7 == 3) {
-        
-    }
-    else if(alis.varD7 == 4) {
-        
-    }
-    else if(alis.varD7 < 'A') {
-        alis.varD7 = 0xffff;
-    }
-    else if(alis.varD7 < 'H') {
-        
-    }
-    else if(alis.varD7 < 'a') {
-        alis.varD7 = 0xffff;
-    }
-    else if(alis.varD7 <= 'h') {
-        
-    }
+    debug(EDebugWarning, "\n%s SIMULATED\n", __FUNCTION__);
+    alis.varD7 = 0x321;
 }
+
 void omodel() {
-    debug(EDebugInfo, "omodel STUBBED\n");
+    alis.varD7 = sys_get_model();
 }
+
 void ogetkey() {
     debug(EDebugInfo, "ogetkey STUBBED\n");
 }
+
 void oleft() {
     debug(EDebugInfo, "oleft STUBBED\n");
 }
+
 void oright() {
     debug(EDebugInfo, "oright STUBBED\n");
 }
+
 void omid() {
     debug(EDebugInfo, "omid STUBBED\n");
 }
+
+// r7 <- len(str1)
 void olen() {
     alis.varD7 = strlen((const char *)alis.bssChunk1);
 }
+
 void oasc() {
     alis.varD7 = 0;
     alis.varD7 = alis.bssChunk1[0];
 }
+
 void ostr() {
     debug(EDebugInfo, "ostr STUBBED\n");
 }
+
 void osadd() {
     // TODO: strcat ??
     debug(EDebugInfo, "osadd STUBBED\n");
 }
+
 void osegal() {
     // TODO: strcmp ??
     debug(EDebugInfo, "osegal STUBBED\n");
 }
+
 void osdiff() {
     // TODO: !strcmp ??
     debug(EDebugInfo, "osdiff STUBBED\n");
 }
+
 void osinfeg() {
     // TODO: string equ or < ??
     debug(EDebugInfo, "osinfeg STUBBED\n");
 }
+
 void ossupeg() {
     // TODO: string equ or > ??
     debug(EDebugInfo, "ossupeg STUBBED\n");
 }
+
 void osinf() {
     // TODO: string < ??
     debug(EDebugInfo, "osinf STUBBED\n");
 }
+
 void ossup() {
     // TODO: string > ??
     debug(EDebugInfo, "ossup STUBBED\n");
 }
+
 void ospushacc() {
     debug(EDebugInfo, "ospushacc STUBBED\n");
 }
+
 void ospile() {
     debug(EDebugInfo, "ospile STUBBED\n");
 }
+
 void oval() {
     // TODO: compute int value of chunk1 string -> d7 ??
     debug(EDebugInfo, "oval STUBBED\n");
 }
+
 void oexistf() {
-    alis.varD7 = 0;
-    alis.fp = sys_fopen((char *)alis.bssChunk1);
-    if(alis.fp) {
-        alis.varD7 = 0xff;
-        sys_fclose(alis.fp);
-    }
+    alis.varD7 = sys_fexists((char *)alis.bssChunk1) ? 0xff : 0x0;
 }
+
 void ochr() {
     alis.bssChunk1[0] = (u8)alis.varD7;
 }
+
 void ochange() {
     // TODO: change le drive courant ??
     debug(EDebugInfo, "ochange STUBBED\n");
 }
+
 void ocountry() {
 //    OPERNAME_OCOUNTRY_0x51
 //00017d26 42 47           clr.w      D7w
@@ -448,16 +554,19 @@ void ocountry() {
 //00017d2e 4e 75           rts
     debug(EDebugInfo, "ocountry STUBBED\n");
 }
+
 void omip() {
     alis.varD7 = 0x64;
 }
+
 void ojoykey() {
-    // log_debug("STUBBED");
     debug(EDebugInfo, "ojoykey STUBBED\n");
 }
+
 void oconfig() {
     alis.varD7 = 0;
 }
+
 void cnul() {
 }
 
@@ -470,17 +579,23 @@ void cnul() {
 //  jumps at the address (JTAB_OPERAMES + offset).
 // =============================================================================
 sAlisOpcode opernames[] = {
-    DECL_OPCODE(0x00, oimmb, "TODO add desc"),
+    DECL_OPCODE(0x00, oimmb,
+                "read byte from script, extend to word, copy into r7"),
     {},
-    DECL_OPCODE(0x01, oimmw, "TODO add desc"),
+    DECL_OPCODE(0x01, oimmw,
+                "read word from script, copy into r7"),
     {},
-    DECL_OPCODE(0x02, oimmp, "TODO add desc"),
+    DECL_OPCODE(0x02, oimmp,
+                "read bytes from script until zero, copy into str1"),
     {},
-    DECL_OPCODE(0x03, olocb, "TODO add desc"),
+    DECL_OPCODE(0x03, olocb,
+                "read offset word from script, extend read byte at vram[offset] to word, copy into r7"),
     {},
-    DECL_OPCODE(0x04, olocw, "TODO add desc"),
+    DECL_OPCODE(0x04, olocw,
+                "read offset word from script, read word at vram[offset], copy into r7"),
     {},
-    DECL_OPCODE(0x05, olocp, "TODO add desc"),
+    DECL_OPCODE(0x05, olocp,
+                "read offset word from script, read bytes at vram[offset] until zero, copy into str1"),
     {},
     DECL_OPCODE(0x06, oloctp, "TODO add desc"),
     {},
@@ -524,19 +639,24 @@ sAlisOpcode opernames[] = {
     {},
     DECL_OPCODE(0x1A, ohimti, "TODO add desc"),
     {},
-    DECL_OPCODE(0x1B, opile, "TODO add desc"),
+    DECL_OPCODE(0x1B, opile,
+                "copy r6 to r7, pop word form virtual accumulator into r6"),
     {},
-    DECL_OPCODE(0x1C, oeval, "TODO add desc"),
+    DECL_OPCODE(0x1C, oeval,
+                "starts eval loop"),
     {},
-    DECL_OPCODE(0x1D, ofin, "TODO add desc"),
+    DECL_OPCODE(0x1D, ofin,
+                "ends eval loop"),
     {},
     DECL_OPCODE(0x1E, cnul, "TODO add desc"),
     {},
     DECL_OPCODE(0x1F, cnul, "TODO add desc"),
     {},
-    DECL_OPCODE(0x20, opushacc, "TODO add desc"),
+    DECL_OPCODE(0x20, opushacc,
+                "push word from r7 into virtual accumulator"),
     {},
-    DECL_OPCODE(0x21, oand, "TODO add desc"),
+    DECL_OPCODE(0x21, oand,
+                "TODO add desc"),
     {},
     DECL_OPCODE(0x22, oor, "TODO add desc"),
     {},
