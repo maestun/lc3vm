@@ -1,2 +1,4 @@
 DerivedData/
 .DS_Store
+tools/pytools/*.log
+tools/pytools/*.txt

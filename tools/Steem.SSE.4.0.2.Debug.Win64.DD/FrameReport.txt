@@ -1,4 +1,4 @@
-Steem frame report - 09/21/20 -09:10:53 
+Steem frame report - 11/20/20 -14:23:56 
 STE WS1 C1 C2 C0
-Disk A: Ishar - with ishar2 interpreter [cr Elite]
+Disk A: Ishar - with Ishar2 interpreter (Disk 1 of 2)[cr Elite]
 --
