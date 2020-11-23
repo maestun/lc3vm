@@ -21,7 +21,7 @@ int main(int argc, const char* argv[]) {
         if(is_supported(pl)) {
             // run vm
             alis_init(pl);
-            alis_main();
+            alis_run();
             alis_deinit();
         }
         else {

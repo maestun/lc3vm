@@ -9,6 +9,7 @@
 #include "platform.h"
 #include "script.h"
 #include "utils.h"
+#include "alis_private.h"
 
 
 static uint8_t * p_depak = NULL;
@@ -251,8 +252,11 @@ _depak_end:
  0...23     24      header bytes
  24...xx    ?       unpacked data (1st word is ID, must be zero)
  */
-sAlisScript * script_load(const char * script_path) {
+sAlisScript * script_load(const char * script_path,
+                          const u32 org_addr) {
+    
     sAlisScript * script = NULL;
+    
     FILE * fp = fopen(script_path, "rb");
     if (fp) {
         debug(EDebugVerbose,
@@ -271,6 +275,8 @@ sAlisScript * script_load(const char * script_path) {
         
         // decrunch if needed
         u8 * data = buf;
+
+        // check if this was already loaded
         if(is_packed(buf)) {
             debug(EDebugVerbose, "Unpacking file...\n");
             
@@ -308,34 +314,42 @@ sAlisScript * script_load(const char * script_path) {
             free(buf);
             buf = NULL;
         }
+        else {
+            // not packed !!
+        }
         
         // init script
         script = (sAlisScript *)malloc(sizeof(sAlisScript));
         strcpy(script->name, strrchr(script_path, kPathSeparator) + 1);
         
         // script data
-        script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess
+        script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess;
         script->data = data;
         script->datalen = sz;
-        script->headerlen = (main ? kMainScriptHeaderLen : kScriptHeaderLen);  // TODO: thats a guess
-
-        // alloc / init virtual ram
-        script->ram = (u8 *)malloc(kScriptRAMSize * sizeof(u8));
-        memset(script->ram, 0, kScriptRAMSize * sizeof(u8));
-        script->sp = script->ram + kScriptRAMSize;
-        
-        // cleanup
-        fclose(fp);
+        script->headerlen = (kScriptHeaderLen);  // TODO: thats a guess
+        script->org = org_addr;
+        script->pc = script->pc_org = (script->data + script->headerlen);
         
         debug(EDebugVerbose,
-              "Script loaded (ID = 0x%02x)\n", script->ID);
-
+              "Script '%s' loaded (ID = 0x%02x) at address 0x%x\n",
+              script->name, script->ID, script->org);
+    
+        // cleanup
+        fclose(fp);
     }
     return script;
 }
 
 void script_unload(sAlisScript * script) {
-    free(script->ram);
+//    free(script->ram);
     free(script->data);
     free(script);
+}
+
+
+void script_run(sAlisScript * script) {
+    script->running = 1;
+    while (script->running) {
+        readexec_opcode();
+    }
 }

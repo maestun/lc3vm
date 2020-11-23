@@ -21,7 +21,7 @@ u16 locti_common(u16 offset) {
 }
 
 u16 loctc_common(u16 offset) {
-    u8 d1b = alis.scripts[alis.scriptID]->ram[offset - 1];
+    u8 d1b = alis.vram[offset - 1];
     u16 d1w = extend_w(d1b);
     u16 a0 = offset - 2;
     offset += alis.varD7;
@@ -68,7 +68,7 @@ void olocb() {
 //000175ba 48 87           ext.w      D7w
 //000175bc 4e 75           rts
     u16 offset = script_read16();
-    u8 b = *(alis.scripts[alis.scriptID]->ram + offset);
+    u8 b = *(alis.vram + offset);
     alis.varD7 = extend_w(b);
 }
 
@@ -81,7 +81,7 @@ void olocw() {
 //000175c4 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
 //000175c8 4e 75           rts
     u16 offset = script_read16();
-    u16 w = *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
+    u16 w = *(u16 *)(alis.vram + offset);
     alis.varD7 = w;
 }
 
@@ -98,7 +98,7 @@ void olocp() {
 //000175dc 66 00 ff fc     bne.w      LAB_000175da
 //000175e0 4e 75           rts
     u16 offset = script_read16();
-    u8 * src_ptr = (alis.scripts[alis.scriptID]->ram + offset);
+    u8 * src_ptr = (alis.vram + offset);
     u8 * dst_ptr = alis.bssChunk1;
     while(*src_ptr) {
         *dst_ptr++ = *src_ptr++;
@@ -135,7 +135,7 @@ void odirb() {
 //00017628 48 87           ext.w      D7w
 //0001762a 4e 75           rts
     u8 offset = script_read8();
-    u16 val = extend_w(*(alis.scripts[alis.scriptID]->ram + offset));
+    u16 val = extend_w(*(alis.vram + offset));
     alis.varD7 = val;
 }
 
@@ -146,7 +146,7 @@ void odirw() {
 //00017630 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
 //00017634 4e 75           rts
     u8 offset = script_read8();
-    u16 val = *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
+    u16 val = *(u16 *)(alis.vram + offset);
     alis.varD7 = val;
 }
 
@@ -161,7 +161,7 @@ void odirp() {
 //00017644 10 d9           move.b     (A1)+,(A0)+
 //00017646 66 00 ff fc     bne.w      __loop_until_zero
     u8 offset = script_read8();
-    u8 * a1 = alis.scripts[alis.scriptID]->ram + offset;
+    u8 * a1 = alis.vram + offset;
     u8 * a0 = alis.bssChunk1;
     while(*a1) {
         *a0++ = *a1++;

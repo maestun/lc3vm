@@ -81,16 +81,37 @@ typedef struct {
     u8              running;
     
     // virtual program counter
-    u8 *            pc;
-    u8 *            pc_org;
-
+//    u8 *            pc;
+//    u8 *            pc_org;
+    
     // virtual 16-bit accumulator (A4)
     s16 *           acc;
     s16 *           acc_org;
-        
+    
+    // virtual ram
+    /*
+     VIRTUAL RAM / STACK
+        located at address contained in A6 register.
+        There's also a stack pointer where we store 32-bit return addresses,
+        the address of this pointer is (A6 + D4).
+     
+     A6 = vram / virtual ram
+     |                           sp
+     | <-- D4 = stack offset --> |
+     v                           v
+     _______________________ ... _____
+     |_|_|_|_|_|_|_|_|_|_|_| ... |_|_|
+     
+     <---------- 65k bytes ---------->
+    */
+
+    u8              vram[kVirtualRAMSize];
+    u32             sp_offset;
+    
     // loaded scripts
     sAlisScript *   scripts[kMaxScripts];
     u8              scriptID;
+    sAlisScript *   script;
     
     // virtual registers
     s16             varD6;
@@ -150,12 +171,16 @@ typedef struct {
 
 extern sAlisVM alis;
 
+extern u32 script_addrs[kMaxScripts];
+
+
 // =============================================================================
 // MARK: - API
 // =============================================================================
 void            alis_init(sPlatform platform);
-u8              alis_main(void);
+u8              alis_run(void);
 void            alis_deinit(void);
+sAlisScript *   alis_load_script(const char * name, const u32 org);
 void            alis_start_script(sAlisScript * script);
 void            alis_error(u8 errnum, ...);
 void            alis_debug(void);

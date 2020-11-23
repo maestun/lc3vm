@@ -32,7 +32,7 @@ static void slocw() {
 // read offset word from script, then copy string from bssChunk3 into ram[offset]
 static void slocp() {
     u16 offset = script_read16();
-    u8 * ptr = alis.scripts[alis.scriptID]->ram + offset;
+    u8 * ptr = alis.vram + offset;
     u16 i = 0;
     while(alis.bssChunk3[i]) {
         *ptr++ = alis.bssChunk3[i++];

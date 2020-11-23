@@ -67,7 +67,7 @@ static void ctab() {
 // read x bytes
 static void cdim() {
 
-    u8 * ram = (u8 *)alis.scripts[alis.scriptID]->ram;
+    u8 * ram = (u8 *)alis.vram;
     
     // read word param
     u16 offset = script_read16();
@@ -103,7 +103,7 @@ static void cloop(u32 offset) {
     alis.varD7 = -1;
     readexec_addname_swap();
     if(alis.ccr.zero) {
-        alis.pc += offset;
+        script_jump(offset);
     }
 }
 
@@ -216,6 +216,7 @@ static void ckill() {
 
 static void cstop() {
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis.script->running = 0;
 }
 
 static void cstopret() {
@@ -242,9 +243,10 @@ static void cload() {
         u8 name[kNameMaxLen] = {0};
         script_read_until_zero(name);
         char * fpath = get_full_path((char *)name, alis.platform.path);
-        sAlisScript * script = script_load(fpath);
+        alis_load_script((char *)fpath, script_addrs[id]);
+        //sAlisScript * script = script_load(fpath, 0x32047);
         free(fpath);
-        alis.scripts[id] = script;
+        //alis.script = script;
     }
 }
 
@@ -331,7 +333,7 @@ static void cdefsc() {
     /*
          movea.l        (ADDR_VSTACK).l,A0 ; correspond à a6 !!! / A0 vaut $224f0, contient $22690 soit vstack
      */
-    u8 * ram = alis.scripts[alis.scriptID]->ram;
+    u8 * ram = alis.vram;
     /*
          bset.b         #$6,(A0,D0)
      */
@@ -618,8 +620,9 @@ static void cinitab() {
 
 static void cfopen() {
     u16 id = 0;
-    if(*alis.pc == 0xff) {
-        ++alis.pc;
+    if(*alis.script->pc == 0xff) {
+//        ++(alis.script->pc);
+        script_jump(1);
         readexec_opername_swap();
         readexec_opername();
     }
@@ -956,6 +959,7 @@ static void cpaper() {
 
 static void ctoblack() {
     debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    readexec_opername_saveD7();
 }
 
 static void cmovcolor() {
@@ -1288,7 +1292,7 @@ static void cret() {
     
     // retrieve return address **OFFSET** from virtual stack
     u32 pc_offset = pop32();
-    alis.pc = alis.pc_org + pc_offset;
+    alis.script->pc = alis.script->pc_org + pc_offset;
 }
 
 static void cjsr(u32 offset) {
@@ -1303,12 +1307,13 @@ static void cjsr(u32 offset) {
 
 //    script->vstack_offset -= 4;
     
-    u32 pc_offset = (u32)(alis.pc - alis.pc_org);
+    u32 pc_offset = (u32)(alis.script->pc - alis.script->pc_org);
     push32(pc_offset);
     //*(u32 *)(script->vram + script->vstack_offset) = pc_offset;
     
     // jump
-    alis.pc += offset;
+//    alis.pc += offset;
+    script_jump(offset);
 }
 
 static void cjsr8() {
@@ -1332,7 +1337,8 @@ static void cjsr24() {
 #pragma mark - Flow control - Jump
 // ============================================================================
 static void cjmp(u32 offset) {
-    alis.pc += offset;
+//    alis.pc += offset;
+    script_jump(offset);
 }
 
 static void cjmp8() {
@@ -1353,7 +1359,8 @@ static void cjmp24() {
 // ============================================================================
 static void cbz(u32 offset) {
     if(alis.varD7 == 0) {
-        alis.pc += offset;
+//        alis.pc += offset;
+        script_jump(offset);
     }
 }
 
@@ -1372,9 +1379,10 @@ static void cbz24() {
 // ============================================================================
 #pragma mark - Flow control - Branch if non-zero
 // ============================================================================
-static void cbnz(u32 offset) {
+static void cbnz(s32 offset) {
     if(alis.varD7 != 0) {
-        alis.pc += offset;
+//        alis.pc += offset;
+        script_jump(offset);
     }
 }
 static void cbnz8() {
@@ -1395,7 +1403,8 @@ static void cbnz24() {
 // ============================================================================
 static void cbeq(u32 offset) {
     if(alis.varD7 == alis.varD6) {
-        alis.pc += offset;
+//        alis.pc += offset;
+        script_jump(offset);
     }
 }
 static void cbeq8() {
@@ -1414,7 +1423,8 @@ static void cbeq24() {
 // ============================================================================
 static void cbne(u32 offset) {
     if(alis.varD7 != alis.varD6) {
-        alis.pc += offset;
+//        alis.pc += offset;
+        script_jump(offset);
     }
 }
 static void cbne8() {

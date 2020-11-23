@@ -20,15 +20,15 @@
 #define     ALIS_BIT_7      (7)
 
 // read data from script, these will increase the virtual program counter
-u8      script_read8(void);
-u16     script_read8ext16(void);
-u32     script_read8ext32(void);
-u16     script_read16(void);
-u32     script_read16ext32(void);
-u32     script_read24(void);
+s8      script_read8(void);
+s16     script_read8ext16(void);
+s32     script_read8ext32(void);
+s16     script_read16(void);
+s32     script_read16ext32(void);
+s32     script_read24(void);
 void    script_read_bytes(u32 len, u8 * dest);
 void    script_read_until_zero(u8 * dest);
-void    script_jump(u32 offset);
+void    script_jump(s32 offset);
 
 alisRet readexec_opcode(void);
 alisRet readexec_opername(void);
@@ -59,12 +59,12 @@ void    vram_write16(u16 offset, u16 value);
 void    vram_add8(u16 offset, u8 value);
 void    vram_add16(u16 offset, u16 value);
 
-void    push8(u8 value);
-void    push16(u16 value);
+//void    push8(u8 value);
+//void    push16(u16 value);
 void    push32(u32 value);
 
-u16     pop16(void);
-u8      pop8(void);
+//u16     pop16(void);
+//u8      pop8(void);
 u32     pop32(void);
 
 // common opcode helpers

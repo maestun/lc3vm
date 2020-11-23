@@ -31,7 +31,7 @@ static void alocp() {
 //000181b0 10 1b           move.b     (A3)+,D0b
     u16 offset = script_read16();
 //000181b2 43 f6 00 00     lea        (0x0,A6,D0w*0x1),A1
-    u8 * a1 = alis.scripts[alis.scriptID]->ram + offset;
+    u8 * a1 = alis.vram + offset;
 //000181b6 20 79 00        movea.l    (ADDR_BSS_256_CHUNK_3).l,A0
 //01 95 ea
     u8 * a0 = alis.bssChunk3;

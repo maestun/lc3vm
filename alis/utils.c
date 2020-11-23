@@ -15,22 +15,22 @@ char * get_full_path(char * file_name, char * path) {
     return full_path;
 }
 
-uint16_t sign_extend(uint16_t x, int bit_count) {
+s16 sign_extend(s16 x, int bit_count) {
     if ((x >> (bit_count - 1)) & 1) {
         x |= (0xFFFF << bit_count);
     }
     return x;
 }
 
-uint16_t extend_w(uint8_t x) {
+s16 extend_w(s8 x) {
     return sign_extend(x, 8);
 }
 
-u32 extend_l(u16 val) {
+s32 extend_l(s16 val) {
     return val + (BIT_CHK(val, 7) ? 0xffff0000 : 0);
 }
 
-uint32_t reverse_bytes_32(uint32_t value) {
+u32 reverse_bytes_32(s32 value) {
     return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 | (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
 }
 

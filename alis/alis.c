@@ -13,17 +13,22 @@
 
 sAlisVM alis;
 
+
+// TODO: for debugging
+u32 script_addrs[kMaxScripts] = {0x2d290, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x33580, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+
 // =============================================================================
 // MARK: - Private
 // =============================================================================
 alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
-    if(alis.pc - alis.pc_org == kVirtualRAMSize) {
+    if(alis.script->pc - alis.script->pc_org == kVirtualRAMSize) {
         // pc overflow !
         debug(EDebugFatal, "PC OVERFLOW !");
     }
     else {
         // fetch code
-        u8 code = *(alis.pc++);
+        u8 code = *(alis.script->pc++);
         sAlisOpcode opcode = table[code];
         debug(EDebugVerbose, " %s", opcode.name);
         return opcode.fptr();
@@ -35,7 +40,7 @@ alisRet readexec_opcode() {
     debug(EDebugVerbose, "\n");
     
     // TODO: adresse de script dans l'emulateur steem, aide pour debug
-    debug(EDebugVerbose, "0x%06x:", alis.pc - alis.pc_org + alis.scripts[alis.scriptID]->org);
+    debug(EDebugVerbose, "0x%06x:", alis.script->pc - alis.script->pc_org + alis.script->org);
     return readexec(opcodes, "opcode", 0);
 }
 
@@ -74,65 +79,73 @@ alisRet readexec_opername_swap() {
 // =============================================================================
 // MARK: - Script
 // =============================================================================
-void script_read_debug(u32 value) {
+void script_read_debug(s32 value) {
     if (value > 0xffff) {
         debug(EDebugVerbose, " 0x%06x", value);
     }
     else if (value > 0xff) {
         debug(EDebugVerbose, " 0x%04x", value);
     }
-    else  {
+    else if (value > 0x0) {
         debug(EDebugVerbose, " 0x%02x", value);
+    }
+    else {
+        debug(EDebugVerbose, " %d", value);
     }
 }
 
-u8 script_read8(void) {
-    u8 ret = *alis.pc++;
+s8 script_read8(void) {
+    s8 ret = *alis.script->pc++;
     script_read_debug(ret);
     return ret;
 }
 
-u16 script_read8ext16(void) {
-    u16 ret = extend_w(*alis.pc++);
+s16 script_read8ext16(void) {
+    u8 b = *alis.script->pc++;
+    s16 ret = b;
+    if(BIT_CHK((b), 7)) {
+        ret |= 0xff00;
+    }
+    
     script_read_debug(ret);
     return  ret;
 }
 
-u32 script_read8ext32(void) {
-    u16 ret = extend_l(extend_w(*alis.pc++));
+s32 script_read8ext32(void) {
+    s16 ret = extend_l(extend_w(*alis.script->pc++));
     script_read_debug(ret);
     return  ret;
 }
 
-u16 script_read16(void) {
-    u16 ret = (*alis.pc++ << 8) + *alis.pc++;
+s16 script_read16(void) {
+    u16 ret = (*alis.script->pc++ << 8) + *alis.script->pc++;
     script_read_debug(ret);
     return ret;
 }
 
-u32 script_read16ext32(void) {
-    u32 ret = extend_l((*alis.pc++ << 8) + *alis.pc++);
+s32 script_read16ext32(void) {
+    u32 ret = extend_l((*alis.script->pc++ << 8) + *alis.script->pc++);
     script_read_debug(ret);
     return ret;
 }
 
-u32 script_read24(void) {
-    u32 ret = (*alis.pc++ << 16) + (*alis.pc++ << 8) + *alis.pc++;
+s32 script_read24(void) {
+    u32 ret = (*alis.script->pc++ << 16) + (*alis.script->pc++ << 8) + *alis.script->pc++;
     script_read_debug(ret);
     return ret;
 }
 
 void script_read_bytes(u32 len, u8 * dest) {
     while(len--) {
-        *dest++ = *alis.pc++;
+        *dest++ = *alis.script->pc++;
     }
 }
 
 void script_read_until_zero(u8 * dest) {
-    while(*alis.pc) {
-        *dest++ = *alis.pc++;
+    while(*alis.script->pc) {
+        *dest++ = *alis.script->pc++;
     }
-    alis.pc++;
+    alis.script->pc++;
 }
 
 
@@ -140,66 +153,66 @@ void script_read_until_zero(u8 * dest) {
 // MARK: - Virtual RAM
 // =============================================================================
 u8 vram_read8(u16 offset) {
-    return *(u8 *)(alis.scripts[alis.scriptID]->ram + offset);
+    return *(u8 *)(alis.vram + offset);
 }
 
 u16 vram_read16(u16 offset) {
-    return *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
+    return *(u16 *)(alis.vram + offset);
 }
 
 void vram_write8(u16 offset, u8 value) {
-    *(u8 *)(alis.scripts[alis.scriptID]->ram + offset) = value;
+    *(u8 *)(alis.vram + offset) = value;
 }
 
 void vram_write16(u16 offset, u16 value) {
     value = 0xcafe;
-    *(u16 *)(alis.scripts[alis.scriptID]->ram + offset) = value;
+    *(u16 *)(alis.vram + offset) = value;
 }
 
 void vram_add8(u16 offset, u8 value) {
-    *(u8 *)(alis.scripts[alis.scriptID]->ram + offset) += value;
+    *(u8 *)(alis.vram + offset) += value;
 }
 
 void vram_add16(u16 offset, u16 value) {
-    *(u16 *)(alis.scripts[alis.scriptID]->ram + offset) += value;
+    *(u16 *)(alis.vram + offset) += value;
 }
 
-void push8(u8 value) {
-    alis.scripts[alis.scriptID]->sp -= sizeof(u8);
-    *(u8 *)(alis.scripts[alis.scriptID]->sp) = value;
-}
-
-void push16(u16 value) {
-    alis.scripts[alis.scriptID]->sp -= sizeof(u16);
-    *(u16 *)(alis.scripts[alis.scriptID]->sp) = value;
-}
+//void push8(u8 value) {
+//    alis.scripts[alis.scriptID]->sp -= sizeof(u8);
+//    *(u8 *)(alis.scripts[alis.scriptID]->sp) = value;
+//}
+//
+//void push16(u16 value) {
+//    alis.scripts[alis.scriptID]->sp -= sizeof(u16);
+//    *(u16 *)(alis.scripts[alis.scriptID]->sp) = value;
+//}
 
 void push32(u32 value) {
-    alis.scripts[alis.scriptID]->sp -= sizeof(u32);
-    *(u32 *)(alis.scripts[alis.scriptID]->sp) = value;
+    alis.sp_offset -= sizeof(u32);
+    *(u32 *)(alis.vram + alis.sp_offset) = value;
 }
 
-u8 pop8() {
-    u8 ret = *(u8 *)(alis.scripts[alis.scriptID]->sp);
-    alis.scripts[alis.scriptID]->sp += sizeof(u8);
-    return ret;
-}
-
-u16 pop16() {
-    u16 ret = *(u16 *)(alis.scripts[alis.scriptID]->sp);
-    alis.scripts[alis.scriptID]->sp += sizeof(u16);
-    return ret;
-}
+//u8 pop8() {
+//    u8 ret = *(u8 *)(alis.scripts[alis.scriptID]->sp);
+//    alis.scripts[alis.scriptID]->sp += sizeof(u8);
+//    return ret;
+//}
+//
+//u16 pop16() {
+//    u16 ret = *(u16 *)(alis.scripts[alis.scriptID]->sp);
+//    alis.scripts[alis.scriptID]->sp += sizeof(u16);
+//    return ret;
+//}
 
 u32 pop32() {
-    u32 ret = *(u32 *)(alis.scripts[alis.scriptID]->sp);
-    alis.scripts[alis.scriptID]->sp += sizeof(u32);
+    u32 ret = *(u32 *)(alis.vram + alis.sp_offset);
+    alis.sp_offset += sizeof(u32);
     return ret;
 }
 
-void script_jump(u32 offset) {
+void script_jump(s32 offset) {
     if(!alis.disasm) {
-        alis.pc += offset;
+        alis.script->pc += offset;
     }
 }
 
@@ -230,9 +243,9 @@ void script_jump(u32 offset) {
 // =============================================================================
 void alis_init(sPlatform platform) {
     
-    // init virtual ram
-//    alis.ram = (u8 *)malloc(kVirtualRAMSize * sizeof(u8));
-//    memset(alis.ram, 0, kVirtualRAMSize * sizeof(u8));
+    // init virtual ram and stack offset
+    memset(alis.vram, 0, kVirtualRAMSize * sizeof(u8));
+    alis.sp_offset = kVirtualRAMSize;
     
     // init virtual registers
     alis.varD6 = alis.varD7 = 0;
@@ -255,6 +268,10 @@ void alis_init(sPlatform platform) {
     
     alis.platform = platform;
     
+    
+    alis.script = alis_load_script(alis.platform.main,
+                                   script_addrs[0]);
+    
     // TODO: scene ptr ??
 //    alis.scene_ptr = (alis.memory + 0x6000);
     
@@ -264,7 +281,7 @@ void alis_init(sPlatform platform) {
 void alis_deinit() {
     // free scripts
     for(int i = 0; i < kMaxScripts; i++) {
-        script_unload(alis.scripts[i]);
+        script_unload(alis.script);
     }
     free(alis.bssChunk1);
     free(alis.bssChunk2);
@@ -274,34 +291,46 @@ void alis_deinit() {
     free(alis.acc_org);
 }
 
-u8 alis_main() {
-    u8 ret = 0;
-    sAlisScript * main = script_load(alis.platform.main);
-    if(main) {
-        main->org = 0x2d290; // TODO: for debug
-        alis_start_script(main);
-        while(alis.running) {
-            readexec_opcode();
-        }
+
+sAlisScript * alis_load_script(const char * name, const u32 org) {
+    sAlisScript * script = script_load(name, org);
+    if(script) {
+        alis.scriptID = script->ID;
+        alis.scripts[alis.scriptID] = script;
+//        alis.script = script;
     }
     else {
         debug(EDebugFatal,
-                   "Failed to load main script '%s'\n",
-                   alis.platform.main);
-        ret = 1;
+              "Failed to load script '%s'\n",
+              alis.platform.main);
+    }
+    return script;
+}
+
+
+u8 alis_run() {
+    u8 ret = 0;
+    alis.running = 1;
+    while(alis.running) {
+        script_run(alis.script);
+        alis.script = alis.scripts[alis.scriptID];
+        debug(EDebugInfo, "Switchin to script %d (%s)",
+              alis.script->ID,
+              alis.script->name);
     }
     return ret;
 }
 
 
-void alis_start_script(sAlisScript * script) {
-    alis.scriptID = script->ID;
-    alis.scripts[alis.scriptID] = script;
-    
-    // set pc to script origin in virtual ram
-    alis.pc = alis.pc_org = script->data + script->headerlen; // TODO: determine org
-    alis.running = 1;
-}
+
+//void alis_start_script(sAlisScript * script) {
+//    alis.scriptID = script->ID;
+//    alis.scripts[alis.scriptID] = script;
+//
+//    // set pc to script origin in virtual ram
+//    alis.pc = alis.pc_org = script->data + script->headerlen; // TODO: determine org
+//    alis.running = 1;
+//}
 
 
 void alis_error(u8 errnum, ...) {
@@ -313,12 +342,16 @@ void alis_error(u8 errnum, ...) {
 
 void alis_debug() {
     printf("ALIS: %s (0x%02x)\n", alis.scripts[alis.scriptID]->name, alis.scriptID);
-    printf("R6=0x%04x\n", alis.varD6);
-    printf("R7=0x%04x\n", alis.varD7);
+    printf("R6  0x%04x\n", alis.varD6);
+    printf("R7  0x%04x\n", alis.varD7);
+    printf("SP  OFFSET=0x%04x (word=0x%04x) (dword=0x%08x)\n",
+           alis.sp_offset,
+           (u16)(*(alis.vram + alis.sp_offset)),
+           (u32)(*(alis.vram + alis.sp_offset)));
     printf("PC  OFFSET=0x%04x (byte=0x%02x) (word=0x%04x)\n",
-           (u16)(alis.pc - alis.pc_org),
-           (u8)(*alis.pc),
-           (u16)(*alis.pc));
+           (u16)(alis.script->pc - alis.script->pc_org),
+           (u8)(*alis.script->pc),
+           (u16)(*alis.script->pc));
     printf("ACC OFFSET=0x%04x (byte=0x%02x) (word=0x%04x)\n",
            (u16)(alis.acc - alis.acc_org),
            (u8)(*alis.acc),
@@ -343,7 +376,7 @@ void alis_debug_ram() {
     for(u32 i = 0; i < kVirtualRAMSize; i += width) {
         printf("0x%04x: ", i);
         for(u8 j = 0; j < width; j++) {
-            printf("%02x ", alis.scripts[alis.scriptID]->ram[i + j]);
+            printf("%02x ", alis.vram[i + j]);
         }
         printf("\n");
     }
@@ -362,7 +395,7 @@ void alis_debug_addr(u16 addr) {
 
     printf("0x%04x: ", addr);
     for(u32 j = addr; j < addr + width; j++) {
-        printf("%02x ", alis.scripts[alis.scriptID]->ram[j]);
+        printf("%02x ", alis.vram[j]);
     }
 }
 
