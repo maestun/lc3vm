@@ -148,13 +148,13 @@ def parse_log(alis_data, steem_log, output_file):
     opcode_log.close()
 
 # MAIN
-# parse_log(alis.ISHAR2_CRELITE, "./steem-boot to logo.log", "./steem-boot to logo.txt")
+parse_log(alis.ISHAR2_CRELITE, "./steem-boot to logo.log", "./steem-boot to logo.txt")
 # parse_log(alis.ISHAR2_CRELITE, "./steem-logo to ishar.log", "./steem-logo to ishar.txt")
 # parse_log(alis.ISHAR2_CRELITE, "./steem-ishar to lang.log", "./steem-ishar to lang.txt")
 # parse_log(alis.ISHAR2_CRELITE, "./steem-lang to disk b.log", "./steem-lang to disk b.txt")
 # parse_log(alis.ISHAR2_CRELITE, "./steem-disk b to game.log", "./steem-disk b to game.txt")
 # parse_log(alis.ISHAR2_CRELITE, "./steem-game step fwd.log", "./steem-game step fwd.txt")
 
-parse_log(alis.ISHAR2_CRELITE, "./steem-boot to game.log", "./steem-boot to game.txt")
+# parse_log(alis.ISHAR2_CRELITE, "./steem-boot to game.log", "./steem-boot to game.txt")
 
 # parse_log(alis.ISHAR2_CRELITE, "./steem-boot to open logo script.log", "./steem-boot to open logo script.txt")

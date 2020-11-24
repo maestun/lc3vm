@@ -15,8 +15,8 @@ char *      get_full_path(char * file_name, char * path);
 long        get_file_size(char * file_name);
 char *      strlower(char * str);
 char *      strupper(char * str);
-u32         reverse_bytes_32(u32 value);
-u16         extend_w(u8 value);
-u32         extend_l(u16 value);
+u32         reverse_bytes_32(s32 value);
+s16         extend_w(s8 value);
+s32         extend_l(s16 value);
 
 #endif /* utils_h */

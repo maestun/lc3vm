@@ -21,7 +21,7 @@ u16 locti_common(u16 offset) {
 }
 
 u16 loctc_common(u16 offset) {
-    u8 d1b = alis.scripts[alis.scriptID]->ram[offset - 1];
+    u8 d1b = vram_read8(alis.vram, offset - 1);
     u16 d1w = extend_w(d1b);
     u16 a0 = offset - 2;
     offset += alis.varD7;
@@ -41,16 +41,12 @@ u16 loctc_common(u16 offset) {
 
 void oimmb() {
     // reads a byte, extends into D7
-    u8 b = script_read8();
-    u16 w = extend_w(b);
-    alis.varD7 = w;
-    // debug(EDebugVerbose, " 0x%04x", (u16)alis.varD7);
+    alis.varD7 = script_read8ext16();
 }
 
 void oimmw() {
     // reads a word into D7
     alis.varD7 = script_read16();
-    //debug(EDebugVerbose, " 0x%04x", (u16)alis.varD7);
 }
 
 void oimmp() {
@@ -58,188 +54,110 @@ void oimmp() {
     script_read_until_zero(alis.bssChunk1);
 }
 
-// read word offset, copy byte from ram[offset] into r7
 void olocb() {
-//    OPERNAME_OLOCB_0x3
-//000175b0 10 1b           move.b     (A3)+,D0b
-//000175b2 e1 40           asl.w      #0x8,D0w
-//000175b4 10 1b           move.b     (A3)+,D0b
-//000175b6 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
-//000175ba 48 87           ext.w      D7w
-//000175bc 4e 75           rts
+    // read word offset, copy extended byte from ram[offset] into r7
     u16 offset = script_read16();
-    u8 b = *(alis.scripts[alis.scriptID]->ram + offset);
-    alis.varD7 = extend_w(b);
+    alis.varD7 = vram_read8ext16(alis.vram, offset);
 }
 
-// read word offset, copy word from ram[offset] into r7
 void olocw() {
-//    OPERNAME_OLOCW_0x4
-//000175be 10 1b           move.b     (A3)+,D0b
-//000175c0 e1 40           asl.w      #0x8,D0w
-//000175c2 10 1b           move.b     (A3)+,D0b
-//000175c4 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
-//000175c8 4e 75           rts
+    // read word offset, copy word from ram[offset] into r7
     u16 offset = script_read16();
-    u16 w = *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
-    alis.varD7 = w;
+    alis.varD7 = vram_read16(alis.vram, offset);
 }
 
 void olocp() {
-//    OPERNAME_OLOCP_0x5
-//000175ca 10 1b           move.b     (A3)+,D0b
-//000175cc e1 40           asl.w      #0x8,D0w
-//000175ce 10 1b           move.b     (A3)+,D0b
-//000175d0 43 f6 00 00     lea        (0x0,A6,D0w*0x1),A1
-//000175d4 20 79 00        movea.l    (ADDR_BSS_256_CHUNK_1).l,A0
-//01 95 e2
-//    LAB_000175da                                    XREF[1]:     000175dc(j)
-//000175da 10 d9           move.b     (A1)+,(A0)+
-//000175dc 66 00 ff fc     bne.w      LAB_000175da
-//000175e0 4e 75           rts
     u16 offset = script_read16();
-    u8 * src_ptr = (alis.scripts[alis.scriptID]->ram + offset);
-    u8 * dst_ptr = alis.bssChunk1;
-    while(*src_ptr) {
-        *dst_ptr++ = *src_ptr++;
-    }
+    vram_writep(alis.vram, offset, alis.bssChunk1);
 }
+
 void oloctp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oloctc() {
-//    OPERNAME_OLOCTC_0x7
-//000175e2 10 1b           move.b     (A3)+,D0b
-//000175e4 e1 40           asl.w      #0x8,D0w
-//000175e6 10 1b           move.b     (A3)+,D0b
-//000175e8 61 00 02 2e     bsr.w      FUN_LOCTC_COMMON                                     undefined FUN_00017818()
-//000175ec 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
-//000175f0 48 87           ext.w      D7w
-//000175f2 4e 75           rts
-    
     u16 offset = script_read16();
     u16 ret = loctc_common(offset);
-    alis.varD7 =  vram_read8(ret);
+    alis.varD7 = vram_read8(alis.vram, ret);
 }
 
 void olocti() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void odirb() {
-//    OPERNAME_ODIRB_0x9
-//00017620 42 40           clr.w      D0w
-//00017622 10 1b           move.b     (A3)+,D0b
-//00017624 1e 36 00 00     move.b     (0x0,A6,D0w*0x1),D7b
-//00017628 48 87           ext.w      D7w
-//0001762a 4e 75           rts
     u8 offset = script_read8();
-    u16 val = extend_w(*(alis.scripts[alis.scriptID]->ram + offset));
-    alis.varD7 = val;
+    alis.varD7 = vram_read8ext16(alis.vram, offset);
 }
 
 void odirw() {
-//    OPERNAME_ODIRW_0xa
-//0001762c 42 40           clr.w      D0w
-//0001762e 10 1b           move.b     (A3)+,D0b
-//00017630 3e 36 00 00     move.w     (0x0,A6,D0w*0x1),D7w
-//00017634 4e 75           rts
     u8 offset = script_read8();
-    u16 val = *(u16 *)(alis.scripts[alis.scriptID]->ram + offset);
-    alis.varD7 = val;
+    alis.varD7 = vram_read16(alis.vram, offset);;
 }
 
 void odirp() {
-//    OPERNAME_ODIRP_0xb
-//00017636 42 40           clr.w      D0w
-//00017638 10 1b           move.b     (A3)+,D0b
-//0001763a 43 f6 00 00     lea        (0x0,A6,D0w*0x1),A1
-//0001763e 20 79 00        movea.l    (ADDR_BSS_256_CHUNK_1).l,A0
-//01 95 e2
-//    __loop_until_zero                               XREF[1]:     00017646(j)
-//00017644 10 d9           move.b     (A1)+,(A0)+
-//00017646 66 00 ff fc     bne.w      __loop_until_zero
     u8 offset = script_read8();
-    u8 * a1 = alis.scripts[alis.scriptID]->ram + offset;
-    u8 * a0 = alis.bssChunk1;
-    while(*a1) {
-        *a0++ = *a1++;
-    }
+    vram_readp(alis.vram, offset, alis.bssChunk1);
 }
 
 void odirtp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void odirtc() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void odirti() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omainb() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omainw() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omainp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omaintp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omaintc() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omainti() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimb() {
-//    OPERNAME_OHIMB_0x15
-//00017724 10 1b           move.b     (A3)+,D0b
-//00017726 e1 40           asl.w      #0x8,D0w
-//00017728 10 1b           move.b     (A3)+,D0b
-//0001772a 30 36 00 00     move.w     (0x0,A6,D0w*0x1),D0w
-//0001772e 20 79 00        movea.l    (ADDR_VIRTUAL_STACK_ORG).l,A0
-//01 95 44
-//00017734 22 70 00 00     movea.l    (0x0,A0,D0w*0x1),A1
-//00017738 10 1b           move.b     (A3)+,D0b
-//0001773a e1 40           asl.w      #0x8,D0w
-//0001773c 10 1b           move.b     (A3)+,D0b
-//0001773e 1e 31 00 00     move.b     (0x0,A1,D0w*0x1),D7b
-//00017742 48 87           ext.w      D7w
-//00017744 4e 75           rts
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimw() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimtp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimtc() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimti() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 // pop from accumulator into r6
@@ -394,55 +312,53 @@ void omul() {
 
 
 void oneg() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 
 void oabs() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ornd() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
-// r7 <- (r7 < 0) ? 0xfff : 1
 void osgn() {
-    s16 d7 = (s16)alis.varD7;
-    if(d7 > 0) {
+    if(alis.varD7 > 0) {
         alis.varD7 = 1;
     }
-    else if(d7 < 0) {
+    else if(alis.varD7 < 0) {
         alis.varD7 = 0xffff;
     }
 }
 
 void onot() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oinkey() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void okeyon() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ojoy() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oprnd() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oscan() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oshiftkey() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ofree() {
@@ -455,19 +371,19 @@ void omodel() {
 }
 
 void ogetkey() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oleft() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oright() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omid() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 // r7 <- len(str1)
@@ -481,55 +397,55 @@ void oasc() {
 }
 
 void ostr() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osadd() {
     // TODO: strcat ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osegal() {
     // TODO: strcmp ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osdiff() {
     // TODO: !strcmp ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osinfeg() {
     // TODO: string equ or < ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ossupeg() {
     // TODO: string equ or > ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osinf() {
     // TODO: string < ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ossup() {
     // TODO: string > ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ospushacc() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ospile() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oval() {
     // TODO: compute int value of chunk1 string -> d7 ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oexistf() {
@@ -544,16 +460,11 @@ void ochr() {
 
 void ochange() {
     // TODO: change le drive courant ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ocountry() {
-//    OPERNAME_OCOUNTRY_0x51
-//00017d26 42 47           clr.w      D7w
-//00017d28 1e 39 00        move.b     (B_COUNTRY_CODE_??).l,D7b
-//01 95 09
-//00017d2e 4e 75           rts
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omip() {
@@ -561,7 +472,7 @@ void omip() {
 }
 
 void ojoykey() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oconfig() {

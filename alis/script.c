@@ -9,6 +9,12 @@
 #include "platform.h"
 #include "script.h"
 #include "utils.h"
+#include "alis_private.h"
+
+
+
+// TODO: for debugging
+u32 script_addrs[kMaxScripts] = {0x2d290, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x33580, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 
 static uint8_t * p_depak = NULL;
@@ -252,7 +258,9 @@ _depak_end:
  24...xx    ?       unpacked data (1st word is ID, must be zero)
  */
 sAlisScript * script_load(const char * script_path) {
+    
     sAlisScript * script = NULL;
+    
     FILE * fp = fopen(script_path, "rb");
     if (fp) {
         debug(EDebugVerbose,
@@ -271,6 +279,8 @@ sAlisScript * script_load(const char * script_path) {
         
         // decrunch if needed
         u8 * data = buf;
+
+        // check if this was already loaded
         if(is_packed(buf)) {
             debug(EDebugVerbose, "Unpacking file...\n");
             
@@ -308,34 +318,144 @@ sAlisScript * script_load(const char * script_path) {
             free(buf);
             buf = NULL;
         }
+        else {
+            // not packed !!
+        }
         
         // init script
         script = (sAlisScript *)malloc(sizeof(sAlisScript));
         strcpy(script->name, strrchr(script_path, kPathSeparator) + 1);
         
         // script data
-        script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess
+        script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess;
         script->data = data;
         script->datalen = sz;
-        script->headerlen = (main ? kMainScriptHeaderLen : kScriptHeaderLen);  // TODO: thats a guess
-
-        // alloc / init virtual ram
-        script->ram = (u8 *)malloc(kScriptRAMSize * sizeof(u8));
-        memset(script->ram, 0, kScriptRAMSize * sizeof(u8));
-        script->sp = script->ram + kScriptRAMSize;
-        
-        // cleanup
-        fclose(fp);
+        script->headerlen = (kScriptHeaderLen);  // TODO: thats a guess
+        script->org = script_addrs[script->ID]; // TODO: for debug only
+        script->pc = script->pc_org = (script->data + script->headerlen);
         
         debug(EDebugVerbose,
-              "Script loaded (ID = 0x%02x)\n", script->ID);
+              "Script '%s' loaded (ID = 0x%02x) at address 0x%x\n",
+              script->name, script->ID, script->org);
+    
+        // cleanup
+        fclose(fp);
+    }
+    else {
+        debug(EDebugFatal,
+              "Failed to load script at path '%s'\n",
+              script_path);
 
     }
     return script;
 }
 
 void script_unload(sAlisScript * script) {
-    free(script->ram);
+//    free(script->ram);
     free(script->data);
     free(script);
+}
+
+
+
+
+//void script_run(sAlisScript * script) {
+//    script->running = 1;
+//    while (script->running) {
+//        readexec_opcode();
+//    }
+//}
+
+
+u32 script_pc(sAlisScript * script) {
+    return (u32)(script->pc - script->pc_org + script->org);
+}
+
+
+// =============================================================================
+// MARK: - Script data access
+// =============================================================================
+void script_read_debug(s32 value) {
+    if (value > 0xffff) {
+        debug(EDebugVerbose, " 0x%06x", value);
+    }
+    else if (value > 0xff) {
+        debug(EDebugVerbose, " 0x%04x", value);
+    }
+    else if (value > 0x0) {
+        debug(EDebugVerbose, " 0x%02x", value);
+    }
+    else {
+        debug(EDebugVerbose, " %d", value);
+    }
+}
+
+u8 script_read8(void) {
+    u8 ret = *alis.script->pc++;
+    script_read_debug(ret);
+    return ret;
+}
+
+s16 script_read8ext16(void) {
+    u8 b = *alis.script->pc++;
+    s16 ret = b;
+    if(BIT_CHK((b), 7)) {
+        ret |= 0xff00;
+    }
+    
+    script_read_debug(ret);
+    return  ret;
+}
+
+s32 script_read8ext32(void) {
+    s16 ret = extend_l(extend_w(*alis.script->pc++));
+    script_read_debug(ret);
+    return  ret;
+}
+
+u16 script_read16(void) {
+    u16 ret = (*alis.script->pc++ << 8) + *alis.script->pc++;
+    script_read_debug(ret);
+    return ret;
+}
+
+s32 script_read16ext32(void) {
+    u32 ret = extend_l((*alis.script->pc++ << 8) + *alis.script->pc++);
+    script_read_debug(ret);
+    return ret;
+}
+
+u32 script_read24(void) {
+    u32 ret = (*alis.script->pc++ << 16) + (*alis.script->pc++ << 8) + *alis.script->pc++;
+    script_read_debug(ret);
+    return ret;
+}
+
+void script_read_bytes(u32 len, u8 * dest) {
+    while(len--) {
+        *dest++ = *alis.script->pc++;
+    }
+}
+
+void script_read_until_zero(u8 * dest) {
+    while(*alis.script->pc) {
+        *dest++ = *alis.script->pc++;
+    }
+    alis.script->pc++;
+}
+
+void script_jump(s32 offset) {
+    if(!alis.disasm) {
+        alis.script->pc += offset;
+    }
+}
+
+
+void script_debug(sAlisScript * script) {
+    debug(EDebugInfo, "\n\nScript 0x%02x (%s)\nPC OFFSET: 0x%04x\nPC ORG: 0x%06x\nPC DEBUG: 0x%06x",
+          script->ID,
+          script->name,
+          script->pc - script->pc_org,
+          script->org,
+          script->pc - script->pc_org + script->org);
 }
