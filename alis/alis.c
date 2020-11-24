@@ -14,10 +14,6 @@
 sAlisVM alis;
 
 
-// TODO: for debugging
-u32 script_addrs[kMaxScripts] = {0x2d290, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x33580, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-
 sAlisError errors[] = {
     { ALIS_ERR_FOPEN,   "fopen", "Failed to open file %s\n" },
     { ALIS_ERR_FWRITE,  "fwrite", "Failed to write to file %s\n" },
@@ -91,8 +87,6 @@ void alis_init(sPlatform platform) {
     
     // init virtual ram and stack offset
     alis.vram = vram_init();
-//    memset(alis.vram, 0, kVirtualRAMSize * sizeof(u8));
-//    alis.sp_offset = kVirtualRAMSize;
     
     // init virtual registers
     alis.varD6 = alis.varD7 = 0;
@@ -119,10 +113,10 @@ void alis_init(sPlatform platform) {
     alis.scriptID = alis.script->ID;
     alis.scripts[alis.scriptID] = alis.script;
     
-    // TODO: scene ptr ??
-//    alis.scene_ptr = (alis.memory + 0x6000);
-    
-    // TODO: init sys w/ platform
+    // system stuff
+    alis.pixelbuf.w = alis.platform.width;
+    alis.pixelbuf.h = alis.platform.height;
+    alis.pixelbuf.data = (u8 *)malloc(alis.pixelbuf.w * alis.pixelbuf.h);
 }
 
 void alis_deinit() {
@@ -157,14 +151,18 @@ u8 alis_run() {
     u8 ret = 0;
     alis.running = 1;
     while(alis.running) {
-        script_run(alis.script);
+        alis.script->running = 1;
+        while (alis.running && alis.script->running) {
+            alis.running = sys_poll_event();
+            readexec_opcode();
+            sys_render(alis.pixelbuf);
+        }
+
         u8 next_id = alis.scriptID;
         u8 current_id = alis.script->ID;
         alis.script = alis.scripts[next_id];
         alis.scriptID = current_id;
-        debug(EDebugInfo, "\nSwitching to script 0x%02x (%s)",
-              alis.script->ID,
-              alis.script->name);
+        script_debug(alis.script);
     }
     return ret;
 }

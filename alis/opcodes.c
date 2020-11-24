@@ -762,7 +762,15 @@ static void cmousoff() {
 }
 
 static void cmouse() {
-    alis.mouse = sys_get_mouse();
+    mouse_t mouse = sys_get_mouse();
+    
+    alis.varD7 = mouse.x;
+    readexec_storename();
+    
+    alis.varD7 = mouse.y;
+    readexec_storename();
+    
+    alis.varD7 = mouse.lb;
     readexec_storename();
 }
 

@@ -41,12 +41,14 @@ typedef struct {
 
 } sAlisScript;
 
+
 sAlisScript *   script_load(const char * script_path);
 void            script_unload(sAlisScript * script);
 
-void            script_run(sAlisScript * script);
+//void            script_run(sAlisScript * script);
 
 u32             script_pc(sAlisScript * script);
+
 
 // read data from script, these will increase the virtual program counter
 u8              script_read8(void);
@@ -59,4 +61,5 @@ void            script_read_bytes(u32 len, u8 * dest);
 void            script_read_until_zero(u8 * dest);
 void            script_jump(s32 offset);
 
+void            script_debug(sAlisScript * script);
 #endif /* script_h */

@@ -12,6 +12,11 @@
 #include "alis_private.h"
 
 
+
+// TODO: for debugging
+u32 script_addrs[kMaxScripts] = {0x2d290, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x33580, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+
 static uint8_t * p_depak = NULL;
 static uint8_t * p_depak_end = NULL;
 static uint8_t * p_pak = NULL;
@@ -352,12 +357,14 @@ void script_unload(sAlisScript * script) {
 }
 
 
-void script_run(sAlisScript * script) {
-    script->running = 1;
-    while (script->running) {
-        readexec_opcode();
-    }
-}
+
+
+//void script_run(sAlisScript * script) {
+//    script->running = 1;
+//    while (script->running) {
+//        readexec_opcode();
+//    }
+//}
 
 
 u32 script_pc(sAlisScript * script) {
@@ -441,4 +448,14 @@ void script_jump(s32 offset) {
     if(!alis.disasm) {
         alis.script->pc += offset;
     }
+}
+
+
+void script_debug(sAlisScript * script) {
+    debug(EDebugInfo, "\n\nScript 0x%02x (%s)\nPC OFFSET: 0x%04x\nPC ORG: 0x%06x\nPC DEBUG: 0x%06x",
+          script->ID,
+          script->name,
+          script->pc - script->pc_org,
+          script->org,
+          script->pc - script->pc_org + script->org);
 }

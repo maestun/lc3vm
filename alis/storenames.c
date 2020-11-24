@@ -79,17 +79,6 @@ static void sdirb() {
 }
 
 static void sdirw() {
-   
-//    **************************************************************
-//    * - Reads a byte offset from script                          *
-//    * - Stores D7.w at (A6 + offset)                             *
-//    **************************************************************
-//    undefined STORENAME_SDIRW_0xa()
-//undefined         D0b:1          <RETURN>
-//    STORENAME_SDIRW_0xa
-//00017f8a 42 40           clr.w      D0w
-//00017f8c 10 1b           move.b     (A3)+,D0b
-//00017f8e 3d 87 00 00     move.w     D7w,(0x0,A6,D0w*0x1)
     u8 offset = script_read8();
     vram_write16(alis.vram, offset, (u16)alis.varD7);
 }

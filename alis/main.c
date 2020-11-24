@@ -2,14 +2,15 @@
 //  main.c
 //  alis
 //
-
-#include "config.h"
 #include "alis.h"
+#include "config.h"
+#include "sys.h"
 
 void usage() {
     printf("%s v%s\nUsage:\n\t%s <data_path>\n\n\t%s <script_path>\n",
            kProgName, kProgVersion, kProgName, kProgName);
 }
+
 
 int main(int argc, const char* argv[]) {
     if (argc < 2) {
@@ -19,10 +20,13 @@ int main(int argc, const char* argv[]) {
         // guess platform
         sPlatform pl = guess_platform(argv[1]);
         if(is_supported(pl)) {
-            // run vm
+            sys_init();
             alis_init(pl);
+            
             alis_run();
+            
             alis_deinit();
+            sys_deinit();
         }
         else {
             debug(EDebugFatal,

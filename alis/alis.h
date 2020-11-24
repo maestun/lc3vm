@@ -143,10 +143,7 @@ typedef struct {
     
     // helper: executed instructions count
     u32     icount;
-    
-    // system stuff
-    mouse_t mouse;
-    
+        
     // unknown vars
     u32 DAT_000194fe;
     
@@ -179,6 +176,9 @@ typedef struct {
     u16         _DAT_000195fc;
     u16         _DAT_000195fe;
         
+    // system stuff
+    // mouse_t     mouse;
+    pixelbuf_t  pixelbuf;
 } sAlisVM;
 
 extern sAlisVM alis;

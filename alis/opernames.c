@@ -72,7 +72,7 @@ void olocp() {
 }
 
 void oloctp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oloctc() {
@@ -82,7 +82,7 @@ void oloctc() {
 }
 
 void olocti() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void odirb() {
@@ -101,63 +101,63 @@ void odirp() {
 }
 
 void odirtp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void odirtc() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void odirti() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omainb() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omainw() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omainp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omaintp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omaintc() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omainti() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimb() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimw() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimtp() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimtc() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ohimti() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 // pop from accumulator into r6
@@ -312,16 +312,16 @@ void omul() {
 
 
 void oneg() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 
 void oabs() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ornd() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osgn() {
@@ -334,31 +334,31 @@ void osgn() {
 }
 
 void onot() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oinkey() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void okeyon() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ojoy() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oprnd() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oscan() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oshiftkey() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ofree() {
@@ -371,19 +371,19 @@ void omodel() {
 }
 
 void ogetkey() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oleft() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oright() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omid() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 // r7 <- len(str1)
@@ -397,55 +397,55 @@ void oasc() {
 }
 
 void ostr() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osadd() {
     // TODO: strcat ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osegal() {
     // TODO: strcmp ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osdiff() {
     // TODO: !strcmp ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osinfeg() {
     // TODO: string equ or < ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ossupeg() {
     // TODO: string equ or > ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void osinf() {
     // TODO: string < ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ossup() {
     // TODO: string > ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ospushacc() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ospile() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oval() {
     // TODO: compute int value of chunk1 string -> d7 ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oexistf() {
@@ -460,11 +460,11 @@ void ochr() {
 
 void ochange() {
     // TODO: change le drive courant ??
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void ocountry() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void omip() {
@@ -472,7 +472,7 @@ void omip() {
 }
 
 void ojoykey() {
-    debug(EDebugWarning, "\n %s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 void oconfig() {
