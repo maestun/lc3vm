@@ -24,18 +24,16 @@
       <change beforePath="$PROJECT_DIR$/../../alis/alis.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/alis.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/alis.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/alis.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/alis_private.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/alis_private.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../alis/debug.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/debug.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../alis/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/opcodes.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/opcodes.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/opernames.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/opernames.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/script.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/script.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/script.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/script.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/storenames.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/storenames.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../alis/vram.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/vram.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../alis/vram.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/vram.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../macos/alis.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../../macos/alis.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../macos/alis.xcodeproj/project.xcworkspace/xcuserdata/developer.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../../macos/alis.xcodeproj/project.xcworkspace/xcuserdata/developer.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../macos/alis.xcodeproj/xcuserdata/developer.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" beforeDir="false" afterPath="$PROJECT_DIR$/../../macos/alis.xcodeproj/xcuserdata/developer.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/auto_reset_backup.sts" beforeDir="false" afterPath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/auto_reset_backup.sts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/steem.log" beforeDir="false" afterPath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/steem.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parse_steem_log.py" beforeDir="false" afterPath="$PROJECT_DIR$/parse_steem_log.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,22 +135,22 @@
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
     <state x="520" y="233" width="1071" height="724" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1606035346322" />
-    <state width="1451" height="303" key="GridCell.Tab.0.bottom" timestamp="1606159993553">
+    <state width="1451" height="303" key="GridCell.Tab.0.bottom" timestamp="1606160026399">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="303" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1606159993553" />
-    <state width="1451" height="303" key="GridCell.Tab.0.center" timestamp="1606159993553">
+    <state width="1451" height="303" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1606160026399" />
+    <state width="1451" height="303" key="GridCell.Tab.0.center" timestamp="1606160026399">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="303" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1606159993553" />
-    <state width="1451" height="303" key="GridCell.Tab.0.left" timestamp="1606159993552">
+    <state width="1451" height="303" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1606160026399" />
+    <state width="1451" height="303" key="GridCell.Tab.0.left" timestamp="1606160026399">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="303" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1606159993552" />
-    <state width="1451" height="303" key="GridCell.Tab.0.right" timestamp="1606159993553">
+    <state width="1451" height="303" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1606160026399" />
+    <state width="1451" height="303" key="GridCell.Tab.0.right" timestamp="1606160026399">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="303" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1606159993553" />
+    <state width="1451" height="303" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1606160026399" />
     <state width="1451" height="374" key="GridCell.Tab.1.bottom" timestamp="1606036732177">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>

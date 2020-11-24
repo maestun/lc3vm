@@ -39,42 +39,24 @@ typedef struct {
     u8 *    pc;
     u8 *    pc_org;
 
-    // script code
-//    u8 *    code;
-//    u32     codelen;
-//
-//    /*
-//     VIRTUAL RAM / STACK
-//     TODO: Each script has its own 65k virtual ram ???
-//        located at address contained in A6 register.
-//        There's also a stack pointer where we store 32-bit return addresses,
-//        the address of this pointer is (A6 + D4).
-//
-//
-//     A6 = vram / virtual ram
-//     |                           sp
-//     | <-- D4 = stack offset --> |
-//     v                           v
-//     _______________________ ... _____
-//     |_|_|_|_|_|_|_|_|_|_|_| ... |_|_|
-//
-//     <---------- 65k bytes ---------->
-//    */
-//
-//    u8 *    ram;
-//    //u8 *    vram_org;       // pointer to virtual ram origin (A6)
-//    u8 *    sp;
-    // u32     vstack_offset;  // offset to virtual stack (D4)
-   
 } sAlisScript;
 
-sAlisScript *   script_load(const char * script_path,
-                            const u32 org_addr);
+sAlisScript *   script_load(const char * script_path);
 void            script_unload(sAlisScript * script);
 
 void            script_run(sAlisScript * script);
 
+u32             script_pc(sAlisScript * script);
 
-
+// read data from script, these will increase the virtual program counter
+u8              script_read8(void);
+s16             script_read8ext16(void);
+s32             script_read8ext32(void);
+u16             script_read16(void);
+s32             script_read16ext32(void);
+u32             script_read24(void);
+void            script_read_bytes(u32 len, u8 * dest);
+void            script_read_until_zero(u8 * dest);
+void            script_jump(s32 offset);
 
 #endif /* script_h */

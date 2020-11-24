@@ -11,6 +11,7 @@
 #include "platform.h"
 #include "script.h"
 #include "sys.h"
+#include "vram.h"
 
 
 #define kVMHeaderLen            (16 * sizeof(u8))
@@ -104,14 +105,32 @@ typedef struct {
      
      <---------- 65k bytes ---------->
     */
+    sVRAM * vram;
+//    u8              vram[kVirtualRAMSize];
+//    u32             sp_offset;
+//    struct {
+//        u8 scan: 1;
+//        u8 inter: 1;
+//    }  status;
+//    // adresse dans la ram hote de l'origine du script
+//    // header inclus
+//    u32     script_org_ptr_addr;// VRAM_START - 0x14
+//
+//    // offset de la pile virtuelle dans la ram virtuelle
+//    // registre D4
+//    u16     stack_offset;       // VRAM_START - 0x0a
+//
+//    // adresse dans la ram hote du pointeur de script
+//    // registre A3
+//    u32     script_ptr_addr;    // VRAM_START - 0x08
 
-    u8              vram[kVirtualRAMSize];
-    u32             sp_offset;
     
     // loaded scripts
     sAlisScript *   scripts[kMaxScripts];
     u8              scriptID;
     sAlisScript *   script;
+    
+    u8              nextScriptID;
     
     // virtual registers
     s16             varD6;
@@ -134,13 +153,7 @@ typedef struct {
     struct {
         u8 zero: 1;
         u8 neg: 1;
-    } ccr;
-    
-    
-    struct {
-        u8 scan: 1;
-        u8 inter: 1;
-    }  status;
+    } sr;
     
     
     // A6 => contient adresse du début de la ram virtuelle (ou pile virtuelle ?)
@@ -156,7 +169,6 @@ typedef struct {
     
     // system helpers
     FILE *      fp;
-    
     
     // unknown variables
     u8          _ctiming;
@@ -180,7 +192,7 @@ extern u32 script_addrs[kMaxScripts];
 void            alis_init(sPlatform platform);
 u8              alis_run(void);
 void            alis_deinit(void);
-sAlisScript *   alis_load_script(const char * name, const u32 org);
+//sAlisScript *   alis_load_script(const char * name, const u32 org);
 void            alis_start_script(sAlisScript * script);
 void            alis_error(u8 errnum, ...);
 void            alis_debug(void);

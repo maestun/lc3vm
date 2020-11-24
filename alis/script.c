@@ -252,8 +252,7 @@ _depak_end:
  0...23     24      header bytes
  24...xx    ?       unpacked data (1st word is ID, must be zero)
  */
-sAlisScript * script_load(const char * script_path,
-                          const u32 org_addr) {
+sAlisScript * script_load(const char * script_path) {
     
     sAlisScript * script = NULL;
     
@@ -327,7 +326,7 @@ sAlisScript * script_load(const char * script_path,
         script->data = data;
         script->datalen = sz;
         script->headerlen = (kScriptHeaderLen);  // TODO: thats a guess
-        script->org = org_addr;
+        script->org = script_addrs[script->ID]; // TODO: for debug only
         script->pc = script->pc_org = (script->data + script->headerlen);
         
         debug(EDebugVerbose,
@@ -336,6 +335,12 @@ sAlisScript * script_load(const char * script_path,
     
         // cleanup
         fclose(fp);
+    }
+    else {
+        debug(EDebugFatal,
+              "Failed to load script at path '%s'\n",
+              script_path);
+
     }
     return script;
 }
@@ -351,5 +356,89 @@ void script_run(sAlisScript * script) {
     script->running = 1;
     while (script->running) {
         readexec_opcode();
+    }
+}
+
+
+u32 script_pc(sAlisScript * script) {
+    return (u32)(script->pc - script->pc_org + script->org);
+}
+
+
+// =============================================================================
+// MARK: - Script data access
+// =============================================================================
+void script_read_debug(s32 value) {
+    if (value > 0xffff) {
+        debug(EDebugVerbose, " 0x%06x", value);
+    }
+    else if (value > 0xff) {
+        debug(EDebugVerbose, " 0x%04x", value);
+    }
+    else if (value > 0x0) {
+        debug(EDebugVerbose, " 0x%02x", value);
+    }
+    else {
+        debug(EDebugVerbose, " %d", value);
+    }
+}
+
+u8 script_read8(void) {
+    u8 ret = *alis.script->pc++;
+    script_read_debug(ret);
+    return ret;
+}
+
+s16 script_read8ext16(void) {
+    u8 b = *alis.script->pc++;
+    s16 ret = b;
+    if(BIT_CHK((b), 7)) {
+        ret |= 0xff00;
+    }
+    
+    script_read_debug(ret);
+    return  ret;
+}
+
+s32 script_read8ext32(void) {
+    s16 ret = extend_l(extend_w(*alis.script->pc++));
+    script_read_debug(ret);
+    return  ret;
+}
+
+u16 script_read16(void) {
+    u16 ret = (*alis.script->pc++ << 8) + *alis.script->pc++;
+    script_read_debug(ret);
+    return ret;
+}
+
+s32 script_read16ext32(void) {
+    u32 ret = extend_l((*alis.script->pc++ << 8) + *alis.script->pc++);
+    script_read_debug(ret);
+    return ret;
+}
+
+u32 script_read24(void) {
+    u32 ret = (*alis.script->pc++ << 16) + (*alis.script->pc++ << 8) + *alis.script->pc++;
+    script_read_debug(ret);
+    return ret;
+}
+
+void script_read_bytes(u32 len, u8 * dest) {
+    while(len--) {
+        *dest++ = *alis.script->pc++;
+    }
+}
+
+void script_read_until_zero(u8 * dest) {
+    while(*alis.script->pc) {
+        *dest++ = *alis.script->pc++;
+    }
+    alis.script->pc++;
+}
+
+void script_jump(s32 offset) {
+    if(!alis.disasm) {
+        alis.script->pc += offset;
     }
 }

@@ -30,6 +30,8 @@
 		8B28A6632507C31D00E3F0FF /* vm_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B28A6582507C31D00E3F0FF /* vm_tests.c */; };
 		8B28A6642507C31D00E3F0FF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B28A65A2507C31D00E3F0FF /* main.c */; };
 		8B28A6652507C31D00E3F0FF /* opcodes.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B28A65F2507C31D00E3F0FF /* opcodes.c */; };
+		8B7D79A9256CF09300DAA932 /* vram.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D79A8256CF09300DAA932 /* vram.c */; };
+		8B7D79AA256CF09300DAA932 /* vram.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D79A8256CF09300DAA932 /* vram.c */; };
 		8B9C3F272508DE8C00C947F9 /* disasm.c in Sources */ = {isa = PBXBuildFile; fileRef = 8B9C3F262508DE8C00C947F9 /* disasm.c */; };
 		8B9C3F422508F37500C947F9 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B28A6742507C4F800E3F0FF /* imgui_draw.cpp */; };
 		8B9C3F432508F37500C947F9 /* imgui_impl_osx.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8B28A6702507C4F800E3F0FF /* imgui_impl_osx.mm */; };
@@ -140,6 +142,8 @@
 		8B28A6822507C5AA00E3F0FF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8B28A6842507C9EC00E3F0FF /* imgui_memory_editor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_memory_editor.h; sourceTree = "<group>"; };
 		8B37A662252471D500B7FBDB /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; name = TODO; path = ../TODO; sourceTree = "<group>"; };
+		8B7D79A7256CF09300DAA932 /* vram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vram.h; sourceTree = "<group>"; };
+		8B7D79A8256CF09300DAA932 /* vram.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vram.c; sourceTree = "<group>"; };
 		8B9C3F252508DE8C00C947F9 /* disasm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = disasm.h; sourceTree = "<group>"; };
 		8B9C3F262508DE8C00C947F9 /* disasm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = disasm.c; sourceTree = "<group>"; };
 		8B9C3F572508F37500C947F9 /* lc3vm-imgui */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "lc3vm-imgui"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -308,6 +312,8 @@
 				8B9C4046250A721D00C947F9 /* sys.c */,
 				8B9C402E250A2F9300C947F9 /* utils.h */,
 				8B9C402F250A2F9300C947F9 /* utils.c */,
+				8B7D79A7256CF09300DAA932 /* vram.h */,
+				8B7D79A8256CF09300DAA932 /* vram.c */,
 			);
 			name = alis;
 			path = ../alis;
@@ -436,6 +442,7 @@
 				8B20A3D9256913C40045BF66 /* storenames.c in Sources */,
 				8B20A3DA256913C40045BF66 /* addnames.c in Sources */,
 				8B20A3DB256913C40045BF66 /* sys.c in Sources */,
+				8B7D79AA256CF09300DAA932 /* vram.c in Sources */,
 				8B20A3DC256913C40045BF66 /* utils.c in Sources */,
 				8B20A3DD256913C40045BF66 /* main.c in Sources */,
 				8B20A3DE256913C40045BF66 /* alis.c in Sources */,
@@ -494,6 +501,7 @@
 				0981CBD1250B46970097F862 /* storenames.c in Sources */,
 				0981CBD2250B46970097F862 /* addnames.c in Sources */,
 				8B9C4047250A721D00C947F9 /* sys.c in Sources */,
+				8B7D79A9256CF09300DAA932 /* vram.c in Sources */,
 				8B9C4030250A2F9300C947F9 /* utils.c in Sources */,
 				8B9C402C250A2A8F00C947F9 /* main.c in Sources */,
 				8B9C401B250A2A5B00C947F9 /* alis.c in Sources */,

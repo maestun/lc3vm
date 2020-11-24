@@ -19,17 +19,6 @@
 #define     ALIS_BIT_6      (6)
 #define     ALIS_BIT_7      (7)
 
-// read data from script, these will increase the virtual program counter
-s8      script_read8(void);
-s16     script_read8ext16(void);
-s32     script_read8ext32(void);
-s16     script_read16(void);
-s32     script_read16ext32(void);
-s32     script_read24(void);
-void    script_read_bytes(u32 len, u8 * dest);
-void    script_read_until_zero(u8 * dest);
-void    script_jump(s32 offset);
-
 alisRet readexec_opcode(void);
 alisRet readexec_opername(void);
 alisRet readexec_storename(void);
@@ -45,31 +34,25 @@ extern sAlisOpcode  storenames[];
 extern sAlisOpcode  addnames[];
 extern sAlisError   errors[];
 
-extern void oeval(void);
-extern void ofin(void);
-
 // handle data from virtual ram
-u8      vram_read8(u16 offset);
-u16     vram_read16(u16 offset);
-u32     vram_read32(u16 offset);
-
-void    vram_write8(u16 offset, u8 value);
-void    vram_write16(u16 offset, u16 value);
-
-void    vram_add8(u16 offset, u8 value);
-void    vram_add16(u16 offset, u16 value);
-
-//void    push8(u8 value);
-//void    push16(u16 value);
-void    push32(u32 value);
-
-//u16     pop16(void);
-//u8      pop8(void);
-u32     pop32(void);
+//u8      vram_read8(u16 offset);
+//u16     vram_read16(u16 offset);
+//u32     vram_read32(u16 offset);
+//
+//void    vram_write8(u16 offset, u8 value);
+//void    vram_write16(u16 offset, u16 value);
+//
+//void    vram_add8(u16 offset, u8 value);
+//void    vram_add16(u16 offset, u16 value);
+//
+//void    vram_push32(u32 value);
+//u32     vram_pop32(void);
 
 // common opcode helpers
-u16     loctc_common(u16 offset);
-u16     locti_common(u16 offset);
-u16     loctp_common(u16 offset);
+extern u16  loctc_common(u16 offset);
+extern u16  locti_common(u16 offset);
+extern u16  loctp_common(u16 offset);
+extern void oeval(void);
+extern void ofin(void);
 
 #endif /* alis_private_h */
