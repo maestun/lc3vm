@@ -47,6 +47,8 @@ void sys_render(pixelbuf_t buffer) {
     SDL_RenderClear(_renderer);
     // SDL_RenderCopy(renderer, texture, NULL, &dstrect);
     SDL_RenderPresent(_renderer);
+    
+    // TODO: yield for 60 fps ?
 }
 
 

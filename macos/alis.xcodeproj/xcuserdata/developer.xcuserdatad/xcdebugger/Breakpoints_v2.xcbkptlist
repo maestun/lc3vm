@@ -143,8 +143,8 @@
             filePath = "../alis/opcodes.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "cstopret()"
             landmarkType = "9">
          </BreakpointContent>
@@ -159,8 +159,8 @@
             filePath = "../alis/script.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -200,16 +200,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "53EFB8F2-2007-4907-BDE0-F99ADFA14B7F"
+            uuid = "91F5306E-7754-4009-9A49-D9DA50856EFF"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../alis/alis.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
-            landmarkName = "alis_run()"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "alis_main()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

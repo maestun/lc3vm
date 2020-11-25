@@ -216,6 +216,7 @@ static void ckill() {
 static void cstop() {
     // debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
     alis.script->running = 0;
+    printf("\n-- CSTOP --");
 }
 
 static void cstopret() {

@@ -14,7 +14,10 @@
 
 
 // TODO: for debugging
-u32 script_addrs[kMaxScripts] = {0x2d290, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x33580, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+// adresses où sont stockés les scripts dans Steem
+// attention, le header de kScriptHeaderLen bytes est inclus,
+// donc le code commence à (adresse + kScriptHeaderLen)
+u32 script_addrs[kMaxScripts] = {0x2d278, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x33568, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 
 static uint8_t * p_depak = NULL;
@@ -268,30 +271,31 @@ sAlisScript * script_load(const char * script_path) {
         
         // get script file size
         fseek(fp, 0L, SEEK_END);
-        u32 sz = (u32)ftell(fp);
+        u32 pak_sz = (u32)ftell(fp);
         rewind(fp);
 
         // read file into buffer
-        u8 * buf = malloc(sz * sizeof(u8));
-        fread(buf, sizeof(u8), sz, fp);
+        u8 * pak_buf = malloc(pak_sz * sizeof(u8));
+        fread(pak_buf, sizeof(u8), pak_sz, fp);
         
         u8 main = 0;
+        u32 depak_sz = pak_sz;
         
-        // decrunch if needed
-        u8 * data = buf;
+        // TODO: check if this was already loaded, if so use cache
 
-        // check if this was already loaded
-        if(is_packed(buf)) {
+        // decrunch if needed
+        u8 * data = pak_buf;
+        if(is_packed(pak_buf)) {
             debug(EDebugVerbose, "Unpacking file...\n");
             
-            u32 depaksz = get_depacked_size(buf);
-            if(is_main(buf)) {
+            depak_sz = get_depacked_size(pak_buf);
+            if(is_main(pak_buf)) {
                 // main script: load main header into vm
-                debug(EDebugVerbose, "Main script detected\nHeader:");
+                debug(EDebugVerbose, "Main script detected. Packed header:\n");
                 main = 1;
                 for(uint8_t idx = 0; idx < kVMHeaderLen; idx++) {
-                    alis.header[idx] = buf[HEADER_MAGIC_LEN_SZ + HEADER_CHECK_SZ + idx];
-                    debug(EDebugVerbose, " 0x%02x", alis.header[idx]);
+                    alis.header[idx] = pak_buf[HEADER_MAGIC_LEN_SZ + HEADER_CHECK_SZ + idx];
+                    debug(EDebugVerbose, "0x%02x ", alis.header[idx]);
                 }
                 debug(EDebugVerbose, "\n");
             }
@@ -301,22 +305,21 @@ sAlisScript * script_load(const char * script_path) {
                             HEADER_CHECK_SZ +
                             (main ? kVMHeaderLen : 0);
             u8 pak_offset = dic_offset + HEADER_DIC_SZ;
-            u8 * depakbuf = malloc(depaksz * sizeof(u8));
-            depak(buf + pak_offset,
-                  depakbuf,
-                  sz - pak_offset,
-                  depaksz,
-                  &buf[dic_offset]);
+            u8 * depak_buf = malloc(depak_sz * sizeof(u8));
+            depak(pak_buf + pak_offset,
+                  depak_buf,
+                  pak_sz - pak_offset,
+                  depak_sz,
+                  &pak_buf[dic_offset]);
             
             debug(EDebugVerbose,
                        "Unpacking done in %ld bytes (~%d%% packing ratio)\n",
-                       depaksz, 100 - (100 * sz) / depaksz);
+                       depak_sz, 100 - (100 * pak_sz) / depak_sz);
             
             // cleanup
-            data = depakbuf;
-            sz = depaksz;
-            free(buf);
-            buf = NULL;
+            data = depak_buf;
+            free(pak_buf);
+            pak_buf = NULL;
         }
         else {
             // not packed !!
@@ -328,11 +331,12 @@ sAlisScript * script_load(const char * script_path) {
         
         // script data
         script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess;
+        script->_unknownOffset = (data[8] << 8) + data[9]; // TODO: thats a guess;
         script->data = data;
-        script->datalen = sz;
-        script->headerlen = (kScriptHeaderLen);  // TODO: thats a guess
+        script->data_len = depak_sz;
+//        script->headerlen = (kScriptHeaderLen);  // TODO: thats a guess
         script->org = script_addrs[script->ID]; // TODO: for debug only
-        script->pc = script->pc_org = (script->data + script->headerlen);
+        script->pc = script->pc_org = (script->data + kScriptHeaderLen);
         
         debug(EDebugVerbose,
               "Script '%s' loaded (ID = 0x%02x) at address 0x%x\n",
@@ -368,7 +372,7 @@ void script_unload(sAlisScript * script) {
 
 
 u32 script_pc(sAlisScript * script) {
-    return (u32)(script->pc - script->pc_org + script->org);
+    return (u32)(script->pc - script->pc_org + script->org + kScriptHeaderLen);
 }
 
 
@@ -452,10 +456,17 @@ void script_jump(s32 offset) {
 
 
 void script_debug(sAlisScript * script) {
-    debug(EDebugInfo, "\n\nScript 0x%02x (%s)\nPC OFFSET: 0x%04x\nPC ORG: 0x%06x\nPC DEBUG: 0x%06x",
-          script->ID,
-          script->name,
-          script->pc - script->pc_org,
-          script->org,
-          script->pc - script->pc_org + script->org);
+    
+    printf("\n-- SCRIPT --\n'%s' (0x%02x)\nHeader:\n",
+           script->name,
+           script->ID);
+    for(int i = 0; i < kScriptHeaderLen; i++) {
+        printf("%02x ", script->data[i]);
+    }
+    
+    printf("\nORG: 0x%06x\nPC ORG: 0x%06x\nPC OFFSET: 0x%04x\nPC BYTE: 0x%02x\n",
+           script->org,
+           script->org + (u32)kScriptHeaderLen,
+           script_pc(script),
+           *script->pc);
 }

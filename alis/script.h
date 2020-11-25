@@ -21,7 +21,12 @@
 // =============================================================================
 
 typedef struct {
+    // HEADER: 24 BYTES
     u16     ID;
+    u8      _unknownBytes1[6];
+    u16     _unknownOffset;
+    u8      _unknownBytes2[14];
+    
     char    name[kPathMaxLen];
     
     // for debug: addr of script in steem
@@ -29,16 +34,23 @@ typedef struct {
     
     // script data
     u8 *    data;
-    u32     datalen;
+    u32     data_len;
+    
+    
+    
+    
+//    u8 *    code_org; // the above + 24 bytes
+//    u8 *    code;
+    
+    //u8 *    data;
+    //u32     datalen;
 //    u8 *    header;
-    u32     headerlen;
+//    u32     headerlen;
 
     
     u8      running;
-    
-    u8 *    pc;
     u8 *    pc_org;
-
+    u8 *    pc;
 } sAlisScript;
 
 

@@ -11,7 +11,7 @@
 sVRAM * vram_init() {
     sVRAM * vram = (sVRAM *)malloc(sizeof(sVRAM));
     memset(vram->ram, 0, kVirtualRAMSize * sizeof(u8));
-    vram->stack_offset = kVirtualRAMSize;
+    vram->stack_offset = 0xffac;//kVirtualRAMSize; // TODO: ????
     return vram;
 }
 

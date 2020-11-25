@@ -18,7 +18,7 @@ void    sys_deinit(void);
 
 
 typedef struct {
-    u16 x, y;
+    int x, y;
     u8 lb, rb;
 } mouse_t;
 mouse_t sys_get_mouse(void);

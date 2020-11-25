@@ -190,7 +190,7 @@ extern u32 script_addrs[kMaxScripts];
 // MARK: - API
 // =============================================================================
 void            alis_init(sPlatform platform);
-u8              alis_run(void);
+u8              alis_main(void);
 void            alis_deinit(void);
 //sAlisScript *   alis_load_script(const char * name, const u32 org);
 void            alis_start_script(sAlisScript * script);

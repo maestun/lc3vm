@@ -147,22 +147,63 @@ void alis_deinit() {
 //    return script;
 //}
 
-u8 alis_run() {
+void alis_loop() {
+    alis.script->running = 1;
+    while (alis.running && alis.script->running) {
+        alis.running = sys_poll_event();
+        readexec_opcode();
+        sys_render(alis.pixelbuf);
+    }
+}
+
+
+void alis_next_script() {
+    u8 next_id = alis.scriptID;
+    u8 current_id = alis.script->ID;
+    alis.script = alis.scripts[next_id];
+    alis.scriptID = current_id;
+    script_debug(alis.script);
+}
+
+
+u8 alis_main() {
     u8 ret = 0;
     alis.running = 1;
     while(alis.running) {
-        alis.script->running = 1;
-        while (alis.running && alis.script->running) {
-            alis.running = sys_poll_event();
-            readexec_opcode();
-            sys_render(alis.pixelbuf);
+        alis_loop();
+        u16 offset = (u16)alis.script->_unknownOffset;
+        if (offset == 0) {
+            //        u8 next_id = alis.scriptID;
+            //        u8 current_id = alis.script->ID;
+            //        alis.script = alis.scripts[next_id];
+            //        alis.scriptID = current_id;
+            // TODO: save current script program counter
+            // TODO: change script
+            
+            alis_next_script();
         }
-
-        u8 next_id = alis.scriptID;
-        u8 current_id = alis.script->ID;
-        alis.script = alis.scripts[next_id];
-        alis.scriptID = current_id;
-        script_debug(alis.script);
+        else {
+            // the current script has an 'offset' in its header
+            // so we must perform a change of script... within the same script O_o
+            
+            // save current pc
+            u8 * prev_pc = alis.script->pc;
+            
+            // jump with offset into same script
+            alis.script->pc = alis.script->pc_org + offset + 6 - kScriptHeaderLen;
+            script_debug(alis.script);
+            
+            // loop thru opcodes as usual
+            alis_loop();
+            
+            // we got nother 'cstop', restore saved pc
+            alis.script->pc = prev_pc;
+            script_debug(alis.script);
+            
+            // switch to next script
+            alis_next_script();
+            script_debug(alis.script);
+        }
     }
     return ret;
 }
@@ -176,13 +217,13 @@ void alis_error(u8 errnum, ...) {
 
 
 void alis_debug() {
-    printf("ALIS: %s (0x%02x)\n", alis.scripts[alis.scriptID]->name, alis.scriptID);
+    printf("\n-- ALIS --\nCurrent script: '%s' (0x%02x)\n", alis.scripts[alis.scriptID]->name, alis.scriptID);
     printf("R6  0x%04x\n", alis.varD6);
     printf("R7  0x%04x\n", alis.varD7);
-    printf("PC  OFFSET=0x%04x (byte=0x%02x) (word=0x%04x)\n",
-           (u16)(alis.script->pc - alis.script->pc_org),
-           (u8)(*alis.script->pc),
-           (u16)(*alis.script->pc));
+//    printf("PC  OFFSET=0x%04x (byte=0x%02x) (word=0x%04x)\n",
+//           (u16)(alis.script->pc - alis.script->pc_org),
+//           (u8)(*alis.script->pc),
+//           (u16)(*alis.script->pc));
     printf("ACC OFFSET=0x%04x (byte=0x%02x) (word=0x%04x)\n",
            (u16)(alis.acc - alis.acc_org),
            (u8)(*alis.acc),
