@@ -40,12 +40,12 @@ u16 loctc_common(u16 offset) {
 // =============================================================================
 
 void oimmb() {
-    // reads a byte, extends into D7
+    // reads a byte, extends into r7
     alis.varD7 = script_read8ext16();
 }
 
 void oimmw() {
-    // reads a word into D7
+    // reads a word into r7
     alis.varD7 = script_read16();
 }
 
@@ -85,17 +85,23 @@ void olocti() {
     debug(EDebugWarning, " /* STUBBED */");
 }
 
-void odirb() {
+// reads a byte offset from script,
+// then reads an extended byte from vram[offset] into r7
+void odirb(/* u8 offset */) {
     u8 offset = script_read8();
     alis.varD7 = vram_read8ext16(alis.vram, offset);
 }
 
-void odirw() {
+// reads a byte offset from script,
+// then reads a word from vram[offset] into r7
+void odirw(/* u8 offset */) {
     u8 offset = script_read8();
     alis.varD7 = vram_read16(alis.vram, offset);;
 }
 
-void odirp() {
+// reads a byte offset from script,
+// then reads a null-terminated data stream from vram[offset] into bssChunk1
+void odirp(/* u8 offset */) {
     u8 offset = script_read8();
     vram_readp(alis.vram, offset, alis.bssChunk1);
 }

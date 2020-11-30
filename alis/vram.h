@@ -60,6 +60,9 @@ void    vram_write8(sVRAM * vram, u16 offset, u8 value);
 void    vram_write16(sVRAM * vram, u16 offset, u16 value);
 void    vram_writep(sVRAM * vram, u16 offset, u8 * src_ptr);
 
+void    vram_setbit(sVRAM * vram, u16 offset, u8 bit);
+void    vram_clrbit(sVRAM * vram, u16 offset, u8 bit);
+
 void    vram_add8(sVRAM * vram, u16 offset, u8 value);
 void    vram_add16(sVRAM * vram, u16 offset, u16 value);
 

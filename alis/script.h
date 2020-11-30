@@ -27,7 +27,7 @@ typedef struct {
     u16     _unknownOffset;
     u8      _unknownBytes2[14];
     
-    char    name[kPathMaxLen];
+    char    name[kNameMaxLen];
     
     // for debug: addr of script in steem
     u32     org;

@@ -44,7 +44,7 @@ alisRet readexec(sAlisOpcode * table, char * name, u8 identation) {
 }
 
 alisRet readexec_opcode() {
-    debug(EDebugVerbose, "\n0x%06x:", script_pc(alis.script));
+    debug(EDebugVerbose, "\n%s: 0x%06x:", alis.script->name, script_pc(alis.script));
     return readexec(opcodes, "opcode", 0);
 }
 

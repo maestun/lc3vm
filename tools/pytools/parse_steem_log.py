@@ -148,7 +148,9 @@ def parse_log(alis_data, steem_log, output_file):
     opcode_log.close()
 
 # MAIN
-parse_log(alis.ISHAR2_CRELITE, "./steem-boot to logo.log", "./steem-boot to logo.txt")
+parse_log(alis.ISHAR2_CRELITE, "../Steem.SSE.4.0.2.Debug.Win64.DD/steem.log",
+          "./../Steem.SSE.4.0.2.Debug.Win64.DD/logo_animating.txt")
+# parse_log(alis.ISHAR2_CRELITE, "./steem-boot to logo.log", "./steem-boot to logo.txt")
 # parse_log(alis.ISHAR2_CRELITE, "./steem-logo to ishar.log", "./steem-logo to ishar.txt")
 # parse_log(alis.ISHAR2_CRELITE, "./steem-ishar to lang.log", "./steem-ishar to lang.txt")
 # parse_log(alis.ISHAR2_CRELITE, "./steem-lang to disk b.log", "./steem-lang to disk b.txt")

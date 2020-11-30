@@ -328,6 +328,7 @@ sAlisScript * script_load(const char * script_path) {
         // init script
         script = (sAlisScript *)malloc(sizeof(sAlisScript));
         strcpy(script->name, strrchr(script_path, kPathSeparator) + 1);
+        *strrchr(script->name, '.') = '\0';
         
         // script data
         script->ID = (data[0] << 8) + data[1]; // TODO: thats a guess;

@@ -81,6 +81,14 @@ void vram_writep(sVRAM * vram, u16 offset, u8 * src_ptr) {
     } while (*src_ptr);
 }
 
+void vram_setbit(sVRAM * vram, u16 offset, u8 bit) {
+    BIT_SET(*(u8 *)(vram->ram + offset), bit);
+}
+
+void vram_clrbit(sVRAM * vram, u16 offset, u8 bit) {
+    BIT_CLR(*(u8 *)(vram->ram + offset), bit);
+}
+
 void vram_add8(sVRAM * vram, u16 offset, u8 value) {
     *(u8 *)(vram->ram + offset) += value;
 }

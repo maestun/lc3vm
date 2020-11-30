@@ -43,23 +43,23 @@ static void csub() {
 }
 
 static void cvprint() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csprinti() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csprinta() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void clocate() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ctab() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 // ???
@@ -119,15 +119,15 @@ static void cloop24() {
 }
 
 static void cswitch1() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cswitch2() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cleave() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 //    **************************************************************
 //    *                          FUNCTION                          *
 //    **************************************************************
@@ -156,47 +156,49 @@ static void cleave() {
 }
 
 static void cprotect() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void casleep() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscset() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cclipping() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis._cclipping = 0;
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 static void cswitching() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis._cclipping = 1;
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 static void cwlive() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cunload() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cwakeup() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csleep() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void clive() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
     alis._DAT_000195fa = 0;
     alis._DAT_000195fc = 0;
     alis._DAT_000195fe = 0;
@@ -210,21 +212,21 @@ static void clive() {
 }
 
 static void ckill() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cstop() {
-    // debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    // debug(EDebugWarning, " /* MISSING */");
     alis.script->running = 0;
     printf("\n-- CSTOP --");
 }
 
 static void cstopret() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cexit() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cload() {
@@ -323,7 +325,7 @@ void FUN_00013dda() {
 
 // reads 35 bytes
 static void cdefsc() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
     /*
      ; code address: $139ca
      opcode_cdefsc:
@@ -408,15 +410,17 @@ static void cscreen() {
     if (pos != alis._a6_minus_16) {
         alis._a6_minus_16 = pos;
     }
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
 }
 
 static void cput() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cputnat() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    
+    // CALLED AT EACH FRAME WHEN SCREEN UPDATE NEEDED ?
+    
+    debug(EDebugWarning, " /* MISSING */");
 //    **************************************************************
 //    *                          FUNCTION                          *
 //    **************************************************************
@@ -454,11 +458,33 @@ static void cputnat() {
 }
 
 static void cerase() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cerasen() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
+    readexec_opername_saveD7();
+//    **************************************************************
+//    *                          FUNCTION                          *
+//    **************************************************************
+//    undefined OPCODE_CERASEN_0x4b()
+//undefined         D0b:1          <RETURN>
+//    OPCODE_CERASEN_0x4b
+//0001452a 61 00 30 40     bsr.w      FUN_READEXEC_OPERNAME_SAVE_D7                    undefined FUN_READEXEC_OPERNAME_
+//0001452e 13 c7 00        move.b     D7b,(DAT_00019594).l
+//01 95 94
+//00014534 22 79 00        movea.l    (DAT_1955e_usedby_cdefsc).l,A1
+//01 95 5e
+//    LAB_0001453a                                    XREF[1]:     0001454e(j)
+//0001453a 61 00 fc 02     bsr.w      FUN_0001413e                                     undefined FUN_0001413e()
+//0001453e 67 00 00 0a     beq.w      LAB_0001454a
+//00014542 42 39 00        clr.b      (DAT_0001951d).l
+//01 95 1d
+//00014548 4e 75           rts
+//    LAB_0001454a                                    XREF[1]:     0001453e(j)
+//0001454a 61 00 00 64     bsr.w      FUN_000145b0                                     undefined FUN_000145b0()
+//0001454e 60 00 ff ea     bra.w      LAB_0001453a
+
 }
 
 static void cset() {
@@ -517,87 +543,90 @@ static void copensc() {
 //00013d68 61 00 00 18     bsr.w      FUN_00013d82                                     undefined FUN_00013d82()
 //00013d6c 4e 75           rts
     u16 id = script_read16();
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    vram_clrbit(alis.vram, id, ALIS_BIT_6);
+    vram_setbit(alis.vram, id, ALIS_BIT_7);
+    
+    debug(EDebugWarning, " /* STUBBED */");
 }
 
 static void cclosesc() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cerasall() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cforme() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdelforme() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ctstmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ctstset() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cftstmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cftstset() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csuccent() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cpredent() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cnearent() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cneartyp() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cnearmat() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cviewent() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cviewtyp() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cviewmat() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void corient() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void crstent() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csend() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscanclr() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscanon() {
@@ -618,15 +647,15 @@ static void cinteroff() {
 }
 
 static void callentity() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cpalette() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdefcolor() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ctiming() {
@@ -635,23 +664,23 @@ static void ctiming() {
 }
 
 static void czap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cexplode() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cding() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cnoise() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cinitab() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfopen() {
@@ -681,67 +710,67 @@ static void cfclose() {
 }
 
 static void cfcreat() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfdel() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfreadv() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfwritev() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfwritei() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfreadb() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfwriteb() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cplot() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdraw() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cbox() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cboxf() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cink() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cpset() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cpmove() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cpmode() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cpicture() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cxyscroll() {
@@ -755,11 +784,11 @@ static void clinking() {
 }
 
 static void cmouson() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmousoff() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmouse() {
@@ -776,35 +805,35 @@ static void cmouse() {
 }
 
 static void cdefmouse() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csetmouse() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdefvect() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csetvect() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void capproach() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cescape() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cvtstmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cvftstmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cvmov() {
@@ -819,7 +848,7 @@ static void cvmov() {
 //0001469e 48 80           ext.w      D0w
 //000146a0 d1 6e 00 04     add.w      D0w,(0x4,A6)
 //000146a4 4e 75           rts
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdefworld() {
@@ -837,7 +866,7 @@ static void cdefworld() {
     while(counter--) {
         vram_write8(alis.vram, offset, script_read8());
     }
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cworld() {
@@ -850,428 +879,452 @@ static void cworld() {
 }
 
 static void cfindmat() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfindtyp() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmusic() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdelmusic() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ccadence() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csetvolum() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cxinv() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis._xinvon = !alis._xinvon;
 }
 
 static void cxinvon() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis._xinvon = 1;
 }
 
 static void cxinvoff() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    alis._xinvon = 0;
 }
 
 static void clistent() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csound() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmsound() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void credon() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void credoff() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdelsound() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cwmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cwtstmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cwftstmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ctstform() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cxput() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cxputat() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmput() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmputat() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmxput() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmxputat() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmmusic() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmforme() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csettime() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cgettime() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cvinput() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csinput() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void crunfilm() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cvpicprint() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cspicprint() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cvputprint() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csputprint() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfont() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cpaper() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
+// fade-out to black
 static void ctoblack() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
     readexec_opername_saveD7();
 }
 
 static void cmovcolor() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
+// fade-in to palette
 static void ctopalet() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* STUBBED */");
+    readexec_opername();
+    
+    u16 save = alis.varD7;
+    readexec_opername_saveD7();
+    alis.varD6 = alis.varD7;
+    alis.varD7 = save;
 }
 
 static void cnumput() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscheart() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscpos() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscsize() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cschoriz() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscvertic() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscreduce() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscscale() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void creducing() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscmap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscdump() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfindcla() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cnearcla() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cviewcla() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cinstru() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cminstru() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cordspr() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void calign() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cbackstar() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cstarring() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cengine() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cautobase() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cquality() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void chsprite() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cselpalet() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
+//    **************************************************************
+//    *                          FUNCTION                          *
+//    **************************************************************
+//    undefined OPCODE_CSELPALET_0xd7()
+//undefined         D0b:1          <RETURN>
+//    OPCODE_CSELPALET_0xd7
+//00016288 61 00 12 e4     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
+//0001628c 02 47 00 03     andi.w     #0x3,D7w
+//00016290 13 c7 00        move.b     D7b,(DAT_0001968c).l
+//01 96 8c
+//00016296 13 fc 00        move.b     #0x1,(DAT_0001968d).l
+//01 00 01
+//96 8d
+//0001629e 4e 75           rts
+    readexec_opername();
+    alis.varD7 &= 0x3; // 4 palettes: 0...3
 }
 
 static void clinepalet() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cautomode() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cautofile() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ccancel() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ccancall() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ccancen() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cblast() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscback() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscrolpage() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cmatent() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cshrink() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdefmap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csetmap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cputmap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csavepal() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void csczoom() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void ctexmap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void calloctab() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfreetab() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscantab() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cneartab() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscsun() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cdarkpal() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscdark() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void caset() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void camov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscaset() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscamov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscfollow() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscview() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cfilm() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cwalkmap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void catstmap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cavtstmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cavmov() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void caim() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cpointpix() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cchartmap() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void cscsky() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 static void czoom() {
-    debug(EDebugWarning, "\n%s STUBBED\n", __FUNCTION__);
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 

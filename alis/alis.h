@@ -168,9 +168,11 @@ typedef struct {
     FILE *      fp;
     
     // unknown variables
+    u8          _cclipping;
     u8          _ctiming;
     u16         _a6_minus_16;
     u16         _random_number;
+    u8          _xinvon; // (-0x3,A6)
     
     u16         _DAT_000195fa;
     u16         _DAT_000195fc;
