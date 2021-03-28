@@ -16,15 +16,18 @@
 // ============================================================================
 #pragma mark - Opcodes
 // ============================================================================
-static void cstore() {
-    readexec_opername_saveD7();
-    
+static void cstore_continue() {
     // swap chunk 1 / 3
     u8 * tmp = alis.bssChunk1;
     alis.bssChunk1 = alis.bssChunk3;
     alis.bssChunk3 = tmp;
     
     readexec_storename();
+}
+
+static void cstore() {
+    readexec_opername_saveD7();
+    cstore_continue();
 }
 
 static void ceval() {
@@ -205,10 +208,7 @@ static void clive() {
     
     u16 d2 = script_read16();
     
-    u8 * tmp = alis.bssChunk1;
-    alis.bssChunk1 = alis.bssChunk3;
-    alis.bssChunk3 = tmp;
-    readexec_storename();
+    cstore_continue();
 }
 
 static void ckill() {
@@ -216,16 +216,33 @@ static void ckill() {
 }
 
 static void cstop() {
-    // debug(EDebugWarning, " /* MISSING */");
+    // in real program, adds 4 to real stack pointer
     alis.script->running = 0;
     printf("\n-- CSTOP --");
 }
 
 static void cstopret() {
-    debug(EDebugWarning, " /* MISSING */");
+    // never seen in ishar execution (boot2game)
+    debug(EDebugWarning, " /* MISSING */");                                     
 }
 
 static void cexit() {
+    /*
+     **************************************************************
+     *                          FUNCTION                          *
+     **************************************************************
+     undefined OPCODE_CEXIT_0x44()
+undefined         D0b:1          <RETURN>
+     OPCODE_CEXIT_0x44
+00013988 4a 45           tst.w      D5w
+0001398a 66 00 00 06     bne.w      __d5_not_zero
+0001398e 60 00 f6 1c     bra.w      FUN_SHOW_FATAL_ERROR::LAB_TERMINATE
+     __d5_not_zero                                   XREF[1]:     0001398a(j)
+00013992 30 05           move.w     D5w,D0w
+00013994 60 00 55 82     bra.w      FUN_00018f18                                     undefined FUN_00018f18()
+     -- Flow Override: CALL_RETURN (CALL_TERMINATOR)
+
+     */
     debug(EDebugWarning, " /* MISSING */");
 }
 
@@ -488,15 +505,6 @@ static void cerasen() {
 }
 
 static void cset() {
-    // log_debug("STUBBED");
-//    OPCODE_CSET_0x4c
-//00014652 61 00 2f 1a     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
-//00014656 3d 47 00 00     move.w     D7w,(0x0,A6)
-//0001465a 61 00 2f 12     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
-//0001465e 3d 47 00 02     move.w     D7w,(0x2,A6)
-//00014662 61 00 2f 0a     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
-//00014666 3d 47 00 04     move.w     D7w,(0x4,A6)
-//0001466a 4e 75           rts
     readexec_opername();
     vram_write16(alis.vram, 0, alis.varD7);
     readexec_opername();
@@ -506,15 +514,6 @@ static void cset() {
 }
 
 static void cmov() {
-    // log_debug("STUBBED");
-//    OPCODE_CMOV_0x4d
-//0001466c 61 00 2f 00     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
-//00014670 df 6e 00 00     add.w      D7w,(0x0,A6)
-//00014674 61 00 2e f8     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
-//00014678 df 6e 00 02     add.w      D7w,(0x2,A6)
-//0001467c 61 00 2e f0     bsr.w      FUN_READEXEC_OPERNAME                            undefined FUN_READEXEC_OPERNAME()
-//00014680 df 6e 00 04     add.w      D7w,(0x4,A6)
-//00014684 4e 75           rts
     readexec_opername();
     vram_add16(alis.vram, 0, alis.varD7);
     readexec_opername();
@@ -558,11 +557,12 @@ static void cerasall() {
 }
 
 static void cforme() {
-    debug(EDebugWarning, " /* MISSING */");
+    readexec_opername();
+    alis._a6_minus_1a = alis.varD7;
 }
 
 static void cdelforme() {
-    debug(EDebugWarning, " /* MISSING */");
+    alis._a6_minus_1a = -1;
 }
 
 static void ctstmov() {
@@ -627,23 +627,24 @@ static void csend() {
 
 static void cscanclr() {
     debug(EDebugWarning, " /* MISSING */");
+    alis.status.scan = 0;
 }
 
 static void cscanon() {
-    alis.vram->status.scan = 0;
+    alis.status.scan = 0;
 }
 
 static void cscanoff() {
-    alis.vram->status.scan = 1;
+    alis.status.scan = 1;
     cscanclr();
 }
 
 static void cinteron() {
-    alis.vram->status.inter = 0;
+    alis.status.inter = 0;
 }
 
 static void cinteroff() {
-    alis.vram->status.inter = 1;
+    alis.status.inter = 1;
 }
 
 static void callentity() {
@@ -784,11 +785,11 @@ static void clinking() {
 }
 
 static void cmouson() {
-    debug(EDebugWarning, " /* MISSING */");
+    sys_enable_mouse(1);
 }
 
 static void cmousoff() {
-    debug(EDebugWarning, " /* MISSING */");
+    sys_enable_mouse(0);
 }
 
 static void cmouse() {
@@ -809,7 +810,11 @@ static void cdefmouse() {
 }
 
 static void csetmouse() {
-    debug(EDebugWarning, " /* MISSING */");
+    readexec_opername();
+    u16 x = alis.varD7;
+    readexec_opername();
+    u16 y = alis.varD6;
+    sys_set_mouse(x, y);
 }
 
 static void cdefvect() {
@@ -983,15 +988,28 @@ static void cmmusic() {
 }
 
 static void cmforme() {
-    debug(EDebugWarning, " /* MISSING */");
+    readexec_opername();
+    alis._a6_minus_1a = alis.varD7;
 }
 
 static void csettime() {
-    debug(EDebugWarning, " /* MISSING */");
+    readexec_opername();
+    u16 h = alis.varD7;
+    readexec_opername();
+    u16 m = alis.varD7;
+    readexec_opername();
+    u16 s = alis.varD7;
+    sys_set_time(h, m, s);
 }
 
 static void cgettime() {
-    debug(EDebugWarning, " /* MISSING */");
+    time_t t = sys_get_time();
+    alis.varD7 = t << 16 & 0xff;
+    cstore_continue();
+    alis.varD7 = t << 8 & 0xff;
+    cstore_continue();
+    alis.varD7 = t << 0 & 0xff;
+    cstore_continue();
 }
 
 static void cvinput() {
@@ -1132,7 +1150,10 @@ static void cstarring() {
 }
 
 static void cengine() {
-    debug(EDebugWarning, " /* MISSING */");
+    readexec_opername();
+    readexec_opername();
+    readexec_opername();
+    readexec_opername();
 }
 
 static void cautobase() {
@@ -1582,12 +1603,12 @@ sAlisOpcode opcodes[] = {
     DECL_OPCODE(0x08, cjmp8,        "jump (8-bit offset)"),
     DECL_OPCODE(0x09, cjmp16,       "jump (16-bit offset)"),
     DECL_OPCODE(0x0a, cjmp24,       "jump (24-bit offset)"),
-    DECL_OPCODE(0x0b, cjsrabs,      "unknown"),
-    DECL_OPCODE(0x0c, cjmpabs,      "unknown"),
-    DECL_OPCODE(0x0d, cjsrind16,    "unknown"),
-    DECL_OPCODE(0x0e, cjsrind24,    "unknown"),
-    DECL_OPCODE(0x0f, cjmpind16,    "unknown"),
-    DECL_OPCODE(0x10, cjmpind24,    "unknown"),
+    DECL_OPCODE(0x0b, cjsrabs,      "[N/I] jump to sub-routine w/ absolute addr"),
+    DECL_OPCODE(0x0c, cjmpabs,      "[N/I] jump to absolute addr"),
+    DECL_OPCODE(0x0d, cjsrind16,    "[N/I] jump to sub-routine w/ indirect (16-bit offset)"),
+    DECL_OPCODE(0x0e, cjsrind24,    "[N/I] jump to sub-routine w/ indirect (24-bit offset)"),
+    DECL_OPCODE(0x0f, cjmpind16,    "[N/I] jump w/ indirect (16-bit offset)"),
+    DECL_OPCODE(0x10, cjmpind24,    "[N/I] jump w/ indirect (24-bit offset)"),
     DECL_OPCODE(0x11, cret,         "return from sub-routine"),
     DECL_OPCODE(0x12, cbz8,         "branch if zero with 8-bit offset"),
     DECL_OPCODE(0x13, cbz16,        "branch if zero with 16-bit offset"),
@@ -1601,19 +1622,19 @@ sAlisOpcode opcodes[] = {
     DECL_OPCODE(0x1b, cbne8,        "branch if non-equal with 8-bit offset"),
     DECL_OPCODE(0x1c, cbne16,       "branch if non-equal with 16-bit offset"),
     DECL_OPCODE(0x1d, cbne24,       "branch if non-equal with 24-bit offset"),
-    DECL_OPCODE(0x1e, cstore, "TODO: add desc"),
-    DECL_OPCODE(0x1f, ceval, "TODO: add desc"),
+    DECL_OPCODE(0x1e, cstore,       "store expression"),
+    DECL_OPCODE(0x1f, ceval,        "start expression evaluation"),
     DECL_OPCODE(0x20, cadd, "TODO: add desc"),
     DECL_OPCODE(0x21, csub, "TODO: add desc"),
-    DECL_OPCODE(0x22, cmul, "TODO: add desc"),
-    DECL_OPCODE(0x23, cdiv, "TODO: add desc"),
+    DECL_OPCODE(0x22, cmul,         "[N/I]"),
+    DECL_OPCODE(0x23, cdiv,         "[N/I]"),
     DECL_OPCODE(0x24, cvprint, "TODO: add desc"),
     DECL_OPCODE(0x25, csprinti, "TODO: add desc"),
     DECL_OPCODE(0x26, csprinta, "TODO: add desc"),
     DECL_OPCODE(0x27, clocate, "TODO: add desc"),
     DECL_OPCODE(0x28, ctab, "TODO: add desc"),
     DECL_OPCODE(0x29, cdim, "TODO: add desc"),
-    DECL_OPCODE(0x2a, crandom, "TODO: add desc"),
+    DECL_OPCODE(0x2a, crandom,      "generate a random number"),
     DECL_OPCODE(0x2b, cloop8, "TODO: add desc"),
     DECL_OPCODE(0x2c, cloop16, "TODO: add desc"),
     DECL_OPCODE(0x2d, cloop24, "TODO: add desc"),
@@ -1641,13 +1662,13 @@ sAlisOpcode opcodes[] = {
     DECL_OPCODE(0x43, cstopret, "TODO: add desc"),
     DECL_OPCODE(0x44, cexit, "TODO: add desc"),
     DECL_OPCODE(0x45, cload,        "Load and depack a script, set into vm"),
-    DECL_OPCODE(0x46, cdefsc, "Define Scene ??"),
+    DECL_OPCODE(0x46, cdefsc,       "Define Scene ??"),
     DECL_OPCODE(0x47, cscreen, "TODO: add desc"),
     DECL_OPCODE(0x48, cput, "TODO: add desc"),
     DECL_OPCODE(0x49, cputnat, "TODO: add desc"),
     DECL_OPCODE(0x4a, cerase, "TODO: add desc"),
     DECL_OPCODE(0x4b, cerasen, "TODO: add desc"),
-    DECL_OPCODE(0x4c, cset, "TODO: add desc"),
+    DECL_OPCODE(0x4c, cset,         "TODO: add desc"),
     DECL_OPCODE(0x4d, cmov, "TODO: add desc"),
     DECL_OPCODE(0x4e, copensc, "TODO: add desc"),
     DECL_OPCODE(0x4f, cclosesc, "TODO: add desc"),
@@ -1703,14 +1724,14 @@ sAlisOpcode opcodes[] = {
     DECL_OPCODE(0x81, cpicture, "TODO: add desc"),
     DECL_OPCODE(0x82, cxyscroll, "TODO: add desc"),
     DECL_OPCODE(0x83, clinking, "TODO: add desc"),
-    DECL_OPCODE(0x84, cmouson, "TODO: add desc"),
-    DECL_OPCODE(0x85, cmousoff, "TODO: add desc"),
-    DECL_OPCODE(0x86, cmouse, "TODO: add desc"),
-    DECL_OPCODE(0x87, cdefmouse, "TODO: add desc"),
-    DECL_OPCODE(0x88, csetmouse, "TODO: add desc"),
+    DECL_OPCODE(0x84, cmouson,      "display mouse cursor"),
+    DECL_OPCODE(0x85, cmousoff,     "hide mouse cursor"),
+    DECL_OPCODE(0x86, cmouse,       "get mouse status (x, y, buttons) and store"),
+    DECL_OPCODE(0x87, cdefmouse,    "TODO: define mouse sprite ???"),
+    DECL_OPCODE(0x88, csetmouse,    "set mouse position"),
     DECL_OPCODE(0x89, cdefvect, "TODO: add desc"),
     DECL_OPCODE(0x8a, csetvect, "TODO: add desc"),
-    DECL_OPCODE(0x8b, cnul, "TODO: add desc"),
+    DECL_OPCODE(0x8b, cnul,         "[N/I]"),
     DECL_OPCODE(0x8c, capproach, "TODO: add desc"),
     DECL_OPCODE(0x8d, cescape, "TODO: add desc"),
     DECL_OPCODE(0x8e, cvtstmov, "TODO: add desc"),
@@ -1745,13 +1766,13 @@ sAlisOpcode opcodes[] = {
     DECL_OPCODE(0xab, cmxputat, "TODO: add desc"),
     DECL_OPCODE(0xac, cmmusic, "TODO: add desc"),
     DECL_OPCODE(0xad, cmforme, "TODO: add desc"),
-    DECL_OPCODE(0xae, csettime, "TODO: add desc"),
-    DECL_OPCODE(0xaf, cgettime, "TODO: add desc"),
+    DECL_OPCODE(0xae, csettime,     "set current time"),
+    DECL_OPCODE(0xaf, cgettime,     "get current time"),
     DECL_OPCODE(0xb0, cvinput, "TODO: add desc"),
     DECL_OPCODE(0xb1, csinput, "TODO: add desc"),
-    DECL_OPCODE(0xb2, cnul, "TODO: add desc"),
-    DECL_OPCODE(0xb3, cnul, "TODO: add desc"),
-    DECL_OPCODE(0xb4, cnul, "TODO: add desc"),
+    DECL_OPCODE(0xb2, cnul,         "[N/I]"),
+    DECL_OPCODE(0xb3, cnul,         "[N/I]"),
+    DECL_OPCODE(0xb4, cnul,         "[N/I]"),
     DECL_OPCODE(0xb5, crunfilm, "TODO: add desc"),
     DECL_OPCODE(0xb6, cvpicprint, "TODO: add desc"),
     DECL_OPCODE(0xb7, cspicprint, "TODO: add desc"),
@@ -1759,9 +1780,9 @@ sAlisOpcode opcodes[] = {
     DECL_OPCODE(0xb9, csputprint, "TODO: add desc"),
     DECL_OPCODE(0xba, cfont, "TODO: add desc"),
     DECL_OPCODE(0xbb, cpaper, "TODO: add desc"),
-    DECL_OPCODE(0xbc, ctoblack, "TODO: add desc"),
+    DECL_OPCODE(0xbc, ctoblack,     "fade-out screen to black"),
     DECL_OPCODE(0xbd, cmovcolor, "TODO: add desc"),
-    DECL_OPCODE(0xbe, ctopalet, "TODO: add desc"),
+    DECL_OPCODE(0xbe, ctopalet,     "fade-in screen to palette"),
     DECL_OPCODE(0xbf, cnumput, "TODO: add desc"),
     DECL_OPCODE(0xc0, cscheart, "TODO: add desc"),
     DECL_OPCODE(0xc1, cscpos, "TODO: add desc"),

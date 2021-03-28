@@ -90,20 +90,26 @@ typedef struct {
     s16 *           acc_org;
     
     // virtual ram
+    // Sur atari, l'adresse de la vram de alis est stockée dans le registre A6.
+    // Par contre il y a aussi des données situées avant cette adresse,
+    //   donc on y accède avec (A6 - offset)
+    
     /*
      VIRTUAL RAM / STACK
         located at address contained in A6 register.
         There's also a stack pointer where we store 32-bit return addresses,
         the address of this pointer is (A6 + D4).
      
-     A6 = vram / virtual ram
-     |                           sp
-     | <-- D4 = stack offset --> |
-     v                           v
-     _______________________ ... _____
-     |_|_|_|_|_|_|_|_|_|_|_| ... |_|_|
-     
-     <---------- 65k bytes ---------->
+     some bytes are reserved before A6 to store VM status
+     |
+     |           A6 = vram / virtual ram
+     |           |                           sp
+     |           | <-- D4 = stack offset --> |
+     v           v                           v
+     ___________________________________ ... ____
+     |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ... |_|_|
+                 
+                 <---------- 65k bytes ---------->
     */
     sVRAM * vram;
 //    u8              vram[kVirtualRAMSize];
@@ -133,6 +139,7 @@ typedef struct {
     u8              nextScriptID;
     
     // virtual registers
+    s16             varD5;
     s16             varD6;
     s16             varD7;
     
@@ -147,11 +154,24 @@ typedef struct {
     // unknown vars
     u32 DAT_000194fe;
     
+    // virtual status register
     struct {
         u8 zero: 1;
         u8 neg: 1;
     } sr;
     
+    // virtual status flags
+    // on atari host, we set bytes at *(A6 - 0x24)
+    struct {
+        u8 scan:1;
+        u8 inter:1;
+        u8 _dummybit2:1;
+        u8 _dummybit3:1;
+        u8 _dummybit4:1;
+        u8 _dummybit5:1;
+        u8 _dummybit6:1;
+        u8 _unknownbit7:1;
+    } status;
     
     // A6 => contient adresse du début de la ram virtuelle (ou pile virtuelle ?)
     //       qui a l'air de faire 65k (0xffff) au total.
@@ -170,6 +190,7 @@ typedef struct {
     // unknown variables
     u8          _cclipping;
     u8          _ctiming;
+    s16         _a6_minus_1a; // used by cforme
     u16         _a6_minus_16;
     u16         _random_number;
     u8          _xinvon; // (-0x3,A6)

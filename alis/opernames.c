@@ -318,16 +318,18 @@ void omul() {
 
 
 void oneg() {
-    debug(EDebugWarning, " /* STUBBED */");
+    alis.varD7 = -alis.varD7;
 }
 
 
 void oabs() {
-    debug(EDebugWarning, " /* STUBBED */");
+    if(alis.varD7 < 0) {
+        alis.varD7 = -alis.varD7;
+    }
 }
 
 void ornd() {
-    debug(EDebugWarning, " /* STUBBED */");
+    alis.varD7 = sys_random();
 }
 
 void osgn() {
@@ -340,7 +342,7 @@ void osgn() {
 }
 
 void onot() {
-    debug(EDebugWarning, " /* STUBBED */");
+    alis.varD7 = ~alis.varD7;
 }
 
 void oinkey() {
@@ -446,6 +448,10 @@ void ospushacc() {
 }
 
 void ospile() {
+    u8 * tmp = alis.bssChunk1;
+    alis.bssChunk1 = alis.bssChunk2;
+    alis.bssChunk2 = tmp;
+    
     debug(EDebugWarning, " /* STUBBED */");
 }
 
@@ -498,13 +504,13 @@ void cnul() {
 // =============================================================================
 sAlisOpcode opernames[] = {
     DECL_OPCODE(0x00, oimmb,
-                "read byte from script, extend to word, copy into r7"),
+                "read immediate byte from script, extend to word, copy into r7"),
     {},
     DECL_OPCODE(0x01, oimmw,
-                "read word from script, copy into r7"),
+                "read immediate word from script, copy into r7"),
     {},
     DECL_OPCODE(0x02, oimmp,
-                "read bytes from script until zero, copy into str1"),
+                "read immediate bytes from script until zero, copy into str1"),
     {},
     DECL_OPCODE(0x03, olocb,
                 "read offset word from script, extend read byte at vram[offset] to word, copy into r7"),
@@ -561,58 +567,79 @@ sAlisOpcode opernames[] = {
                 "copy r6 to r7, pop word form virtual accumulator into r6"),
     {},
     DECL_OPCODE(0x1C, oeval,
-                "starts eval loop"),
+                "starts an expression evaluation loop"),
     {},
     DECL_OPCODE(0x1D, ofin,
-                "ends eval loop"),
+                "ends an expression evaluation loop"),
     {},
-    DECL_OPCODE(0x1E, cnul, "TODO add desc"),
+    DECL_OPCODE(0x1E, cnul,
+                "[N/I]"),
     {},
-    DECL_OPCODE(0x1F, cnul, "TODO add desc"),
+    DECL_OPCODE(0x1F, cnul,
+                "[N/I]"),
     {},
     DECL_OPCODE(0x20, opushacc,
                 "push word from r7 into virtual accumulator"),
     {},
     DECL_OPCODE(0x21, oand,
-                "TODO add desc"),
+                "AND binary operator"),
     {},
-    DECL_OPCODE(0x22, oor, "TODO add desc"),
+    DECL_OPCODE(0x22, oor,
+                "OR binary operator"),
     {},
-    DECL_OPCODE(0x23, oxor, "TODO add desc"),
+    DECL_OPCODE(0x23, oxor,
+                "XOR binary operator"),
     {},
-    DECL_OPCODE(0x24, oeqv, "TODO add desc"),
+    DECL_OPCODE(0x24, oeqv,
+                "EQV binary operator"),
     {},
-    DECL_OPCODE(0x25, oegal, "TODO add desc"),
+    DECL_OPCODE(0x25, oegal,
+                "is equal test"),
     {},
-    DECL_OPCODE(0x26, odiff, "TODO add desc"),
+    DECL_OPCODE(0x26, odiff,
+                "is non-equal test"),
     {},
-    DECL_OPCODE(0x27, oinfeg, "TODO add desc"),
+    DECL_OPCODE(0x27, oinfeg,
+                "is inferior or equal test"),
     {},
-    DECL_OPCODE(0x28, osupeg, "TODO add desc"),
+    DECL_OPCODE(0x28, osupeg,
+                "is superior or equal test"),
     {},
-    DECL_OPCODE(0x29, oinf, "TODO add desc"),
+    DECL_OPCODE(0x29, oinf,
+                "is inferior test"),
     {},
-    DECL_OPCODE(0x2A, osup, "TODO add desc"),
+    DECL_OPCODE(0x2A, osup,
+                "is superior test"),
     {},
-    DECL_OPCODE(0x2B, oadd, "TODO add desc"),
+    DECL_OPCODE(0x2B, oadd,
+                "addition operator"),
     {},
-    DECL_OPCODE(0x2C, osub, "TODO add desc"),
+    DECL_OPCODE(0x2C, osub,
+                "substraction operator"),
     {},
-    DECL_OPCODE(0x2D, omod, "TODO add desc"),
+    DECL_OPCODE(0x2D, omod,
+                "modulo operator"),
     {},
-    DECL_OPCODE(0x2E, odiv, "TODO add desc"),
+    DECL_OPCODE(0x2E, odiv,
+                "division operator"),
     {},
-    DECL_OPCODE(0x2F, omul, "TODO add desc"),
+    DECL_OPCODE(0x2F, omul,
+                "multiplication operator"),
     {},
-    DECL_OPCODE(0x30, oneg, "TODO add desc"),
+    DECL_OPCODE(0x30, oneg,
+                "negation operator"),
     {},
-    DECL_OPCODE(0x31, oabs, "TODO add desc"),
+    DECL_OPCODE(0x31, oabs,
+                "absolute value operator"),
     {},
-    DECL_OPCODE(0x32, ornd, "TODO add desc"),
+    DECL_OPCODE(0x32, ornd,
+                "get random number"),
     {},
-    DECL_OPCODE(0x33, osgn, "TODO add desc"),
+    DECL_OPCODE(0x33, osgn,
+                "sign test operator"),
     {},
-    DECL_OPCODE(0x34, onot, "TODO add desc"),
+    DECL_OPCODE(0x34, onot,
+                "binary NOT operator"),
     {},
     DECL_OPCODE(0x35, oinkey, "TODO add desc"),
     {},
@@ -628,7 +655,8 @@ sAlisOpcode opernames[] = {
     {},
     DECL_OPCODE(0x3B, ofree, "TODO add desc"),
     {},
-    DECL_OPCODE(0x3C, omodel, "TODO add desc"),
+    DECL_OPCODE(0x3C, omodel,
+                "get host device model"),
     {},
     DECL_OPCODE(0x3D, ogetkey, "TODO add desc"),
     {},
@@ -676,6 +704,7 @@ sAlisOpcode opernames[] = {
     {},
     DECL_OPCODE(0x53, ojoykey, "TODO add desc"),
     {},
-    DECL_OPCODE(0x54, oconfig, "TODO add desc"),
+    DECL_OPCODE(0x54, oconfig,
+                "unknown"),
     {}
 };

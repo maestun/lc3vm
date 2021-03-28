@@ -15,22 +15,22 @@
 static void cnul() {
 }
 void consound() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, " /* MISSING */");
 }
 void coffsound() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, " /* MISSING */");
 }
 void conmusic() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, " /* MISSING */");
 }
 void coffmusic() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, " /* MISSING */");
 }
 void cdelfilm() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, " /* MISSING */");
 }
 void copenfilm() {
-    // log_debug("STUBBED");
+    debug(EDebugWarning, " /* MISSING */");
 }
 
 

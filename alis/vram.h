@@ -15,17 +15,6 @@
 #define kVirtualRAMSize         (0xffff * sizeof(u8))
 
 typedef struct {
-    // VRAM_START - 0x24
-    struct {
-        u8 scan:1;
-        u8 inter:1;
-        u8 _bit2:1;
-        u8 _bit3:1;
-        u8 _bit4:1;
-        u8 _bit5:1;
-        u8 _bit6:1;
-        u8 _bit7:1;
-    } status;
     
     // adresse dans la ram hote de l'origine du script
     // header inclus

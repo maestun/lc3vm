@@ -60,12 +60,28 @@ void sys_deinit() {
     SDL_Quit();
 }
 
+
+// =============================================================================
+#pragma mark - I/O
+// =============================================================================
 mouse_t sys_get_mouse() {
     return _mouse;
 }
 
+void sys_set_mouse(u16 x, u16 y) {
+    _mouse.x = x;
+    _mouse.y = y;
+}
 
-// MARK: - File I/O
+void sys_enable_mouse(u8 enable) {
+    _mouse.enabled = enable;
+}
+
+
+
+// =============================================================================
+#pragma mark - FILE SYSTEM
+// =============================================================================
 FILE * sys_fopen(char * path) {
     return fopen(path, "r");
 }
@@ -85,6 +101,17 @@ u8 sys_fexists(char * path) {
 }
 
 
+// =============================================================================
+#pragma mark - MISC
+// =============================================================================
+void sys_set_time(u16 h, u16 m, u16 s) {
+    
+}
+
+time_t sys_get_time(void) {
+    return 0;
+}
+
 u16 sys_get_model(void) {
     debug(EDebugWarning, "\n%s SIMULATED\n", __FUNCTION__);
     return 0x456; // Atari STe / 1MB / Lowrez
@@ -94,3 +121,5 @@ u16 sys_get_model(void) {
 u16 sys_random(void) {
     return arc4random() & 0xffff;
 }
+
+

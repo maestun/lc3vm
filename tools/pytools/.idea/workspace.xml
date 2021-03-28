@@ -20,24 +20,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc2782a4-4ffc-4b69-8dab-c58393662b40" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../alis/alis.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/alis.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/alis.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/alis.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alis/opcodes.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/opcodes.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../alis/script.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/script.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../alis/script.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/script.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../alis/vram.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/vram.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../alis/vram.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/vram.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/changeA.grf" beforeDir="false" afterPath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/changeA.grf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/changeB.grf" beforeDir="false" afterPath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/changeB.grf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/snapshotA.grf" beforeDir="false" afterPath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/snapshotA.grf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/snapshotB.grf" beforeDir="false" afterPath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/snapshotB.grf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../alis/opernames.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../alis/opernames.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/changeA.grf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/changeB.grf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/db.223.gbf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/snapshotA.grf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/snapshotB.grf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/idata/00/~00000005.db/tmp9412162696994675141.ps" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/user/00/~00000000.db/db.2.gbf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ghidra/ishar2_st_elite/ishar2_st_elite.rep/user/00/~00000000.db/tmp1509516651417032623.ps" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../macos/alis.xcodeproj/project.xcworkspace/xcuserdata/developer.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../../macos/alis.xcodeproj/project.xcworkspace/xcuserdata/developer.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../macos/alis.xcodeproj/xcuserdata/developer.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" beforeDir="false" afterPath="$PROJECT_DIR$/../../macos/alis.xcodeproj/xcuserdata/developer.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/FrameReport.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/FrameReport.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/CRA4f13.tmp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/auto_reset_backup.sts" beforeDir="false" afterPath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/auto_reset_backup.sts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/steem.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/steem.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/steem.log" beforeDir="false" afterPath="$PROJECT_DIR$/../Steem.SSE.4.0.2.Debug.Win64.DD/steem.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ops.numbers" beforeDir="false" afterPath="$PROJECT_DIR$/../ops.numbers" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parse_steem_log.py" beforeDir="false" afterPath="$PROJECT_DIR$/parse_steem_log.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,9 +130,9 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.parse_steem_log" />
-      <item itemvalue="Python.check_offset" />
       <item itemvalue="Python.alis_disasm" />
+      <item itemvalue="Python.check_offset" />
+      <item itemvalue="Python.parse_steem_log" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -155,44 +156,45 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="520" y="233" width="1071" height="748" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606320112019">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
     <state x="520" y="233" width="1071" height="748" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1606320112019" />
-    <state width="1451" height="303" key="GridCell.Tab.0.bottom" timestamp="1606391770882">
+    <state width="1451" height="374" key="GridCell.Tab.0.bottom" timestamp="1608274832204">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="303" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1606391770882" />
-    <state width="1451" height="303" key="GridCell.Tab.0.center" timestamp="1606391770882">
+    <state width="1451" height="374" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1608274832204" />
+    <state width="1451" height="374" key="GridCell.Tab.0.center" timestamp="1608274832204">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="303" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1606391770882" />
-    <state width="1451" height="303" key="GridCell.Tab.0.left" timestamp="1606391770881">
+    <state width="1451" height="374" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1608274832204" />
+    <state width="1451" height="374" key="GridCell.Tab.0.left" timestamp="1608274832204">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="303" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1606391770881" />
-    <state width="1451" height="303" key="GridCell.Tab.0.right" timestamp="1606391770882">
+    <state width="1451" height="374" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1608274832204" />
+    <state width="1451" height="374" key="GridCell.Tab.0.right" timestamp="1608274832204">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="303" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1606391770882" />
-    <state width="1451" height="374" key="GridCell.Tab.1.bottom" timestamp="1606320202917">
+    <state width="1451" height="374" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1608274832204" />
+    <state width="1451" height="374" key="GridCell.Tab.1.bottom" timestamp="1608274832206">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="374" key="GridCell.Tab.1.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1606320202917" />
-    <state width="1451" height="374" key="GridCell.Tab.1.center" timestamp="1606320202917">
+    <state width="1451" height="374" key="GridCell.Tab.1.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1608274832206" />
+    <state width="1451" height="374" key="GridCell.Tab.1.center" timestamp="1608274832205">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="374" key="GridCell.Tab.1.center/0.23.1792.1097@0.23.1792.1097" timestamp="1606320202917" />
-    <state width="1451" height="374" key="GridCell.Tab.1.left" timestamp="1606320202916">
+    <state width="1451" height="374" key="GridCell.Tab.1.center/0.23.1792.1097@0.23.1792.1097" timestamp="1608274832205" />
+    <state width="1451" height="374" key="GridCell.Tab.1.left" timestamp="1608274832205">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="374" key="GridCell.Tab.1.left/0.23.1792.1097@0.23.1792.1097" timestamp="1606320202916" />
-    <state width="1451" height="374" key="GridCell.Tab.1.right" timestamp="1606320202917">
+    <state width="1451" height="374" key="GridCell.Tab.1.left/0.23.1792.1097@0.23.1792.1097" timestamp="1608274832205" />
+    <state width="1451" height="374" key="GridCell.Tab.1.right" timestamp="1608274832205">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>
-    <state width="1451" height="374" key="GridCell.Tab.1.right/0.23.1792.1097@0.23.1792.1097" timestamp="1606320202917" />
+    <state width="1451" height="374" key="GridCell.Tab.1.right/0.23.1792.1097@0.23.1792.1097" timestamp="1608274832205" />
     <state x="557" y="210" key="SettingsEditor" timestamp="1606035304006">
       <screen x="0" y="23" width="1792" height="1097" />
     </state>

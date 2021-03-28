@@ -153,11 +153,14 @@ static void aeval() {
 #pragma mark - Addnames pointer table
 // ============================================================================
 sAlisOpcode addnames[] = {
-    DECL_OPCODE(0x00, cnul, "TODO add desc"),
+    DECL_OPCODE(0x00, cnul,
+                "[N/I]"),
     {},
-    DECL_OPCODE(0x02, cnul, "TODO add desc"),
+    DECL_OPCODE(0x02, cnul,
+                "[N/I]"),
     {},
-    DECL_OPCODE(0x04, cnul, "TODO add desc"),
+    DECL_OPCODE(0x04, cnul,
+                "[N/I]"),
     {},
     DECL_OPCODE(0x06, alocb, "TODO add desc"),
     {},

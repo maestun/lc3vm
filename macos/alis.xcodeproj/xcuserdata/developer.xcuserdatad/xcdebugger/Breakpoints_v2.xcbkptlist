@@ -143,8 +143,8 @@
             filePath = "../alis/opcodes.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "cstopret()"
             landmarkType = "9">
          </BreakpointContent>
@@ -223,8 +223,8 @@
             filePath = "../alis/opcodes.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "copensc()"
             landmarkType = "9">
          </BreakpointContent>
@@ -239,9 +239,25 @@
             filePath = "../alis/opcodes.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465"
+            startingLineNumber = "482"
+            endingLineNumber = "482"
             landmarkName = "cerasen()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "00584EB0-A05D-408E-9032-1F81FAD24939"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../alis/opcodes.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "cstore()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

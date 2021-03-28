@@ -1,9 +1,9 @@
 #Ghidra Lock File
-#Thu Nov 19 11:49:14 CET 2020
+#Sun Mar 28 20:44:34 CEST 2021
 OS\ Name=Mac OS X
 OS\ Version=10.15.7
 Username=developer
-Hostname=Huancayo
+Hostname=Huancayo.local
 <META>\ Supports\ File\ Channel\ Locking=Channel Lock
 OS\ Architecture=x86_64
-Timestamp=11/19/20, 11\:49 AM
+Timestamp=3/28/21, 8\:44 PM
