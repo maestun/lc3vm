@@ -8,7 +8,7 @@
 
 #include "alis.h"
 #include "alis_private.h"
-#include "sys.h"
+#include "sys/sys.h"
 #include "utils.h"
 
 sAlisVM alis;

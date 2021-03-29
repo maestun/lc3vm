@@ -6,7 +6,7 @@
 #ifndef asm_h
 #define asm_h
 
-#include "config.h"
+#include "../config.h"
 
 extern uint8_t d0[4];
 extern uint8_t d1[4];

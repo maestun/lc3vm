@@ -4,7 +4,7 @@
 //
 
 #include "alis.h"
-#include "asm.h"
+#include "depack/asm.h"
 #include "debug.h"
 #include "platform.h"
 #include "script.h"

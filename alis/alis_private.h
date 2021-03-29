@@ -8,7 +8,7 @@
 
 #include "alis.h"
 #include "debug.h"
-#include "sys.h"
+#include "sys/sys.h"
 
 #define     ALIS_BIT_0      (0)
 #define     ALIS_BIT_1      (1)

@@ -10,7 +10,7 @@
 #include "debug.h"
 #include "platform.h"
 #include "script.h"
-#include "sys.h"
+#include "sys/sys.h"
 #include "vram.h"
 
 

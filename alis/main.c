@@ -4,7 +4,7 @@
 //
 #include "alis.h"
 #include "config.h"
-#include "sys.h"
+#include "sys/sys.h"
 
 void usage() {
     printf("%s v%s\nUsage:\n\t%s <data_path>\n\n\t%s <script_path>\n",

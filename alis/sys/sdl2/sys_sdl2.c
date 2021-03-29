@@ -3,8 +3,8 @@
 //  alis
 //
 
-#include "sys.h"
-#include <SDL2/SDL.h>
+#include "../sys.h"
+#include "SDL.h"
 
 mouse_t _mouse;
 

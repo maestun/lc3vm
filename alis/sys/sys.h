@@ -6,8 +6,8 @@
 #ifndef sys_h
 #define sys_h
 
-#include "config.h"
-#include "debug.h"
+#include "../config.h"
+#include "../debug.h"
 
 // =============================================================================
 #pragma mark - LIFECYCLE
@@ -23,7 +23,7 @@ void    sys_deinit(void);
 #pragma mark - I/O
 // =============================================================================
 typedef struct {
-    u16 x, y;
+    int x, y;
     u8 lb, rb;
     u8 enabled;
 } mouse_t;
